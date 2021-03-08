@@ -1,0 +1,57 @@
+.heading1 {
+  font-size: 5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #00235a;
+}
+
+.heading2 {
+  font-size: 3.75rem;
+  line-height: 1.3;
+  font-weight: 800;
+  color: #00235a;
+}
+
+.heading3 {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: #00235a;
+}
+
+.heading4 {
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: #00235a;
+}
+
+.borderCircle {
+  border-radius: 9999px;
+}
+
+.colorheading {
+  color: #00235a;
+}
+.colortheme {
+  background-color: #ff5e14;
+}
+.colortheme:hover {
+  background-color: #ff5e16;
+}
+
+.padding1px {
+  padding-top: 1px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  margin: 0 0 1.25rem;
+}
+
+.lightText {
+  color: #666;
+}

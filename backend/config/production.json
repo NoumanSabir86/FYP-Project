@@ -1,0 +1,4 @@
+{
+  "db": "mongodb+srv://nouman12:nouman12@cluster0.klbd2.mongodb.net/banado?retryWrites=true&w=majority",
+  "jwtprivatekey": "key"
+}
