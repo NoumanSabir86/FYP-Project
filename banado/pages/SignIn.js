@@ -135,10 +135,11 @@ const SignIn = () => {
                       onClick={() => {
                         UserServices.login(data)
                           .then((data) => {
-                            console.log(data);
                             alert("Logged In!");
 
-                            window.location.href = "/";
+                            role == "Seller"
+                              ? (window.location.href = "/Seller/SellerDash")
+                              : (window.location.href = "/");
                           })
                           .catch((err) => {
                             {

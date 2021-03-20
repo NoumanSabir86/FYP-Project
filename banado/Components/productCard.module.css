@@ -1,0 +1,9 @@
+.btnCart {
+  width: 100%;
+  padding: 5% 2%;
+  background: #ff5e14;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: -50px;
+}

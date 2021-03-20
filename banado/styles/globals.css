@@ -5,9 +5,10 @@
 html,
 body {
   padding: 0;
+
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Yantramanav, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -24,7 +25,31 @@ a {
 }
 
 .bdi {
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #00235a;
+}
+
+.background {
+  background: #ff5e14;
+}
+
+.listText {
+  color: #00235a;
+  font-size: 1.1rem;
+  transition: 0.2s ease-in-out;
+  text-transform: uppercase;
+}
+
+.listText:hover {
+  color: #ff5e14;
+
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.hoverBtn {
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  transition: 0.2s ease-in-out;
 }

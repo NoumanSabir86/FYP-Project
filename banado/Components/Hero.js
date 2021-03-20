@@ -6,7 +6,11 @@ export const Hero = (props) => {
     >
       <h2
         className="heading1 colorheading "
-        style={{ paddingTop: "10%", paddingLeft: "5%" }}
+        style={{
+          paddingTop: "10%",
+          paddingLeft: "5%",
+          textTransform: "uppercase",
+        }}
       >
         {props.name}
       </h2>

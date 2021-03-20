@@ -1,26 +1,13 @@
 import React, { useState } from "react";
-import {
-  faCoffee,
-  faShoppingCart,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import UserServices from "../Services/UserServices";
-export const Navbar = () => {
+import styles from "./SellerDash.module.css";
+export const SellerNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [log, setLog] = useState(false);
-
-  React.useEffect(() => {
-    try {
-      setUsername(UserServices.getLoggedinfo().username);
-      setLog(UserServices.isLoggedin());
-    } catch (error) {}
-  }, []);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white shadow-md">
       <div className="  sm:max-w-xl md:max-w-full lg:max-w-screen-xl  items-start">
         <div className="relative flex items-start justify-start">
           <div className="flex items-center ">
@@ -58,92 +45,77 @@ export const Navbar = () => {
               }}
             >
               <li>
-                <Link href="/">
-                  <a className="item font-medium tracking-wide text-blue transition-colors duration-200 hover:text-teal-accent-400">
-                    Home
+                <Link href="/Seller/SellerDash">
+                  <a
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide  transition-colors duration-200 "
+                    }
+                  >
+                    Dashboard
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/Store">
+                <Link href="/Seller/ProductManagement">
                   <a
                     style={{ color: "#00235A" }}
-                    className=" item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400"
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                    }
                   >
-                    Store
+                    Products
                   </a>
                 </Link>
               </li>
               <li>
                 <Link href="/Services">
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    Services
+                  <a
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide  transition-colors duration-200 "
+                    }
+                  >
+                    Orders
                   </a>
                 </Link>
               </li>
 
               <li>
                 <Link href="/ContactUs">
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    Contact Us
+                  <a
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide  transition-colors duration-200 "
+                    }
+                  >
+                    Payout
                   </a>
                 </Link>
               </li>
-              {!log && (
-                <>
-                  <li>
-                    <Link href="/SignIn">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        Login
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Register">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        Sign Up
-                      </a>
-                    </Link>
-                  </li>
-                </>
-              )}
 
-              {log && (
-                <>
-                  <li
-                    onClick={() => {
-                      UserServices.logout();
-                    }}
-                  >
-                    <Link href="/">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        <span className="ml-2">Logout</span>
-                      </a>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link href="/">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        <FontAwesomeIcon
-                          icon={faUser}
-                          style={{ fontSize: "20px" }}
-                        />
-                        <span className="ml-2">
-                          {username !== "" ? <span>{username}</span> : ""}
-                        </span>
-                      </a>
-                    </Link>
-                  </li>
-                </>
-              )}
               <li>
                 <Link href="/Cart">
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    <FontAwesomeIcon
-                      icon={faShoppingCart}
-                      style={{ fontSize: "20px" }}
-                    />
+                  <a
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide  transition-colors duration-200 "
+                    }
+                  >
+                    My Profile
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/Cart">
+                  <a
+                    className={
+                      styles.item +
+                      " font-medium tracking-wide  transition-colors duration-200 "
+                    }
+                  >
+                    Logout
                   </a>
                 </Link>
               </li>
