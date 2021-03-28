@@ -11,5 +11,5 @@ class ProductsService extends GenericServices {
   getSingleProduct = (id) => this.get("products/" + id);
 }
 
-let productServices = new ProductsService();
+const productServices = new ProductsService();
 export default productServices;

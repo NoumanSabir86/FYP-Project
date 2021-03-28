@@ -70,3 +70,21 @@
   color: #ff5e14 !important;
   border-bottom: 4px solid #ff5e14 !important;
 }
+
+.mytext {
+  color: black;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.pImage {
+  height: auto;
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .pImage {
+    height: 650px;
+    width: auto;
+  }
+}

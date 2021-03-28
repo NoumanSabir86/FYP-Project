@@ -4,6 +4,7 @@ const validateProduct = require("../../middlewares/validateProduct");
 var { Product } = require("../../models/product");
 const auth = require("../../middlewares/auth");
 const admin = require("../../middlewares/admin");
+const seller = require("../../middlewares/seller");
 
 router.get("/", async (req, res) => {
   let page = Number(req.query.page ? req.query.page : 1);
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
   return res.send(products);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, seller, async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
     if (!product)
@@ -24,33 +25,50 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", auth, admin, validateProduct, async (req, res) => {
+router.put("/:id", auth, seller, validateProduct, async (req, res) => {
   let product = await Product.findById(req.params.id);
-  product.title = req.body.title;
-  product.price = req.body.price;
+  //product.storeId = req.body.storeId;
+  product.productName = req.body.productName;
   product.category = req.body.category;
-
+  product.brandName = req.body.brandName;
+  product.stockQuantity = req.body.stockQuantity;
+  product.price = req.body.price;
+  product.salePrice = req.body.salePrice;
+  product.sku = req.body.sku;
+  product.shortDescription = req.body.shortDescription;
   product.description = req.body.description;
-
-  product.inStock = req.body.inStock;
   product.productImage = req.body.productImage;
   await product.save();
   return res.send(product);
 });
 
-router.delete("/:id", auth, admin, async (req, res) => {
+router.delete("/:id", auth, seller, async (req, res) => {
   let product = await Product.findByIdAndDelete(req.params.id);
   return res.send(product);
 });
 
-router.post("/", auth, admin, validateProduct, async (req, res) => {
-  let product = new Product();
-  product.title = req.body.title;
-  product.price = req.body.price;
+router.post("/", auth, seller, validateProduct, async (req, res) => {
+  let product = await Product.findOne({
+    storeId: req.body.storeId,
+    productName: req.body.productName,
+  });
+  if (product)
+    return res.status(400).send("Product with this Name already exist");
+
+  product = new Product();
+
+  product.storeId = req.body.storeId;
+  product.productName = req.body.productName;
   product.category = req.body.category;
+  product.brandName = req.body.brandName;
+  product.stockQuantity = req.body.stockQuantity;
+  product.price = req.body.price;
+  product.salePrice = req.body.salePrice;
+  product.sku = req.body.sku;
+  product.shortDescription = req.body.shortDescription;
   product.description = req.body.description;
-  product.inStock = req.body.inStock;
   product.productImage = req.body.productImage;
+
   await product.save();
   return res.send(product);
 });

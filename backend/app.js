@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/api/users");
 var productsRouter = require("./routes/api/products");
+var storeRouter = require("./routes/api/store");
 
 var app = express();
 var cors = require("cors");
@@ -25,6 +26,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/store", storeRouter);
+
+app.listen("3001", () => {
+  console.log(`listening at http://localhost:3001`);
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -41,6 +47,10 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+// mongoose.connect("mongodb://localhost/banado", { useNewUrlParser:true,useUnifiedTopology: true})
+// .then(() =>console.log("Connected to Mongo ...."))
+// .catch((error) =>console.log(error.message));
 
 mongoose
   .connect(

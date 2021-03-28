@@ -2,14 +2,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { ToastContainer, toast } from "react-nextjs-toast";
 import { Navbar } from "../Components/Navbar";
+import storeServices from "../Services/storeServices";
 import UserServices from "../Services/UserServices";
 
 const SignIn = () => {
   const [role, setRole] = React.useState("User");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
   const data = { email, password, role };
+  const [storeData, setStoreData] = React.useState({});
+  const [sellerId, setSellerId] = React.useState("");
+  const [isPresent, setPresent] = React.useState(true);
+  const [storeName, setStoreName] = React.useState("");
+  const [sellerPhone, setSellerPhone] = React.useState("");
+
+  const sendStoreData = () => {
+    setSellerId(UserServices.getLoggedinfo().sellerId);
+
+    storeServices.StorePresent({ sellerId }).then((res) => {
+      setPresent(res);
+    });
+
+    console.log(isPresent.val);
+
+    setSellerId(UserServices.getLoggedinfo().sellerId);
+
+    setStoreName("asdasd");
+    setSellerPhone("1234323212122");
+    setStoreData({
+      sellerId,
+      storeName,
+      sellerPhone,
+    });
+  };
 
   const notify = (error, type) => {
     toast.notify(error, {
@@ -132,14 +157,23 @@ const SignIn = () => {
 
                   <div>
                     <button
+                      onMouseEnter={sendStoreData}
                       onClick={() => {
                         UserServices.login(data)
                           .then((data) => {
                             alert("Logged In!");
 
-                            role == "Seller"
-                              ? (window.location.href = "/Seller/SellerDash")
-                              : (window.location.href = "/");
+                            if (role == "Seller" && isPresent.val == true) {
+                              window.location.href = "/Seller/SellerDash";
+                            } else if (
+                              role == "Seller" &&
+                              isPresent.val == false
+                            ) {
+                              storeServices.createStore(storeData);
+                              alert("stpre created successfully!");
+                            } else {
+                              window.location.href = "/";
+                            }
                           })
                           .catch((err) => {
                             {

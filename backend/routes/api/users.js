@@ -73,7 +73,10 @@ router.post("/register", validateNewUser, async (req, res) => {
     await adminDetails.save();
   }
 
-  let token = generateAccessToken({ username: req.body.username });
+  let token = generateAccessToken({
+    username: req.body.username,
+    role: req.body.role,
+  });
 
   return res.send(token);
 });
@@ -90,27 +93,40 @@ router.post("/login", validatelogin, async (req, res) => {
 
   if (user.role == "User") {
     let details = await UserDetails.findOne({ userId: user._id });
-    let token = generateAccessToken({ username: user.name });
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+    });
     console.log(user.name);
     return res.send(token);
   }
 
   if (user.role == "Seller") {
     let details = await SellerDetails.findOne({ sellerId: user._id });
-    let token = generateAccessToken({ username: user.name });
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+      sellerId: user._id,
+    });
     console.log(token);
     return res.send(token);
   }
 
   if (user.role == "Builder") {
     let details = await BuilderDetails.findOne({ builderId: user._id });
-    let token = generateAccessToken({ username: user.name });
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+    });
     return res.send(token);
   }
 
   if (user.role == "admin") {
     let details = await AdminDetails.findOne({ adminId: user._id });
-    let token = generateAccessToken({ username: user.name });
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+    });
     return res.send(token);
   }
 });

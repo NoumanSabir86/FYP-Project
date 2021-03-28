@@ -47,7 +47,7 @@ class userServices extends GenericServices {
       let jwt = localStorage.getItem("token");
       console.log(jwt);
       var decode = jwt_decode(jwt);
-      console.log(decode);
+
       return decode;
     } catch (error) {
       console.log(error);

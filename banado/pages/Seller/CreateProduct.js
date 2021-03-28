@@ -1,7 +1,50 @@
 import Link from "next/link";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
+import addNewProduct from "../../redux/actions/addNewProduct";
+import UserServices from "../../Services/UserServices";
+
 const CreateProduct = () => {
+  const Product = useSelector((state) => state.addProduct);
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("Architecture");
+  const [brandName, setBrandName] = useState("");
+  const [stockQuantity, setStockQuantity] = useState("");
+  const [price, setPrice] = useState("");
+  const [salePrice, setSalePrice] = useState("");
+  const [sku, setSku] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
+  const [description, setDescription] = useState("");
+  const [productImage, setProductImage] = useState(
+    "https://p4.design/assets/Products/Bla-Station/Wilmer-O55S/Wilmer-055S-1.png"
+  );
+  const [storeId, setStoreId] = useState("");
+
+  React.useEffect(() => {
+    setStoreId(UserServices.getLoggedinfo().sellerId);
+  }, []);
+
+  const { loading, success, error } = Product;
+  const dispatch = useDispatch();
+  const addProductHandler = () => {
+    dispatch(
+      addNewProduct({
+        productName,
+        category,
+        brandName,
+        stockQuantity,
+        price,
+        salePrice,
+        sku,
+        shortDescription,
+        description,
+        productImage,
+        storeId,
+      })
+    );
+  };
+
   return (
     <div>
       <SellerNav />
@@ -19,6 +62,7 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Enter Name"
+            onChange={(e) => setProductName(e.target.value)}
           />
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             Stock Quantity
@@ -27,6 +71,7 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Stock Quantity"
+            onChange={(e) => setStockQuantity(e.target.value)}
           />
 
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
@@ -36,6 +81,7 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Price"
+            onChange={(e) => setPrice(e.target.value)}
           />
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             Sale Price
@@ -44,6 +90,7 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Sale Price"
+            onChange={(e) => setSalePrice(e.target.value)}
           />
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             SKU
@@ -52,16 +99,21 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="SKU"
+            onChange={(e) => setSku(e.target.value)}
           />
         </div>
         <div>
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             <span class="text-gray-700">Category</span>
-            <select class="form-select  block w-full rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
-              <option>Architecture</option>
-              <option>Interior Design</option>
-              <option>Electronics</option>
-              <option>Other</option>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              class="form-select  block w-full rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            >
+              <option value="Architecture">Architecture</option>
+              <option value="Interior Design">Interior Design</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Other">Other</option>
             </select>
           </label>
 
@@ -72,6 +124,7 @@ const CreateProduct = () => {
             type="text"
             class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Enter Brand"
+            onChange={(e) => setBrandName(e.target.value)}
           />
         </div>
 
@@ -85,6 +138,7 @@ const CreateProduct = () => {
             name="comment"
             rows="2"
             cols="40"
+            onChange={(e) => setShortDescription(e.target.value)}
           ></textarea>
         </div>
 
@@ -98,12 +152,19 @@ const CreateProduct = () => {
             name="comment"
             rows="5"
             cols="40"
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <div>
           {" "}
           <Link href="/Seller/CreateProduct">
-            <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+            <button
+              onClick={() => {
+                addProductHandler();
+                alert("Product added successfully!");
+              }}
+              className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+            >
               Submit
             </button>
           </Link>

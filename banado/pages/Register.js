@@ -4,6 +4,7 @@ import { Navbar } from "../Components/Navbar";
 
 import UserServices from "../Services/UserServices";
 import { toast, ToastContainer } from "react-nextjs-toast";
+
 const Register = () => {
   const [role, setRole] = React.useState("User");
   const [username, setUsername] = React.useState("");
@@ -86,7 +87,7 @@ const Register = () => {
             >
               <div className="pt-4 pb-16 pl-16 pr-16">
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                  Create new Account
+                  Create New Account
                 </h2>
 
                 <div class="space-y-4">
@@ -365,8 +366,6 @@ const Register = () => {
                           .then((data) => {
                             console.log(data);
                             alert("Account Created Successfully!");
-
-                            window.location.href = "/SignIn";
                           })
                           .catch((err) => {
                             {
