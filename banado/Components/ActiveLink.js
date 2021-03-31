@@ -1,0 +1,27 @@
+import { useRouter } from "next/router";
+
+function ActiveLink({ children, href }) {
+  const router = useRouter();
+  const style = {
+    marginRight: 10,
+    color: router.asPath === href ? "red" : "black",
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    router.push(href);
+  };
+
+  return (
+    <a
+      href={href}
+      onClick={handleClick}
+      style={style}
+      className="  item font-medium tracking-wide  transition-colors duration-200 "
+    >
+      {children}
+    </a>
+  );
+}
+
+export default ActiveLink;

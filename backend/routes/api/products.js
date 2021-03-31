@@ -47,7 +47,7 @@ router.delete("/:id", auth, seller, async (req, res) => {
   return res.send(product);
 });
 
-router.post("/", auth, seller, validateProduct, async (req, res) => {
+router.post("/", seller, validateProduct, async (req, res) => {
   let product = await Product.findOne({
     storeId: req.body.storeId,
     productName: req.body.productName,

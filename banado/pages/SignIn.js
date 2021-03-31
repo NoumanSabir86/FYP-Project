@@ -10,31 +10,6 @@ const SignIn = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const data = { email, password, role };
-  const [storeData, setStoreData] = React.useState({});
-  const [sellerId, setSellerId] = React.useState("");
-  const [isPresent, setPresent] = React.useState(true);
-  const [storeName, setStoreName] = React.useState("");
-  const [sellerPhone, setSellerPhone] = React.useState("");
-
-  const sendStoreData = () => {
-    setSellerId(UserServices.getLoggedinfo().sellerId);
-
-    storeServices.StorePresent({ sellerId }).then((res) => {
-      setPresent(res);
-    });
-
-    console.log(isPresent.val);
-
-    setSellerId(UserServices.getLoggedinfo().sellerId);
-
-    setStoreName("asdasd");
-    setSellerPhone("1234323212122");
-    setStoreData({
-      sellerId,
-      storeName,
-      sellerPhone,
-    });
-  };
 
   const notify = (error, type) => {
     toast.notify(error, {
@@ -157,20 +132,15 @@ const SignIn = () => {
 
                   <div>
                     <button
-                      onMouseEnter={sendStoreData}
                       onClick={() => {
                         UserServices.login(data)
                           .then((data) => {
                             alert("Logged In!");
 
-                            if (role == "Seller" && isPresent.val == true) {
+                            if (role == "Seller") {
                               window.location.href = "/Seller/SellerDash";
-                            } else if (
-                              role == "Seller" &&
-                              isPresent.val == false
-                            ) {
-                              storeServices.createStore(storeData);
-                              alert("stpre created successfully!");
+                            } else if (role == "Builder") {
+                              window.location.href = "/Seller/SellerDash";
                             } else {
                               window.location.href = "/";
                             }

@@ -4,11 +4,12 @@ import { Navbar } from "../Components/Navbar";
 
 import UserServices from "../Services/UserServices";
 import { toast, ToastContainer } from "react-nextjs-toast";
+import storeServices from "../Services/storeServices";
 
 const Register = () => {
   const [role, setRole] = React.useState("User");
   const [username, setUsername] = React.useState("");
-
+  const [storeData, setStoreData] = React.useState({});
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [repeatPassword, setRepeatPassword] = React.useState("");
@@ -17,6 +18,7 @@ const Register = () => {
   const [sellerPhone, setSellerPhone] = React.useState("");
   const [companyName, setCompanyName] = React.useState("");
   const [companyPhone, setCompanyPhone] = React.useState("");
+  const [sellerId, setSellerId] = React.useState("");
 
   const toSend = () => {
     if (role == "User") {
@@ -50,6 +52,13 @@ const Register = () => {
       });
     }
   };
+
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setSellerId(UserServices.getLoggedinfo().userId);
+    } else {
+    }
+  }, []);
 
   const notify = (error, type) => {
     toast.notify(error, {
@@ -364,9 +373,18 @@ const Register = () => {
                       onClick={() => {
                         UserServices.register(data)
                           .then((data) => {
-                            console.log(data);
-                            alert("Account Created Successfully!");
+                            setSellerId(UserServices.getLoggedinfo().userId);
+                            alert(sellerId);
+                            if (role == "Seller") {
+                              storeServices.createStore({
+                                sellerId,
+                                storeName,
+                                sellerPhone,
+                              });
+                              window.location.href = "/SigIn";
+                            }
                           })
+
                           .catch((err) => {
                             {
                               notify(err.response.data, "error");

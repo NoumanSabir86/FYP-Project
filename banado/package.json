@@ -29,7 +29,8 @@
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^7.2.3",
     "react-table": "^7.6.3",
-    "react-tag-input": "^6.5.2"
+    "react-tag-input": "^6.5.2",
+    "reactjs-popup": "^2.0.4"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",

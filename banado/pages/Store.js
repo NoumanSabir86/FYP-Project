@@ -8,8 +8,8 @@ import SmallCard from "../Components/SmallCard";
 const Store = () => {
   return (
     <>
+      <Navbar />
       <div>
-        <Navbar />
         <Hero name={"Shop"} />
       </div>
       <div className="container px-4 md:px-4 lg:px-16">

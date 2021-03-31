@@ -7,28 +7,41 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import UserServices from "../Services/UserServices";
+import ActiveLink from "./ActiveLink";
+import { useRouter } from "next/router";
+
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [log, setLog] = useState(false);
+  const [role, setRole] = useState("");
+  const router = useRouter();
+  const cartlink = (href) => {
+    e.preventDefault();
+    router.push(href);
+  };
 
   React.useEffect(() => {
     try {
       setUsername(UserServices.getLoggedinfo().username);
       setLog(UserServices.isLoggedin());
+      setRole(UserServices.getLoggedinfo().role);
     } catch (error) {}
   }, []);
 
   return (
-    <div className="bg-white">
+    <div
+      className="bg-white sticky top-0 z-50 shadow-md "
+      style={{ height: "64px" }}
+    >
       <div className="  sm:max-w-xl md:max-w-full lg:max-w-screen-xl  items-start">
         <div className="relative flex items-start justify-start">
           <div className="flex items-center ">
             <Link href="/">
               <a
                 style={{
-                  fontSize: "2.2rem",
-                  height: "92px",
+                  fontSize: "2.1rem",
+                  height: "50px",
                   background: "#FF5E14",
                   padding: "2rem 1rem",
                   color: "white",
@@ -54,55 +67,40 @@ export const Navbar = () => {
                 width: "1250px",
                 color: "#00235A",
                 fontSize: "1.1rem",
-                height: "92px",
+                height: "64px",
               }}
             >
               <li>
                 <Link href="/">
-                  <a className="item font-medium tracking-wide text-blue transition-colors duration-200 hover:text-teal-accent-400">
-                    Home
-                  </a>
+                  <ActiveLink children="Home" href="/" />
                 </Link>
               </li>
               <li>
                 <Link href="/Store">
-                  <a
-                    style={{ color: "#00235A" }}
-                    className=" item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400"
-                  >
-                    Store
-                  </a>
+                  <ActiveLink children="Store" href="/Store" />
                 </Link>
               </li>
               <li>
                 <Link href="/Services">
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    Services
-                  </a>
+                  <ActiveLink children="Services" href="/Services" />
                 </Link>
               </li>
 
               <li>
                 <Link href="/ContactUs">
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    Contact Us
-                  </a>
+                  <ActiveLink children="Contact Us" href="/ContactUs" />
                 </Link>
               </li>
               {!log && (
                 <>
                   <li>
                     <Link href="/SignIn">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        Login
-                      </a>
+                      <ActiveLink children="Login" href="/SignIn" />
                     </Link>
                   </li>
                   <li>
                     <Link href="/Register">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        Sign Up
-                      </a>
+                      <ActiveLink children="Sign Up" href="/Register" />
                     </Link>
                   </li>
                 </>
@@ -110,43 +108,57 @@ export const Navbar = () => {
 
               {log && (
                 <>
-                  <li
-                    onClick={() => {
-                      UserServices.logout();
-                    }}
-                  >
-                    <Link href="/">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        <span className="ml-2">Logout</span>
-                      </a>
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link href="/">
-                      <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                        <FontAwesomeIcon
-                          icon={faUser}
-                          style={{ fontSize: "20px" }}
-                        />
-                        <span className="ml-2">
-                          {username !== "" ? <span>{username}</span> : ""}
-                        </span>
-                      </a>
-                    </Link>
-                  </li>
+                  {role == "User" && (
+                    <>
+                      <li
+                        onClick={() => {
+                          UserServices.logout();
+                        }}
+                      >
+                        <Link href="/">
+                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
+                            <span className="ml-2">Logout</span>
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/">
+                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
+                            <FontAwesomeIcon
+                              icon={faUser}
+                              style={{ fontSize: "20px" }}
+                            />
+                            <span className="ml-2">
+                              {username !== "" ? <span>{username}</span> : ""}
+                            </span>
+                          </a>
+                        </Link>
+                      </li>
+                    </>
+                  )}
                 </>
               )}
               <li>
-                <Link href="/Cart">
+                <Link href="/Cart" onMouseEnter={cartlink}>
                   <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
                     <FontAwesomeIcon
                       icon={faShoppingCart}
-                      style={{ fontSize: "20px" }}
+                      style={{
+                        fontSize: "20px",
+                        color:
+                          router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
+                      }}
                     />
                   </a>
                 </Link>
               </li>
+              {role == "Seller" && (
+                <Link href="/Seller/SellerDash">
+                  <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+                    Dashboard
+                  </button>
+                </Link>
+              )}
             </ul>
           </div>
 

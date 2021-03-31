@@ -62,13 +62,11 @@
 
 .item {
   font-family: Yantramanav;
-  padding-bottom: 26px !important;
 }
 
 .item:hover,
 .item:active {
   color: #ff5e14 !important;
-  border-bottom: 4px solid #ff5e14 !important;
 }
 
 .mytext {

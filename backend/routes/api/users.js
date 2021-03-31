@@ -15,9 +15,9 @@ const validateUser = require("../../middlewares/validatelogin");
 const auth = require("../../middlewares/auth");
 const validatelogin = require("../../middlewares/validatelogin");
 
-function generateAccessToken(username) {
+function generateAccessToken(data) {
   // expires after half and hour (1800 seconds = 30 minutes)
-  return jwt.sign(username, config.get("jwtprivatekey"), {
+  return jwt.sign(data, config.get("jwtprivatekey"), {
     expiresIn: "1800s",
   });
 }
@@ -56,6 +56,7 @@ router.post("/register", validateNewUser, async (req, res) => {
     sellerDetails.sellerPhone = req.body.sellerPhone;
     sellerDetails.storeName = req.body.storeName;
     sellerDetails.sellerId = user._id;
+
     await sellerDetails.save();
   } else if (user.role == "Builder") {
     builderDetails = new BuilderDetails();
@@ -74,10 +75,11 @@ router.post("/register", validateNewUser, async (req, res) => {
   }
 
   let token = generateAccessToken({
-    username: req.body.username,
+    username: user.name,
     role: req.body.role,
+    userId: user._id,
   });
-
+  console.log(user.name);
   return res.send(token);
 });
 

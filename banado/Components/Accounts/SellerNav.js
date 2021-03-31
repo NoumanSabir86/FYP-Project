@@ -3,19 +3,21 @@ import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import styles from "./SellerDash.module.css";
+import ActiveLink from "../ActiveLink";
+import UserServices from "../../Services/UserServices";
 export const SellerNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="bg-white shadow-md">
+    <div className="bg-white sticky top-0 z-50 shadow-md">
       <div className="  sm:max-w-xl md:max-w-full lg:max-w-screen-xl  items-start">
         <div className="relative flex items-start justify-start">
           <div className="flex items-center ">
             <Link href="/">
               <a
                 style={{
-                  fontSize: "2.2rem",
-                  height: "92px",
+                  fontSize: "2.1rem",
+                  height: "50px",
                   background: "#FF5E14",
                   padding: "2rem 1rem",
                   color: "white",
@@ -41,79 +43,46 @@ export const SellerNav = () => {
                 width: "1250px",
                 color: "#00235A",
                 fontSize: "1.1rem",
-                height: "92px",
+                height: "64px",
               }}
             >
               <li>
                 <Link href="/Seller/SellerDash">
-                  <a
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide  transition-colors duration-200 "
-                    }
-                  >
-                    Dashboard
-                  </a>
+                  <ActiveLink children="Dashboard" href="/Seller/SellerDash" />
                 </Link>
               </li>
               <li>
                 <Link href="/Seller/ProductManagement">
-                  <a
-                    style={{ color: "#00235A" }}
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-                    }
-                  >
-                    Products
-                  </a>
+                  <ActiveLink
+                    children="Products"
+                    href="/Seller/ProductManagement"
+                  />
                 </Link>
               </li>
               <li>
-                <Link href="/Services">
-                  <a
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide  transition-colors duration-200 "
-                    }
-                  >
-                    Orders
-                  </a>
+                <Link href="/Seller/Orders">
+                  <ActiveLink children="Orders" href="/Seller/Orders" />
                 </Link>
               </li>
 
               <li>
-                <Link href="/ContactUs">
-                  <a
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide  transition-colors duration-200 "
-                    }
-                  >
-                    Payout
-                  </a>
+                <Link href="/Seller/Payouts">
+                  <ActiveLink children="Payouts" href="/Seller/Payouts" />
                 </Link>
               </li>
 
               <li>
-                <Link href="/Cart">
-                  <a
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide  transition-colors duration-200 "
-                    }
-                  >
-                    My Profile
-                  </a>
+                <Link href="/Seller/SellerProfile">
+                  <ActiveLink children="Profile" href="/Seller/SellerProfile" />
                 </Link>
               </li>
               <li>
-                <Link href="/Cart">
+                <Link href="/">
                   <a
-                    className={
-                      styles.item +
-                      " font-medium tracking-wide  transition-colors duration-200 "
-                    }
+                    className="item font-medium tracking-wide  transition-colors duration-200 "
+                    onClick={() => {
+                      UserServices.logout();
+                    }}
                   >
                     Logout
                   </a>

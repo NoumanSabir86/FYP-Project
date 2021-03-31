@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
 import addNewProduct from "../../redux/actions/addNewProduct";
 import UserServices from "../../Services/UserServices";
+import Popup from "reactjs-popup";
+import Modal from "../../Components/SimpleModal";
+import SimpleModal from "../../Components/SimpleModal";
 
 const CreateProduct = () => {
   const Product = useSelector((state) => state.addProduct);
@@ -16,6 +19,8 @@ const CreateProduct = () => {
   const [sku, setSku] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
+  const [open, setOpen] = useState(false);
+  const { loading, success, error } = Product;
   const [productImage, setProductImage] = useState(
     "https://p4.design/assets/Products/Bla-Station/Wilmer-O55S/Wilmer-055S-1.png"
   );
@@ -25,7 +30,9 @@ const CreateProduct = () => {
     setStoreId(UserServices.getLoggedinfo().sellerId);
   }, []);
 
-  const { loading, success, error } = Product;
+  const checkStatus = () => {
+    setOpen(true);
+  };
   const dispatch = useDispatch();
   const addProductHandler = () => {
     dispatch(
@@ -52,6 +59,13 @@ const CreateProduct = () => {
         <p className="heading4 ml-20 mt-14 text-bold uppercase">
           Add New Product
         </p>
+        <SimpleModal
+          open={open}
+          title="Record Status"
+          text="Product added successfully!"
+          address="/Seller/CreateProduct"
+        />
+        ;
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 ml-20 mr-20 p-5 pb-10 mb-10  rounded-lg shadow-lg mt-2 bg-white border">
         <div>
@@ -156,12 +170,11 @@ const CreateProduct = () => {
           ></textarea>
         </div>
         <div>
-          {" "}
           <Link href="/Seller/CreateProduct">
             <button
               onClick={() => {
                 addProductHandler();
-                alert("Product added successfully!");
+                checkStatus();
               }}
               className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
             >
