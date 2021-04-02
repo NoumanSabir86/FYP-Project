@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
 import addNewProduct from "../../redux/actions/addNewProduct";
 import UserServices from "../../Services/UserServices";
-import Popup from "reactjs-popup";
-import Modal from "../../Components/SimpleModal";
 import SimpleModal from "../../Components/SimpleModal";
 
 const CreateProduct = () => {
