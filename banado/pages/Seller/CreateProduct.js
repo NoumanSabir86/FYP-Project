@@ -5,9 +5,9 @@ import { SellerNav } from "../../Components/Accounts/SellerNav";
 import addNewProduct from "../../redux/actions/addNewProduct";
 import UserServices from "../../Services/UserServices";
 import SimpleModal from "../../Components/SimpleModal";
+import { ToastContainer, toast } from "react-nextjs-toast";
 
 const CreateProduct = () => {
-  const Product = useSelector((state) => state.addProduct);
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("Architecture");
   const [brandName, setBrandName] = useState("");
@@ -18,7 +18,10 @@ const CreateProduct = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
+  const Product = useSelector((state) => state.addProduct);
   const { loading, success, error } = Product;
+  const [showDialogue, setShowDialogue] = React.useState(false);
+
   const [productImage, setProductImage] = useState(
     "https://p4.design/assets/Products/Bla-Station/Wilmer-O55S/Wilmer-055S-1.png"
   );
@@ -29,7 +32,9 @@ const CreateProduct = () => {
   }, []);
 
   const checkStatus = () => {
-    setOpen(true);
+    if (success == true) {
+      setOpen(true);
+    }
   };
   const dispatch = useDispatch();
   const addProductHandler = () => {
@@ -53,6 +58,8 @@ const CreateProduct = () => {
   return (
     <div>
       <SellerNav />
+      <ToastContainer align={"center"} position={"bottom"} />
+
       <div>
         <p className="heading4 ml-20 mt-14 text-bold uppercase">
           Add New Product
@@ -172,7 +179,11 @@ const CreateProduct = () => {
             <button
               onClick={() => {
                 addProductHandler();
-                checkStatus();
+                setShowDialogue(success);
+
+                if (showDialogue == true) {
+                  checkStatus();
+                }
               }}
               className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
             >
