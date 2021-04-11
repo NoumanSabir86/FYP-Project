@@ -6,6 +6,7 @@ const auth = require("../../middlewares/auth");
 const admin = require("../../middlewares/admin");
 const seller = require("../../middlewares/seller");
 
+//get all
 router.get("/", async (req, res) => {
   let page = Number(req.query.page ? req.query.page : 1);
   let perPage = Number(req.query.perPage ? req.query.perPage : 20);
@@ -14,7 +15,8 @@ router.get("/", async (req, res) => {
   return res.send(products);
 });
 
-router.get("/:id", auth, seller, async (req, res) => {
+//get by product id
+router.get("/:id", async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
     if (!product)
@@ -25,7 +27,26 @@ router.get("/:id", auth, seller, async (req, res) => {
   }
 });
 
-router.put("/:id", auth, seller, validateProduct, async (req, res) => {
+//get by store
+
+router.get("/byStore/:id", seller, async (req, res) => {
+  let page = Number(req.query.page ? req.query.page : 1);
+  let perPage = Number(req.query.perPage ? req.query.perPage : 20);
+  let skipRecords = perPage * (page - 1);
+  try {
+    let products = await Product.find({ storeId: req.params.id })
+      .skip(skipRecords)
+      .limit(perPage);
+    //console.log("in by seller");
+    if (!products)
+      return res.status(400).send("Product With given ID is not present"); //when id is not present id db
+    return res.send(products); //everything is ok
+  } catch (err) {
+    return res.status(400).send("Invalid ID"); // format of id is not correct
+  }
+});
+
+router.put("/:id", seller, validateProduct, async (req, res) => {
   let product = await Product.findById(req.params.id);
   //product.storeId = req.body.storeId;
   product.productName = req.body.productName;
@@ -42,11 +63,12 @@ router.put("/:id", auth, seller, validateProduct, async (req, res) => {
   return res.send(product);
 });
 
-router.delete("/:id", auth, seller, async (req, res) => {
+router.delete("/:id", seller, async (req, res) => {
   let product = await Product.findByIdAndDelete(req.params.id);
   return res.send(product);
 });
 
+//add new product // post
 router.post("/", seller, validateProduct, async (req, res) => {
   let product = await Product.findOne({
     storeId: req.body.storeId,

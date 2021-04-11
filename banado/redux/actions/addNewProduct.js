@@ -13,13 +13,18 @@ const notify = (error, type) => {
 const addNewProduct = (product) => async (dispatch) => {
   try {
     dispatch({ type: t.PRODUCT_ADD_REQUEST, payload: product });
-    const { data } = await productServices.addProduct(product).catch((err) => {
-      <div>
-        {" "}
-        <ToastContainer align={"right"} position={"bottom"} />;
-      </div>;
-      notify(err.response.data, "error");
-    });
+    const { data } = await productServices
+      .addProduct(product)
+      .then((res) => {
+        notify("Product added Successfully!", "success");
+
+        setTimeout(() => {
+          window.location.href = "/Seller/CreateProduct";
+        }, 2000);
+      })
+      .catch((err) => {
+        notify(err.response.data, "error");
+      });
 
     dispatch({ type: t.PRODUCT_ADD_SUCCESS, payload: data, success: true });
   } catch (error) {

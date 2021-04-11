@@ -44,7 +44,6 @@ router.post("/", validateStore, async (req, res) => {
 router.post("/storePresent", async (req, res) => {
   try {
     let store = await Store.findOne({ storeId: req.body.sellerId });
-    console.log(req.body.sellerId);
 
     if (!store) return res.send({ val: false }); //when id is not present id db
     return res.send({ val: true }); //everything is ok

@@ -1,0 +1,4 @@
+.btnShadow {
+  box-shadow: rgba(255, 95, 20) 0px 50px 100px -20px,
+    rgba(255, 95, 20) 0px 30px 60px -30px !important;
+}

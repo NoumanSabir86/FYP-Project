@@ -9,8 +9,22 @@ import Link from "next/link";
 import UserServices from "../Services/UserServices";
 import ActiveLink from "./ActiveLink";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import Badge from "@material-ui/core/Badge";
+import { withStyles } from "@material-ui/core";
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 5,
+
+    padding: "0 4px",
+  },
+}))(Badge);
 
 export const Navbar = () => {
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [log, setLog] = useState(false);
@@ -141,14 +155,22 @@ export const Navbar = () => {
               <li>
                 <Link href="/Cart" onMouseEnter={cartlink}>
                   <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    <FontAwesomeIcon
-                      icon={faShoppingCart}
-                      style={{
-                        fontSize: "20px",
-                        color:
-                          router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
-                      }}
-                    />
+                    <StyledBadge
+                      badgeContent={cartItems.reduce(
+                        (a, c) => a + Number(c.qty),
+                        0
+                      )}
+                      color="secondary"
+                    >
+                      <FontAwesomeIcon
+                        icon={faShoppingCart}
+                        style={{
+                          fontSize: "20px",
+                          color:
+                            router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
+                        }}
+                      />
+                    </StyledBadge>
                   </a>
                 </Link>
               </li>

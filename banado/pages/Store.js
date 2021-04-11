@@ -1,11 +1,21 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Hero } from "../Components/Hero";
+import Loader from "../Components/Loader";
 import { Navbar } from "../Components/Navbar";
 import Searchbar from "../Components/Searchbar";
 import SingleProductCard from "../Components/SingleProductCard";
 import SmallCard from "../Components/SmallCard";
+import getProductList from "../redux/actions/getProductList";
 
 const Store = () => {
+  const pList = useSelector((state) => state.getProductList);
+  const { products, loading, error } = pList;
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getProductList());
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -34,6 +44,7 @@ const Store = () => {
                   <div className="heading4 mt-4">
                     <span>Featured Products</span>
                   </div>
+
                   <SmallCard name="Laptop" price="Rs.500" />
                   <SmallCard name="Screwdriver" price="Rs.500" />
                   <SmallCard name="Hammer" price="Rs.500" />
@@ -150,42 +161,49 @@ const Store = () => {
               </span>
             </div>
             <div className="grid grid-cols-1 md:gap-8 lg:gap-20 md:grid-cols-2 lg:grid-cols-3 mt-12">
-              <SingleProductCard title="Hammer" />
-              <SingleProductCard title="Screw Driver" />
-              <SingleProductCard title="Electrical Plier" />
-              <SingleProductCard title="Small paint roller" />
-              <SingleProductCard title="Hammer" />
-              <SingleProductCard title="Screw Driver" />
-              <SingleProductCard title="Electrical Plier" />
-              <SingleProductCard title="Small paint roller" />
-              <SingleProductCard title="Nails" />
+              {loading ? (
+                <Loader />
+              ) : error ? (
+                <div>{error}</div>
+              ) : (
+                products.map((product, index) => {
+                  return <SingleProductCard key={index} product={product} />;
+                })
+              )}
             </div>
-            <div class="flex justify-center mt-10 space-x-1">
-              <button
-                class="background flex items-center justify-center h-8 w-8  "
-                style={{ color: "white" }}
-              >
-                1
-              </button>
-              <button class="flex items-center justify-center h-8 w-8 ">
-                2
-              </button>
 
-              <button class="flex items-center justify-center h-8 w-8 ">
-                <svg
-                  class="h-5 w-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+            {loading ? (
+              ""
+            ) : products.length >= 12 ? (
+              <div class="flex justify-center mt-10 space-x-1">
+                <button
+                  class="background flex items-center justify-center h-8 w-8  "
+                  style={{ color: "white" }}
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
+                  1
+                </button>
+                <button class="flex items-center justify-center h-8 w-8 ">
+                  2
+                </button>
+
+                <button class="flex items-center justify-center h-8 w-8 ">
+                  <svg
+                    class="h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

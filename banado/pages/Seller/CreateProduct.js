@@ -6,6 +6,7 @@ import addNewProduct from "../../redux/actions/addNewProduct";
 import UserServices from "../../Services/UserServices";
 import SimpleModal from "../../Components/SimpleModal";
 import { ToastContainer, toast } from "react-nextjs-toast";
+import { storage } from "../../firebase";
 
 const CreateProduct = () => {
   const [productName, setProductName] = useState("");
@@ -22,9 +23,7 @@ const CreateProduct = () => {
   const { loading, success, error } = Product;
   const [showDialogue, setShowDialogue] = React.useState(false);
 
-  const [productImage, setProductImage] = useState(
-    "https://p4.design/assets/Products/Bla-Station/Wilmer-O55S/Wilmer-055S-1.png"
-  );
+  const [productImage, setProductImage] = useState("");
   const [storeId, setStoreId] = useState("");
 
   React.useEffect(() => {
@@ -32,10 +31,9 @@ const CreateProduct = () => {
   }, []);
 
   const checkStatus = () => {
-    if (success == true) {
-      setOpen(true);
-    }
+    setOpen(true);
   };
+
   const dispatch = useDispatch();
   const addProductHandler = () => {
     dispatch(
@@ -53,6 +51,23 @@ const CreateProduct = () => {
         storeId,
       })
     );
+  };
+
+  const uploadImage = async () => {
+    await storage
+      .ref(`productImages/${productImage.name}`)
+      .put(productImage)
+      .then((res) => {
+        console.log(res);
+      });
+
+    await storage
+      .ref("productImages")
+      .child(productImage.name)
+      .getDownloadURL()
+      .then((url) => {
+        setProductImage(url);
+      });
   };
 
   return (
@@ -135,7 +150,6 @@ const CreateProduct = () => {
               <option value="Other">Other</option>
             </select>
           </label>
-
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             Brand Name
           </label>
@@ -145,6 +159,21 @@ const CreateProduct = () => {
             placeholder="Enter Brand"
             onChange={(e) => setBrandName(e.target.value)}
           />
+          <input
+            type="file"
+            className="hoverBtn rounded  px-10 py-2 mt-4 mb-4 "
+            onChange={(e) => {
+              setProductImage(e.target.files[0]);
+            }}
+          ></input>{" "}
+          <button
+            className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+            onClick={() => {
+              uploadImage();
+            }}
+          >
+            Upload Image
+          </button>
         </div>
 
         <div className="col-span-full">
@@ -175,21 +204,14 @@ const CreateProduct = () => {
           ></textarea>
         </div>
         <div>
-          <Link href="/Seller/CreateProduct">
-            <button
-              onClick={() => {
-                addProductHandler();
-                setShowDialogue(success);
-
-                if (showDialogue == true) {
-                  checkStatus();
-                }
-              }}
-              className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
-            >
-              Submit
-            </button>
-          </Link>
+          <button
+            onClick={() => {
+              addProductHandler();
+            }}
+            className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

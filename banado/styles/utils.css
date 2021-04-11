@@ -86,3 +86,7 @@
     width: auto;
   }
 }
+
+button:focus {
+  outline: none;
+}

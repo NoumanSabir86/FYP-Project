@@ -19,11 +19,13 @@
     "axios": "^0.21.1",
     "beauty-stars": "^1.1.0",
     "express": "^4.17.1",
+    "firebase": "^8.3.2",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "namor": "^2.0.2",
     "next": "10.0.7",
     "next-redux-wrapper": "^6.0.2",
+    "nprogress": "^0.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-nextjs-toast": "^1.2.5",
@@ -38,6 +40,7 @@
     "autoprefixer": "^10.2.4",
     "file-loader": "^6.2.0",
     "postcss": "^8.2.6",
+    "svg-react-loader": "^0.4.6",
     "tailwindcss": "^2.0.3"
   }
 }
