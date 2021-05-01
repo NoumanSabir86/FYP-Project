@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   faCoffee,
+  faShoppingBasket,
   faShoppingCart,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -162,10 +164,17 @@ export const Navbar = () => {
                       )}
                       color="secondary"
                     >
-                      <FontAwesomeIcon
-                        icon={faShoppingCart}
+                      {/* <FontAwesomeIcon
+                        icon={faShoppingBasket}
                         style={{
-                          fontSize: "20px",
+                          fontSize: "28px",
+                          color:
+                            router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
+                        }}
+                      /> */}
+                      <ShoppingCartOutlinedIcon
+                        style={{
+                          fontSize: "24px",
                           color:
                             router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
                         }}

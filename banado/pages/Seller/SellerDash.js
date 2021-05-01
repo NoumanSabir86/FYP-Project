@@ -14,7 +14,6 @@ const SellerDash = () => {
           <InfoCard title="Sales" num="150" />
           <InfoCard title="Total Earnings" num="Rs.102,234" />
           <InfoCard title="Profit" num="20,000" />
-
           <InfoCard title="Total Orders" num="150" />
           <InfoCard title="Completed Orders" num="101" />
           <InfoCard title="In-Progress" num="45" />

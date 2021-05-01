@@ -1,4 +1,4 @@
-import { CssBaseline } from "@material-ui/core";
+import { Button, CssBaseline } from "@material-ui/core";
 import Link from "next/link";
 import React from "react";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
@@ -10,34 +10,50 @@ const ProductManagement = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "First Name",
-        accessor: "firstName",
+        Header: "Product",
+        accessor: "product",
       },
       {
-        Header: "Last Name",
-        accessor: "lastName",
+        Header: "Category",
+        accessor: "category",
       },
       {
-        Header: "Age",
-        accessor: "age",
+        Header: "Stock",
+        accessor: "stock",
       },
       {
-        Header: "Visits",
-        accessor: "visits",
+        Header: "Price",
+        accessor: "price",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Selling Price",
+        accessor: "sellPrice",
       },
+
       {
-        Header: "Profile Progress",
-        accessor: "progress",
+        Header: "Action",
+        accessor: "action",
+        id: "expander", // It needs an ID
+        Cell: ({ row }) => (
+          // Use Cell to render an expander for each row.
+          // We can use the getToggleRowExpandedProps prop-getter
+          // to build the expander.
+          <Button>Edit</Button>
+        ),
+        // We can override the cell renderer with a SubCell to be used with an expanded row
+        SubCell: () => null, // No expander on an expanded row
       },
     ],
     []
   );
 
-  const [data, setData] = React.useState(React.useMemo(() => makeData(20), []));
+  const [data, setData] = React.useState(
+    React.useMemo(
+      () => makeData(20),
+
+      []
+    )
+  );
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
   // We need to keep the table from resetting the pageIndex when we

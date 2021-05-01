@@ -20,6 +20,7 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
+import { Button } from "@material-ui/core";
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -200,20 +201,22 @@ const EnhancedTable = ({
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <TableCell
-                  {...(column.id === "selection"
-                    ? column.getHeaderProps()
-                    : column.getHeaderProps(column.getSortByToggleProps()))}
-                >
-                  {column.render("Header")}
-                  {column.id !== "selection" ? (
-                    <TableSortLabel
-                      active={column.isSorted}
-                      // react-table has a unsorted state which is not treated here
-                      direction={column.isSortedDesc ? "desc" : "asc"}
-                    />
-                  ) : null}
-                </TableCell>
+                <>
+                  <TableCell
+                    {...(column.id === "selection"
+                      ? column.getHeaderProps()
+                      : column.getHeaderProps(column.getSortByToggleProps()))}
+                  >
+                    {column.render("Header")}
+                    {column.id !== "selection" ? (
+                      <TableSortLabel
+                        active={column.isSorted}
+                        // react-table has a unsorted state which is not treated here
+                        direction={column.isSortedDesc ? "desc" : "asc"}
+                      />
+                    ) : null}
+                  </TableCell>
+                </>
               ))}
             </TableRow>
           ))}
@@ -225,9 +228,11 @@ const EnhancedTable = ({
               <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </TableCell>
+                    <>
+                      <TableCell {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </TableCell>
+                    </>
                   );
                 })}
               </TableRow>

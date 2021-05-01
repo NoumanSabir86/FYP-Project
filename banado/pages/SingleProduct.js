@@ -96,17 +96,16 @@ const SingleProduct = (props) => {
                       </select>
                     </div>
                     <div>
-                      <button
-                        onClick={() => {
-                          window.location.href = "/Cart";
-                        }}
-                        className={
-                          styles.btnShadow +
-                          " hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
-                        }
-                      >
-                        Add to Cart
-                      </button>
+                      <Link href="/Cart">
+                        <button
+                          className={
+                            styles.btnShadow +
+                            " hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+                          }
+                        >
+                          Add to Cart
+                        </button>
+                      </Link>
                     </div>
                     <div></div>
                   </div>
