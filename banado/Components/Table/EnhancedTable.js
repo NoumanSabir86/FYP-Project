@@ -127,6 +127,9 @@ const EnhancedTable = ({
       // That way we can call this function from our
       // cell renderer!
       updateMyData,
+      initialState: {
+        hiddenColumns: ["_id"],
+      },
     },
     useGlobalFilter,
     useSortBy,

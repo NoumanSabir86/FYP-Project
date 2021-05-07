@@ -12,11 +12,11 @@ const range = (len) => {
 const newProduct = () => {
   const statusChance = Math.random();
   return {
-    product: "Asus",
-    category: "Mango",
-    stock: Math.floor(Math.random() * 30),
-    price: Math.floor(Math.random() * 100),
-    sellPrice: Math.floor(Math.random() * 100),
+    product: "",
+    category: "",
+    stock: 0,
+    price: 0,
+    sellPrice: 0,
     action: "",
   };
 };

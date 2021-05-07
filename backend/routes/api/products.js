@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 
 //get by store
 
-router.get("/byStore/:id", seller, async (req, res) => {
+router.get("/byStore/:id", async (req, res) => {
   let page = Number(req.query.page ? req.query.page : 1);
   let perPage = Number(req.query.perPage ? req.query.perPage : 20);
   let skipRecords = perPage * (page - 1);

@@ -381,7 +381,7 @@ const Register = () => {
                                 storeName,
                                 sellerPhone,
                               });
-                              window.location.href = "/SigIn";
+                              window.location.href = "/SignIn";
                             }
                           })
 

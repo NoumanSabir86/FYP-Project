@@ -1,25 +1,65 @@
 import { Button, CssBaseline } from "@material-ui/core";
 import Link from "next/link";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
-
+import Loader from "../../Components/Loader";
 import EnhancedTable from "../../Components/Table/EnhancedTable";
 import makeData from "../../Components/Table/makeData";
-
+import getProductList from "../../redux/actions/getProductList";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import getStoreProducts from "../../redux/actions/getStoreProducts";
+import UserServices from "../../Services/UserServices";
+import deleteProduct from "../../redux/actions/deleteProduct";
 const ProductManagement = () => {
+  const pList = useSelector((state) => state.storeProducts);
+  const { products, loading, error } = pList;
+  const deletedProduct = useSelector((state) => state.deleteProduct);
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = deletedProduct;
+
+  const [data, setData] = React.useState(products);
+
+  const [skipPageReset, setSkipPageReset] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleRemove = (id) => {
+    dispatch(deleteProduct(id));
+  };
+
+  React.useEffect(() => {
+    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+    setData(products);
+    console.log(successDelete == true);
+  }, [successDelete == true]);
+
   const columns = React.useMemo(
     () => [
       {
+        Header: "ProductID",
+        accessor: "_id",
+        show: false,
+      },
+      {
         Header: "Product",
-        accessor: "product",
+        accessor: "productName",
       },
       {
         Header: "Category",
         accessor: "category",
       },
       {
+        Header: "Brand",
+        accessor: "brandName",
+      },
+      {
         Header: "Stock",
-        accessor: "stock",
+        accessor: "stockQuantity",
       },
       {
         Header: "Price",
@@ -27,7 +67,7 @@ const ProductManagement = () => {
       },
       {
         Header: "Selling Price",
-        accessor: "sellPrice",
+        accessor: "salePrice",
       },
 
       {
@@ -35,26 +75,29 @@ const ProductManagement = () => {
         accessor: "action",
         id: "expander", // It needs an ID
         Cell: ({ row }) => (
-          // Use Cell to render an expander for each row.
-          // We can use the getToggleRowExpandedProps prop-getter
-          // to build the expander.
-          <Button>Edit</Button>
+          <>
+            <div className="flex flex-row">
+              <div>
+                <a
+                  onClick={() => {
+                    handleRemove(row.original._id);
+                  }}
+                >
+                  <DeleteIcon className=" hover:text-red-600 cursor-pointer" />
+                </a>
+              </div>
+              <div>
+                <a className="edit" style={{ marginLeft: ".5rem" }}>
+                  <EditIcon className=" hover:text-blue-600 cursor-pointer" />
+                </a>
+              </div>
+            </div>
+          </>
         ),
-        // We can override the cell renderer with a SubCell to be used with an expanded row
-        SubCell: () => null, // No expander on an expanded row
       },
     ],
     []
   );
-
-  const [data, setData] = React.useState(
-    React.useMemo(
-      () => makeData(20),
-
-      []
-    )
-  );
-  const [skipPageReset, setSkipPageReset] = React.useState(false);
 
   // We need to keep the table from resetting the pageIndex when we
   // Update data. So we can keep track of that flag with a ref.
@@ -81,26 +124,30 @@ const ProductManagement = () => {
   return (
     <div>
       <SellerNav />
-
-      <div className="flex items-center justify-center flex-row pl-20 pr-20">
-        <div className="mt-10">
-          <h1 className="heading4 ">Product Management</h1>
-          <Link href="/Seller/CreateProduct">
-            <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-              Add New Product
-            </button>
-          </Link>
-          <CssBaseline />
-          <EnhancedTable
-            columns={columns}
-            data={data}
-            setData={setData}
-            updateMyData={updateMyData}
-            skipPageReset={skipPageReset}
-          />
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        "There was some error.Kindly try refreshing the page!"
+      ) : (
+        <div className="flex items-center justify-center flex-row pl-20 pr-20">
+          <div className="mt-10">
+            <h1 className="heading4 ">Product Management</h1>
+            <Link href="/Seller/CreateProduct">
+              <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+                Add New Product
+              </button>
+            </Link>
+            <CssBaseline />
+            <EnhancedTable
+              columns={columns}
+              data={data}
+              setData={setData}
+              updateMyData={updateMyData}
+              skipPageReset={skipPageReset}
+            />
+          </div>
         </div>
-        <div></div>
-      </div>
+      )}
     </div>
   );
 };
