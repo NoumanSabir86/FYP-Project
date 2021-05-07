@@ -7,7 +7,8 @@ import UserServices from "../../Services/UserServices";
 import SimpleModal from "../../Components/SimpleModal";
 import { ToastContainer, toast } from "react-nextjs-toast";
 import { storage } from "../../firebase";
-
+import ProgressBar from "@ramonak/react-progress-bar";
+import getStoreProducts from "../../redux/actions/getStoreProducts";
 const CreateProduct = () => {
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("Architecture");
@@ -22,19 +23,22 @@ const CreateProduct = () => {
   const Product = useSelector((state) => state.addProduct);
   const { loading, success, error } = Product;
   const [showDialogue, setShowDialogue] = React.useState(false);
-
+  const [progress, setProgress] = useState(0);
   const [productImage, setProductImage] = useState("");
   const [storeId, setStoreId] = useState("");
+  const [URL, setURL] = useState("");
+
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setStoreId(UserServices.getLoggedinfo().sellerId);
+    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
   }, []);
 
   const checkStatus = () => {
     setOpen(true);
   };
 
-  const dispatch = useDispatch();
   const addProductHandler = () => {
     dispatch(
       addNewProduct({
@@ -53,21 +57,33 @@ const CreateProduct = () => {
     );
   };
 
-  const uploadImage = async () => {
-    await storage
+  const uploadImage = () => {
+    let uploadTask = storage
       .ref(`productImages/${productImage.name}`)
-      .put(productImage)
-      .then((res) => {
-        console.log(res);
-      });
+      .put(productImage);
 
-    await storage
-      .ref("productImages")
-      .child(productImage.name)
-      .getDownloadURL()
-      .then((url) => {
-        setProductImage(url);
-      });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("productImages")
+          .child(productImage.name)
+          .getDownloadURL()
+          .then((url) => {
+            setProductImage(url);
+            setURL(url);
+          });
+      }
+    );
   };
 
   return (
@@ -87,7 +103,7 @@ const CreateProduct = () => {
         />
         ;
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 ml-20 mr-20 p-5 pb-10 mb-10  rounded-lg shadow-lg mt-2 bg-white border">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 ml-20 mr-20 p-5 pb-10 mb-10  rounded-lg shadow-lg mt-2 bg-white border">
         <div>
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
             Product Name
@@ -159,9 +175,16 @@ const CreateProduct = () => {
             placeholder="Enter Brand"
             onChange={(e) => setBrandName(e.target.value)}
           />
+          <ProgressBar
+            completed={progress}
+            bgColor="#00235A"
+            height="10px"
+            borderRadius="10px"
+            isLabelVisible={false}
+          />
           <input
             type="file"
-            className="hoverBtn rounded  px-10 py-2 mt-4 mb-4 "
+            className="hoverBtn rounded  pr-4 py-2 mt-4 mb-4 "
             onChange={(e) => {
               setProductImage(e.target.files[0]);
             }}
@@ -174,6 +197,11 @@ const CreateProduct = () => {
           >
             Upload Image
           </button>
+          <img
+            src={URL || "http://via.placeholder.com/150"}
+            class="w-40 rounded"
+            alt="Thumbnail"
+          ></img>
         </div>
 
         <div className="col-span-full">

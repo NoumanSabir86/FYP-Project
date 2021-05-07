@@ -1,6 +1,6 @@
 import { Button, CssBaseline } from "@material-ui/core";
 import Link from "next/link";
-import React from "react";
+import React, { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
 import Loader from "../../Components/Loader";
@@ -12,7 +12,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import getStoreProducts from "../../redux/actions/getStoreProducts";
 import UserServices from "../../Services/UserServices";
 import deleteProduct from "../../redux/actions/deleteProduct";
-const ProductManagement = () => {
+const ProductManagement = (props) => {
   const pList = useSelector((state) => state.storeProducts);
   const { products, loading, error } = pList;
   const deletedProduct = useSelector((state) => state.deleteProduct);
@@ -25,7 +25,7 @@ const ProductManagement = () => {
   const [data, setData] = React.useState(products);
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
-
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const dispatch = useDispatch();
 
   const handleRemove = (id) => {
@@ -34,9 +34,9 @@ const ProductManagement = () => {
 
   React.useEffect(() => {
     dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+
     setData(products);
-    console.log(successDelete == true);
-  }, [successDelete == true]);
+  }, [successDelete]);
 
   const columns = React.useMemo(
     () => [

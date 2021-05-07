@@ -7,11 +7,43 @@ import Searchbar from "../Components/Searchbar";
 import SingleProductCard from "../Components/SingleProductCard";
 import SmallCard from "../Components/SmallCard";
 import getProductList from "../redux/actions/getProductList";
-
+import Fuse from "fuse.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const Store = () => {
   const pList = useSelector((state) => state.getProductList);
   const { products, loading, error } = pList;
+  const [data, setData] = React.useState(products);
+  const [query, setQuery] = React.useState("");
+
   const dispatch = useDispatch();
+
+  const options = {
+    // isCaseSensitive: false,
+    includeScore: true,
+    shouldSort: true,
+    // includeMatches: true,
+    // findAllMatches: true,
+    minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+
+    keys: ["productName", "category"],
+  };
+
+  const fuse = new Fuse(data, options);
+
+  // Change the pattern
+
+  const searchList = fuse.search(query);
+
+  const Results = searchList.map((result) => result.item);
+  console.log(Results);
+
   React.useEffect(() => {
     dispatch(getProductList());
   }, []);
@@ -28,17 +60,65 @@ const Store = () => {
             <div className="flex flex-col sm:flex-row sm:justify-around">
               <div className="w-full ">
                 <nav className="mt-10 px-6 ">
-                  <Searchbar />
+                  <div class="flex flex-col overflow-hidden border  dark:border-gray-600 lg:flex-row">
+                    <input
+                      class="px-6 py-3 text-gray-700 placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
+                      type="text"
+                      name="email"
+                      placeholder="Search Products"
+                      aria-label="Search"
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                      }}
+                    />
 
-                  <div className="heading4 mt-4">
-                    <span>Filter</span>
+                    <button class="px-5 py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
+                      <FontAwesomeIcon icon={faSearch} />
+                    </button>
                   </div>
+
                   <div className=" mt-4">
                     <span className="heading4">Product Categories</span>
-                    <p className="listText">+ Architecture </p>
-                    <p className="listText">+ Construction </p>
-                    <p className="listText">+ Interior Design </p>
-                    <p className="listText">+ Technology </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("");
+                      }}
+                    >
+                      + All{" "}
+                    </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("architecture");
+                      }}
+                    >
+                      + Architecture{" "}
+                    </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("construction");
+                      }}
+                    >
+                      + Construction{" "}
+                    </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("interior design");
+                      }}
+                    >
+                      + Interior Design{" "}
+                    </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("electronics");
+                      }}
+                    >
+                      + Electronics{" "}
+                    </p>
                   </div>
 
                   <div className="heading4 mt-4">
@@ -165,9 +245,13 @@ const Store = () => {
                 <Loader />
               ) : error ? (
                 <div>{error}</div>
-              ) : (
+              ) : searchList.length == 0 ? (
                 products.map((product, index) => {
                   return <SingleProductCard key={index} product={product} />;
+                })
+              ) : (
+                Results.map((item, index) => {
+                  return <SingleProductCard key={index} product={item} />;
                 })
               )}
             </div>
