@@ -9,9 +9,12 @@ import getProductList from "../redux/actions/getProductList";
 
 export default function Home() {
   const dispatch = useDispatch();
+
   React.useEffect(() => {
-    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
     dispatch(getProductList());
+    try {
+      dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+    } catch (error) {}
   }, []);
 
   return (

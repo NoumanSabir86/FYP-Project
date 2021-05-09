@@ -25,8 +25,8 @@ function validateProduct(data) {
     price: Joi.number().min(0).required(),
     salePrice: Joi.number().min(0).required(),
     sku: Joi.string().required(),
-    shortDescription: Joi.string().min(3).max(300).required(),
-    description: Joi.string().min(3).max(1000).required(),
+    shortDescription: Joi.string().min(3).max(2000).required(),
+    description: Joi.string().min(3).max(2000).required(),
     productImage: Joi.string().min(3).max(1000).required(),
   });
   return schema.validate(data, { abortEarly: false });

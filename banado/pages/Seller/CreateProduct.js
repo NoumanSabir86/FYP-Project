@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-nextjs-toast";
 import { storage } from "../../firebase";
 import ProgressBar from "@ramonak/react-progress-bar";
 import getStoreProducts from "../../redux/actions/getStoreProducts";
+
 const CreateProduct = () => {
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("Architecture");
@@ -163,7 +164,9 @@ const CreateProduct = () => {
               <option value="Architecture">Architecture</option>
               <option value="Interior Design">Interior Design</option>
               <option value="Electronics">Electronics</option>
-              <option value="Other">Other</option>
+              <option value="Construction material">
+                Construction material
+              </option>
             </select>
           </label>
           <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>

@@ -10,6 +10,7 @@ import getProductList from "../redux/actions/getProductList";
 import Fuse from "fuse.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 const Store = () => {
   const pList = useSelector((state) => state.getProductList);
   const { products, loading, error } = pList;
@@ -52,7 +53,7 @@ const Store = () => {
     <>
       <Navbar />
       <div>
-        <Hero name={"Shop"} />
+        <Hero name={"Happiness is not in money, but in shopping : )"} />
       </div>
       <div className="container px-4 md:px-4 lg:px-16">
         <div className="flex flex-wrap -mx-2 my-12 ">
@@ -60,23 +61,6 @@ const Store = () => {
             <div className="flex flex-col sm:flex-row sm:justify-around">
               <div className="w-full ">
                 <nav className="mt-10 px-6 ">
-                  <div class="flex flex-col overflow-hidden border  dark:border-gray-600 lg:flex-row">
-                    <input
-                      class="px-6 py-3 text-gray-700 placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
-                      type="text"
-                      name="email"
-                      placeholder="Search Products"
-                      aria-label="Search"
-                      onChange={(e) => {
-                        setQuery(e.target.value);
-                      }}
-                    />
-
-                    <button class="px-5 py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
-                      <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                  </div>
-
                   <div className=" mt-4">
                     <span className="heading4">Product Categories</span>
                     <p
@@ -90,7 +74,7 @@ const Store = () => {
                     <p
                       className="listText"
                       onClick={() => {
-                        setQuery("architecture");
+                        setQuery("Architecture");
                       }}
                     >
                       + Architecture{" "}
@@ -110,6 +94,14 @@ const Store = () => {
                       }}
                     >
                       + Interior Design{" "}
+                    </p>
+                    <p
+                      className="listText"
+                      onClick={() => {
+                        setQuery("construction");
+                      }}
+                    >
+                      + Construction material{" "}
                     </p>
                     <p
                       className="listText"
@@ -135,107 +127,22 @@ const Store = () => {
           </div>
           <div className=" w-full p-4 md:pl-6 lg:pl-6 md:w-3/4 lg:w-3/4">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mt-6">
-              <button class="relative text-sm focus:outline-none group mt-4 sm:mt-0">
-                <div class="flex items-center justify-between w-40  px-6 py-3 border-2 border-gray-300  hover:bg-gray-300">
-                  <span class="font-medium">Popular</span>
-                  <svg
-                    class="w-4 h-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div class="absolute z-10 flex-col items-start hidden w-full pb-1 bg-white shadow-lg rounded group-focus:flex">
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Popular
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Featured
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Newest
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Lowest Price
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Highest Price
-                  </a>
-                </div>
-              </button>
-              <button
-                class="relative text-sm focus:outline-none group mt-4 sm:mt-0 "
-                style={{ marginLeft: "-50%" }}
-              >
-                <div class="flex items-center justify-between w-40  px-6 py-3 border-2 border-gray-300  hover:bg-gray-300">
-                  <span class="font-medium">Category</span>
-                  <svg
-                    class="w-4 h-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div class="absolute z-10 flex-col items-start hidden w-full pb-1 bg-white shadow-lg rounded group-focus:flex">
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Popular
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Featured
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Newest
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Lowest Price
-                  </a>
-                  <a
-                    class="w-full px-4 py-2 text-left hover:bg-gray-200"
-                    href="#"
-                  >
-                    Highest Price
-                  </a>
-                </div>
-              </button>
+              <div class="flex flex-col overflow-hidden border  dark:border-gray-600 lg:flex-row">
+                <input
+                  class="px-4 py-3 text-gray-700 w-full placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
+                  type="text"
+                  name="email"
+                  placeholder="Search Products"
+                  aria-label="Search"
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                  }}
+                />
+
+                <button class="px-5 py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </div>
               <span class="text-sm font-semibold  colorheading ">
                 1-9 of 148 Products
               </span>
@@ -258,7 +165,7 @@ const Store = () => {
 
             {loading ? (
               ""
-            ) : products.length >= 12 ? (
+            ) : products.length >= 9 ? (
               <div class="flex justify-center mt-10 space-x-1">
                 <button
                   class="background flex items-center justify-center h-8 w-8  "

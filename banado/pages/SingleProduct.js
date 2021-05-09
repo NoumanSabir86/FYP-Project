@@ -1,26 +1,35 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from "react-redux";
-import { Hero } from "../Components/Hero";
 import { Navbar } from "../Components/Navbar";
-import addtoCart from "../redux/actions/addToCart";
 import getProductDetails from "../redux/actions/getProductDetails";
 import { useRouter } from "next/router";
-import { Product } from "../../backend/models/product";
 import styles from "./SingleProduct.module.css";
 import Loader from "../Components/Loader";
-const SingleProduct = (props) => {
+import Carousel from "react-multi-carousel";
+import SingleProductCard from "../Components/SingleProductCard";
+import getProductList from "../redux/actions/getProductList";
+
+const SingleProduct = () => {
   const pDetails = useSelector((state) => state.getProductDetails);
   const [quantity, setQuantity] = React.useState(1);
+  const [productID, setpID] = React.useState("");
+
   const { product, loading, error } = pDetails;
+
+  const pList = useSelector((state) => state.getProductList);
+  const { products, loading: ploading, error: perror } = pList;
+
   const dispatch = useDispatch();
 
   const router = useRouter();
 
   React.useEffect(() => {
+    localStorage.setItem("quantity", quantity);
+    dispatch(getProductList());
     dispatch(getProductDetails(localStorage.getItem("productID")));
-  }, []);
+  }, [router.query]);
 
   return (
     <div>
@@ -32,9 +41,32 @@ const SingleProduct = (props) => {
         "error"
       ) : (
         <>
-          <Hero name={product.productName} />
+          <div
+            className="sm:w-full "
+            style={{
+              backgroundColor: "#F0F1F1",
+              height: "40vh",
+              padding: "8%",
+              verticalAlign: "middle",
+              textAlign: "center",
+              borderBottom: "5px solid #FF5E16",
+              borderBottomLeftRadius: "15px",
+              borderBottomRightRadius: "15px",
+            }}
+          >
+            <h2
+              className="heading1 colorheading "
+              style={{
+                textTransform: "Capitalize",
+                fontSize: "50px",
+                fontFamily: "open sans",
+              }}
+            >
+              {product.productName}
+            </h2>
+          </div>
           <div className="ml-20 mr-20 pt-10 pb-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24 ">
               <div>
                 <img src={product.productImage} className="pImage"></img>
               </div>
@@ -43,17 +75,26 @@ const SingleProduct = (props) => {
                 <div>
                   <ReactStars
                     count={5}
-                    size={18}
-                    isHalf={true}
+                    size={30}
+                    isHalf={false}
                     emptyIcon={<i className="far fa-star"></i>}
                     halfIcon={<i className="fa fa-star-half-alt"></i>}
                     fullIcon={<i className="fa fa-star"></i>}
                     value="5"
-                    activeColor="#FF5E14"
+                    activeColor="#FFA41C"
                   />
                 </div>
                 <div>
-                  <h1 className="heading2">{product.productName}</h1>
+                  <h1
+                    className="heading2"
+                    style={{
+                      textTransform: "Capitalize",
+                      fontSize: "30px",
+                      fontFamily: "open sans",
+                    }}
+                  >
+                    {product.productName}
+                  </h1>
                 </div>
                 <div>
                   <p
@@ -61,13 +102,21 @@ const SingleProduct = (props) => {
                       fontSize: "1.5rem",
                       color: "#FF5E14",
                       fontWeight: "600",
+                      marginTop: "5px",
                     }}
                   >
                     Rs.{product.salePrice}
                   </p>
                 </div>
                 <div className="mt-12">
-                  <p className="mytext">
+                  <p
+                    className="mytext"
+                    style={{
+                      fontSize: "16px",
+                      fontFamily: "open sans",
+                      fontWeight: "400",
+                    }}
+                  >
                     {product.shortDescription}
                     <br></br>
                   </p>
@@ -134,6 +183,67 @@ const SingleProduct = (props) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div style={{ padding: "10%" }}>
+            <Carousel
+              additionalTransfrom={0}
+              arrows
+              autoPlaySpeed={3000}
+              centerMode={false}
+              className=""
+              containerClass="container-with-dots"
+              dotListClass=""
+              draggable
+              focusOnSelect={false}
+              infinite
+              itemClass=""
+              keyBoardControl
+              minimumTouchDrag={80}
+              renderButtonGroupOutside={false}
+              renderDotsOutside={false}
+              responsive={{
+                desktop: {
+                  breakpoint: {
+                    max: 3000,
+                    min: 1024,
+                  },
+                  items: 3,
+                  partialVisibilityGutter: 40,
+                },
+                mobile: {
+                  breakpoint: {
+                    max: 464,
+                    min: 0,
+                  },
+                  items: 1,
+                  partialVisibilityGutter: 30,
+                },
+                tablet: {
+                  breakpoint: {
+                    max: 1024,
+                    min: 464,
+                  },
+                  items: 2,
+                  partialVisibilityGutter: 30,
+                },
+              }}
+              showDots={false}
+              centerMode={true}
+              sliderClass=""
+              slidesToSlide={3}
+              swipeable
+            >
+              {ploading ? (
+                <Loader />
+              ) : perror ? (
+                <div>{perror}</div>
+              ) : (
+                products.map((item, index) => {
+                  if (product.category == item.category)
+                    return <SingleProductCard key={index} product={item} />;
+                })
+              )}
+            </Carousel>
           </div>
         </>
       )}

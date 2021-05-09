@@ -21,25 +21,40 @@ const SingleProductCard = ({ product }) => {
   };
 
   return (
-    <div style={{ width: "255px", maxWidth: "255px" }} className="eimage">
-      <Link href={`/SingleProduct`}>
-        <img
-          src={product.productImage}
-          className=" block  shadow-lg cursor-pointer bg-white"
-          style={{
-            maxHeight: "245px",
-            height: "100%",
-            maxWidth: "100%",
-            width: "100%",
-            marginBottom: "-5px",
-          }}
-          onClick={() => {
-            localStorage.setItem("productID", product._id);
-          }}
-        ></img>
-      </Link>
+    <div>
+      <div
+        style={{ width: "255px", maxWidth: "255px" }}
+        className=" block  shadow-lg  cursor-pointer bg-white "
+      >
+        <Link href={`/SingleProduct`}>
+          <img
+            src={product.productImage}
+            class="productImage hover:scale-50"
+            alt={product.productImage}
+            style={{
+              verticalAlign: "top",
+              maxWidth: "100%",
+              border: "0",
+              aspectRatio: "auto 240 / 240",
+              height: "240px",
+              width: "240px",
+              padding: "2rem",
+              marginBottom: "-5px",
+            }}
+            onClick={() => {
+              router.push(`/SingleProduct`, `/SingleProduct/${product._id}`, {
+                shallow: true,
+              });
+              localStorage.setItem("productID", product._id);
+            }}
+          ></img>
+        </Link>
+      </div>
 
-      <div className="flex items-center justify-between mt-3">
+      <div
+        className="flex items-center justify-between mt-3"
+        style={{ width: "255px", maxWidth: "255px" }}
+      >
         <div>
           <span className="block ">
             <button
@@ -58,7 +73,7 @@ const SingleProductCard = ({ product }) => {
 
           <div
             className="flex relative  items-center mt-4"
-            style={{ width: "255px" }}
+            style={{ width: "255px", maxWidth: "255px" }}
           >
             <div
               style={{ fontSize: ".8rem", fontWeight: "600", color: "#788AA8" }}
@@ -82,23 +97,19 @@ const SingleProductCard = ({ product }) => {
 
           <a
             href="#"
-            className="heading4 "
-            style={{ fontSize: "1.2rem", fontWeight: "700" }}
+            className="heading4"
+            style={{
+              fontSize: "1.2rem",
+              fontWeight: "700",
+              lineHeight: "1.5rem",
+            }}
           >
             {product.productName.length > 30
               ? product.productName.substring(0, 30 - 3) + "..."
               : product.productName}
           </a>
-          <a className="flex items-center" href="#">
-            <span className="text-xs font-medium text-gray-600">by</span>
-            <span
-              className=" text-xs font-medium ml-1 text-indigo-500"
-              style={{ color: "#FF5E14" }}
-            >
-              Store Name
-            </span>
-          </a>
-          <a className="flex items-center mt-2" href="#">
+
+          <a className="flex items-center " href="#">
             <span className="bdi text-xs font-medium text-gray-600">
               Rs.{product.salePrice}
             </span>
