@@ -8,6 +8,7 @@ import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
 import "react-credit-cards/es/styles-compiled.css";
 import "react-multi-carousel/lib/styles.css";
+import { Footer } from "../Components/Footer";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -16,7 +17,11 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   <Navbar />;
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default wrapper.withRedux(MyApp);

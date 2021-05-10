@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import InfoCard from "../../Components/Accounts/InfoCard";
 import { SellerNav } from "../../Components/Accounts/SellerNav";
+import getStoreProducts from "../../redux/actions/getStoreProducts";
+import UserServices from "../../Services/UserServices";
 
 const SellerDash = () => {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+  }, []);
+
   return (
     <div>
       <SellerNav />

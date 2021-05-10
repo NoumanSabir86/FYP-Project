@@ -67,10 +67,12 @@
 .item:hover,
 .item:active {
   color: #ff5e14 !important;
+
+  padding-bottom: 15px;
 }
 
 .mytext {
-  color: black;
+  color: #00235a;
   font-size: 1.1rem;
   font-weight: 500;
 }

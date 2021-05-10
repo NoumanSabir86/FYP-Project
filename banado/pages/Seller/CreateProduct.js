@@ -36,10 +36,6 @@ const CreateProduct = () => {
     dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
   }, []);
 
-  const checkStatus = () => {
-    setOpen(true);
-  };
-
   const addProductHandler = () => {
     dispatch(
       addNewProduct({

@@ -12,7 +12,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import getStoreProducts from "../../redux/actions/getStoreProducts";
 import UserServices from "../../Services/UserServices";
 import deleteProduct from "../../redux/actions/deleteProduct";
-const ProductManagement = (props) => {
+import axios from "axios";
+const ProductManagement = () => {
   const pList = useSelector((state) => state.storeProducts);
   const { products, loading, error } = pList;
   const deletedProduct = useSelector((state) => state.deleteProduct);
@@ -34,7 +35,6 @@ const ProductManagement = (props) => {
 
   React.useEffect(() => {
     dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
-
     setData(products);
   }, [successDelete]);
 

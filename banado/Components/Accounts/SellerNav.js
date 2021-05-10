@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./SellerDash.module.css";
 import ActiveLink from "../ActiveLink";
 import UserServices from "../../Services/UserServices";
+import Cookies from "js-cookie";
 export const SellerNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -81,6 +82,7 @@ export const SellerNav = () => {
                   <a
                     className="item font-medium tracking-wide  transition-colors duration-200 "
                     onClick={() => {
+                      Cookies.remove("cart");
                       UserServices.logout();
                     }}
                   >

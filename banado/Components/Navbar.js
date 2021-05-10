@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import Cookies from "js-cookie";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -128,6 +129,7 @@ export const Navbar = () => {
                     <>
                       <li
                         onClick={() => {
+                          Cookies.remove("cart");
                           UserServices.logout();
                         }}
                       >

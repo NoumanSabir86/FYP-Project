@@ -10,6 +10,7 @@ import getProductList from "../redux/actions/getProductList";
 import Fuse from "fuse.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Footer } from "../Components/Footer";
 
 const Store = () => {
   const pList = useSelector((state) => state.getProductList);
@@ -55,7 +56,10 @@ const Store = () => {
       <div>
         <Hero name={"Happiness is not in money, but in shopping : )"} />
       </div>
-      <div className="container px-4 md:px-4 lg:px-16">
+      <div
+        className="container px-4 md:px-4 lg:px-16 "
+        style={{ marginBottom: "10%" }}
+      >
         <div className="flex flex-wrap -mx-2 my-12 ">
           <div className=" w-full md:w-1/4 lg:w-1/4">
             <div className="flex flex-col sm:flex-row sm:justify-around">
@@ -198,6 +202,7 @@ const Store = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
