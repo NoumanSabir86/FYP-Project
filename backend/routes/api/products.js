@@ -46,7 +46,7 @@ router.get("/byStore/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", seller, validateProduct, async (req, res) => {
+router.put("/:id", validateProduct, async (req, res) => {
   let product = await Product.findById(req.params.id);
   //product.storeId = req.body.storeId;
   product.productName = req.body.productName;

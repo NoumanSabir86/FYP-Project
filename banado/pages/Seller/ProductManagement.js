@@ -13,6 +13,7 @@ import getStoreProducts from "../../redux/actions/getStoreProducts";
 import UserServices from "../../Services/UserServices";
 import deleteProduct from "../../redux/actions/deleteProduct";
 import axios from "axios";
+import { useRouter } from "next/router";
 const ProductManagement = () => {
   const pList = useSelector((state) => state.storeProducts);
   const { products, loading, error } = pList;
@@ -22,7 +23,7 @@ const ProductManagement = () => {
     success: successDelete,
     error: errorDelete,
   } = deletedProduct;
-
+  const router = useRouter();
   const [data, setData] = React.useState(products);
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
@@ -87,9 +88,25 @@ const ProductManagement = () => {
                 </a>
               </div>
               <div>
-                <a className="edit" style={{ marginLeft: ".5rem" }}>
-                  <EditIcon className=" hover:text-blue-600 cursor-pointer" />
-                </a>
+                <Link
+                  href="/Seller/UpdateProduct"
+                  className="edit"
+                  style={{ marginLeft: ".5rem" }}
+                >
+                  <EditIcon
+                    onClick={() => {
+                      router.push(
+                        `/Seller/UpdateProduct`,
+                        `/Seller/UpdateProduct/${row.original._id}`,
+                        {
+                          shallow: true,
+                        }
+                      );
+                      localStorage.setItem("productID", row.original._id);
+                    }}
+                    className=" hover:text-blue-600 cursor-pointer"
+                  />
+                </Link>
               </div>
             </div>
           </>

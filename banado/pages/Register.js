@@ -5,6 +5,7 @@ import { Navbar } from "../Components/Navbar";
 import UserServices from "../Services/UserServices";
 import { toast, ToastContainer } from "react-nextjs-toast";
 import storeServices from "../Services/storeServices";
+import Link from "next/link";
 
 const Register = () => {
   const [role, setRole] = React.useState("User");
@@ -232,7 +233,7 @@ const Register = () => {
                           }}
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <label for="password" class="sr-only ">
                           Tags
                         </label>
@@ -246,7 +247,7 @@ const Register = () => {
                           style={{ borderRadius: "5px", marginTop: "5%" }}
                           placeholder="Enter related tags"
                         />
-                      </div>
+                      </div> */}
                     </>
                   ) : role == "Builder" ? (
                     <>
@@ -286,7 +287,7 @@ const Register = () => {
                           }}
                         />
                       </div>
-                      <div
+                      {/* <div
                         style={{ position: "relative", alignItems: "center" }}
                       >
                         <p
@@ -335,7 +336,7 @@ const Register = () => {
                             }}
                           />
                         </p>
-                      </div>
+                      </div> */}
                     </>
                   ) : (
                     ""
@@ -374,7 +375,7 @@ const Register = () => {
                         UserServices.register(data)
                           .then((data) => {
                             setSellerId(UserServices.getLoggedinfo().userId);
-                            alert(sellerId);
+                            alert("Account Created Successfully!");
                             if (role == "Seller") {
                               storeServices.createStore({
                                 sellerId,
@@ -401,7 +402,7 @@ const Register = () => {
                   ) : (
                     <>
                       {" "}
-                      <div className="text-center">
+                      {/* <div className="text-center">
                         <span>or</span>
                       </div>
                       <div>
@@ -434,14 +435,14 @@ const Register = () => {
                           </span>
                           Sign Up with Google
                         </button>
-                      </div>
+                      </div> */}
                       <div class="text-sm text-center">
-                        <a
-                          href="#"
+                        <Link
+                          href="/SignIn"
                           class="font-medium colorheading hover:text-indigo-500"
                         >
                           Already have an account? Login
-                        </a>
+                        </Link>
                       </div>
                     </>
                   )}

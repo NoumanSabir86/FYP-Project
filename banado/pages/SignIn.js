@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import React from "react";
 import { ToastContainer, toast } from "react-nextjs-toast";
 import { Navbar } from "../Components/Navbar";
@@ -173,7 +174,7 @@ const SignIn = () => {
                     </button>
                   </div>
 
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <span>or</span>
                   </div>
                   <div>
@@ -206,14 +207,14 @@ const SignIn = () => {
                       </span>
                       Sign in with Google
                     </button>
-                  </div>
+                  </div> */}
                   <div class="text-sm text-center">
-                    <a
-                      href="#"
+                    <Link
+                      href="/Register"
                       class="font-medium colorheading hover:text-indigo-500"
                     >
                       Don't have an account? Create one
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

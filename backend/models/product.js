@@ -10,7 +10,7 @@ var productSchema = mongoose.Schema({
   salePrice: Number,
   sku: String,
   shortDescription: String,
-  Description: String,
+  description: String,
   productImage: String,
 });
 var Product = mongoose.model("Product", productSchema);
