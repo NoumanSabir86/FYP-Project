@@ -188,7 +188,7 @@ const SingleProduct = () => {
                 </div>
               </div>
             </div>
-            <div style={{ padding: "10%",marginTop:"-5%"  }}>
+            <div style={{ padding: "10%", marginTop: "-5%" }}>
               <div>
                 <h1
                   className="heading2"
@@ -231,7 +231,7 @@ const SingleProduct = () => {
                   },
                   mobile: {
                     breakpoint: {
-                      max: 464,
+                      max: 768,
                       min: 0,
                     },
                     items: 1,
@@ -240,7 +240,7 @@ const SingleProduct = () => {
                   tablet: {
                     breakpoint: {
                       max: 1024,
-                      min: 464,
+                      min: 768,
                     },
                     items: 2,
                     partialVisibilityGutter: 30,

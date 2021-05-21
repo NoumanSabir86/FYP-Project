@@ -4,7 +4,7 @@ const validateOrder = require("../../middlewares/validateOrder");
 var { Order } = require("../../models/order");
 var { Product } = require("../../models/product");
 const auth = require("../../middlewares/auth");
-
+var request = require("request");
 //for admin get all orders
 router.get("/", async (req, res) => {
   try {
@@ -79,4 +79,24 @@ router.post("/", validateOrder, async (req, res) => {
   res.send("order placed");
 });
 
+router.post("/test", async (req, res) => {
+  console.log("hdsjkfhfjhk");
+  console.log(req.body);
+  res.send("hello");
+});
+router.get("/test", async (req, res) => {
+  console.log("hdsjkfhfjhk");
+  console.log(req.body);
+  res.send("hello");
+});
+router.put("/test", async (req, res) => {
+  console.log("hdsjkfhfjhk");
+  console.log(req.body);
+  res.send("hello");
+});
+router.delete("/test", async (req, res) => {
+  console.log("hdsjkfhfjhk");
+  console.log(req.body);
+  res.send("hello");
+});
 module.exports = router;

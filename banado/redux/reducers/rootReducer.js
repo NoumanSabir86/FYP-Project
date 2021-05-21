@@ -5,6 +5,7 @@ import deleteProductReducer from "./deleteProduct.reducer";
 import { productDetailsReducer } from "./getProductDetails.reducer";
 import { productListReducer } from "./getProductList.reducer";
 import { getStoreProducts } from "./getStoreProductReducer";
+import { PAYMENT_WITH_API_Reducer } from "./PAYMENT_WITH_API_Reducer";
 
 const rootReducer = combineReducers({
   addProduct: addNewProductReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   deleteProduct: deleteProductReducer,
   cart: cartReducer,
   storeProducts: getStoreProducts,
+  payment_with_api: PAYMENT_WITH_API_Reducer,
 });
 
 export default rootReducer;
