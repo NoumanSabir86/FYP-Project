@@ -6,13 +6,13 @@ import Cards from "react-credit-cards";
 import { useDispatch, useSelector } from "react-redux";
 import { Footer } from "../Components/Footer";
 import Link from "next/link";
-import Cookies from "js-cookie";
+
 import cryptoJs from "crypto-js";
 import moment from "moment";
 import axios from "axios";
 import { ControlCameraOutlined } from "@material-ui/icons";
 import PAYMENT_WITH_API from "../redux/actions/PAYMENT_WITH_API";
-
+import { ToastContainer, toast } from "react-nextjs-toast";
 const Checkout = () => {
   const dispatch = useDispatch();
   const IntegritySalt = "zb3wx91x3x";
@@ -25,12 +25,12 @@ const Checkout = () => {
     pp_Password: "u2x8a91bc2",
     pp_Amount: "300000",
     pp_TxnCurrency: "PKR",
-    pp_TxnExpiryDateTime: "20170609114800",
+    pp_TxnExpiryDateTime: moment().format("YYYYMMDDHHmmss").toString(),
     pp_BillReference: "billRef",
     pp_Description: "Description of transaction",
     pp_CustomerCardNumber: "5123456789012346",
-    pp_CustomerCardExpiry: "1232",
-    pp_CustomerCardCvv: "222",
+    pp_CustomerCardExpiry: "",
+    pp_CustomerCardCvv: "",
     pp_SecureHash:
       "F7B1A84D3FAB930CE419C29552C9FB71A62449917354DB4A676F81A3B40CADA8",
     pp_Frequency: "SINGLE",
@@ -117,6 +117,7 @@ const Checkout = () => {
         <Navbar />
         <Hero name={"Checkout"} />
         <div class="flex  justify-center mb-8 -mt-20">
+          <ToastContainer />
           <div
             class="flex flex-col w-full p-14 text-gray-800 bg-white rounded-lg  pin-r pin-y md:w-4/5 lg:w-4/5"
             style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}
@@ -261,7 +262,7 @@ const Checkout = () => {
                     <div class="lg:px-2 lg:w-1/2 ">
                       <div id="PaymentForm">
                         <input
-                          type="tel"
+                          type="text"
                           className="rounded-sm  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           name="pp_CustomerCardNumber"
                           placeholder="Card Number"
@@ -269,7 +270,7 @@ const Checkout = () => {
                           onFocus={handleInputFocus}
                         />
                         <input
-                          type="tel"
+                          type="text"
                           className="rounded-sm mb-4 mt-8 border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           name="name"
                           placeholder="Name"
@@ -279,7 +280,7 @@ const Checkout = () => {
                         <div className="flex flex-row">
                           <div>
                             <input
-                              type="tel"
+                              type="text"
                               className="rounded-sm mb-4 border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                               name="pp_CustomerCardExpiry"
                               placeholder="MM/YY"
@@ -302,10 +303,6 @@ const Checkout = () => {
                           <button
                             onClick={() => {
                               handelSubmit();
-                              alert("Payment successfull!");
-                              Cookies.remove("cart");
-
-                              window.location.href = "/Thank";
                             }}
                             class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-sm shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none"
                           >

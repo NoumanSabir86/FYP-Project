@@ -1,5 +1,15 @@
 import axios from "axios";
 import * as t from "../types";
+import { ToastContainer, toast } from "react-nextjs-toast";
+import Cookies from "js-cookie";
+
+const notify = (error, type) => {
+  toast.notify(error, {
+    duration: 5,
+    type: type,
+    title: type,
+  });
+};
 
 const PAYMENT_WITH_API = (data, id) => async (dispatch) => {
   try {
@@ -12,20 +22,18 @@ const PAYMENT_WITH_API = (data, id) => async (dispatch) => {
       )
       .then((response) => {
         if (response.data.pp_ResponseCode === "000") {
-          axios.post("http://localhost:3001/api/order/test", response.data);
-          dispatch({
-            type: t.PAYMENT_SUCCESS,
-            payload: response.data,
-            success: true,
-          });
+          notify("Trasaction Successfull!", "success");
+          // Cookies.remove("cart");
+          // setTimeout(() => {
+          //   window.location.href = "/Thank";
+          // }, 2000);
         } else {
-          console.log(response.data.pp_ResponseMessage);
-          //throw new Error(response.data.pp_ResponseMessage);
+          notify(response.data.pp_ResponseMessage, "error");
         }
         console.log(response.data);
       });
   } catch (error) {
-    dispatch({ type: t.PAYMENT_FAIL, payload: error });
+    notify(error.response.data, "error");
   }
 };
 

@@ -11,6 +11,7 @@ import Carousel from "react-multi-carousel";
 import SingleProductCard from "../Components/SingleProductCard";
 import getProductList from "../redux/actions/getProductList";
 import { Footer } from "../Components/Footer";
+import DisqusComments from "../Components/DisqusComments";
 
 const SingleProduct = () => {
   const pDetails = useSelector((state) => state.getProductDetails);
@@ -266,6 +267,25 @@ const SingleProduct = () => {
                   })
                 )}
               </Carousel>
+
+              <div className="mt-20">
+                <div>
+                  <h1
+                    className="heading2"
+                    style={{
+                      textTransform: "Capitalize",
+                      fontSize: "30px",
+                      fontFamily: "open sans",
+                      borderBottom: "5px solid orange",
+                      width: "125px",
+                      marginBottom: "3%",
+                    }}
+                  >
+                    Reviews
+                  </h1>
+                </div>
+                <DisqusComments post={product} />
+              </div>
             </div>
           </>
         )}

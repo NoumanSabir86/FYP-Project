@@ -2,7 +2,11 @@ export const Footer = () => {
   return (
     <div
       className="relative mt-16 bg-deep-purple-accent-400"
-      style={{ backgroundColor: "#00235A", color: "white!important" }}
+      style={{
+        backgroundColor: "#00235A",
+        color: "white!important",
+        zIndex: "-1",
+      }}
     >
       <svg
         className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-deep-purple-accent-400"
