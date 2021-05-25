@@ -2,16 +2,16 @@ import Link from "next/link";
 import React, { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from "react-redux";
-import { Navbar } from "../Components/Navbar";
-import getProductDetails from "../redux/actions/getProductDetails";
+import { Navbar } from "../../Components/Navbar";
+import getProductDetails from "../../redux/actions/getProductDetails";
 import { useRouter } from "next/router";
 import styles from "./SingleProduct.module.css";
-import Loader from "../Components/Loader";
+import Loader from "../../Components/Loader";
 import Carousel from "react-multi-carousel";
-import SingleProductCard from "../Components/SingleProductCard";
-import getProductList from "../redux/actions/getProductList";
-import { Footer } from "../Components/Footer";
-import DisqusComments from "../Components/DisqusComments";
+import SingleProductCard from "../../Components/SingleProductCard";
+import getProductList from "../../redux/actions/getProductList";
+import { Footer } from "../../Components/Footer";
+import DisqusComments from "../../Components/DisqusComments";
 
 const SingleProduct = () => {
   const pDetails = useSelector((state) => state.getProductDetails);

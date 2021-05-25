@@ -26,7 +26,7 @@ const SingleProductCard = ({ product }) => {
         style={{ width: "255px", maxWidth: "255px" }}
         className=" block  shadow-lg  cursor-pointer bg-white "
       >
-        <Link href={`/SingleProduct`}>
+        <Link href={`/SingleProduct/${product._id}`}>
           <img
             src={product.productImage}
             class="productImage hover:scale-50"
@@ -42,9 +42,13 @@ const SingleProductCard = ({ product }) => {
               marginBottom: "-5px",
             }}
             onClick={() => {
-              router.push(`/SingleProduct`, `/SingleProduct/${product._id}`, {
-                shallow: true,
-              });
+              router.push(
+                `/SingleProduct/${product._id}`,
+                `/SingleProduct/${product._id}`,
+                {
+                  shallow: true,
+                }
+              );
               localStorage.setItem("productID", product._id);
             }}
           ></img>
