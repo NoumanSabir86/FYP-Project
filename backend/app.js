@@ -8,6 +8,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/api/users");
 var productsRouter = require("./routes/api/products");
 var storeRouter = require("./routes/api/store");
+var orderRouter = require("./routes/api/order");
 
 var app = express();
 var cors = require("cors");
@@ -27,6 +28,7 @@ app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/store", storeRouter);
+app.use("/api/order", orderRouter);
 
 app.listen("3001", () => {
   console.log(`listening at http://localhost:3001`);

@@ -21,23 +21,19 @@ router.get("/", async (req, res) => {
 
 router.get("/byStore/:storeId", async (req, res) => {
   try {
-    let order = await Order.find({ storeId: req.params.storeId }).populate(
-      "product"
-    );
+    let order = await Order.find({ storeId: req.params.storeId });
     if (!order) return res.status(400).send("Order With given ID is not found"); //when id is not present id db
+
     return res.send(order); //everything is ok
   } catch (err) {
     return res.status(400).send("Invalid ID"); // format of id is not correct
   }
-  return res.send(order);
 });
 
 //get by user
 router.get("/byUser/:userId", async (req, res) => {
   try {
-    let order = await Order.find({ userId: req.params.userId }).populate(
-      "product"
-    );
+    let order = await Order.find({ userId: req.params.userId });
     if (!order) return res.status(400).send("Order With given ID is not found"); //when id is not present id db
     return res.send(order); //everything is ok
   } catch (err) {
@@ -49,10 +45,9 @@ router.get("/byUser/:userId", async (req, res) => {
 //put
 router.put("/:id", auth, async (req, res) => {
   let order = await Order.findById(req.params.id);
-
   if (!order) return res.status(400).send("Order not found.");
   order.userId = req.body.userId;
-  //order.storeId = req.body.storeId;
+  order.storeId = req.body.storeId;
   order.product = req.body.productId;
   order.quantity = req.body.quantity;
   order.tatal = req.body.total;
@@ -62,41 +57,15 @@ router.put("/:id", auth, async (req, res) => {
 });
 
 //post
-router.post("/", validateOrder, async (req, res) => {
-  let product = await Product.findOne({
-    _id: req.body.productId,
-  });
-
-  if (!product) return res.status(400).send("Product in this order not found.");
+router.post("/", async (req, res) => {
   let order = new Order();
   order.userId = req.body.userId;
-  order.storeId = product.storeId;
-  order.product = req.body.productId;
-  order.quantity = req.body.quantity;
+  order.storeId = req.body.storeId;
+  order.products = req.body.cartProducts;
   order.total = req.body.total;
   order.status = req.body.status;
-  order.save();
+  await order.save();
   res.send("order placed");
 });
 
-router.post("/test", async (req, res) => {
-  console.log("hdsjkfhfjhk");
-  console.log(req.body);
-  res.send("hello");
-});
-router.get("/test", async (req, res) => {
-  console.log("hdsjkfhfjhk");
-  console.log(req.body);
-  res.send("hello");
-});
-router.put("/test", async (req, res) => {
-  console.log("hdsjkfhfjhk");
-  console.log(req.body);
-  res.send("hello");
-});
-router.delete("/test", async (req, res) => {
-  console.log("hdsjkfhfjhk");
-  console.log(req.body);
-  res.send("hello");
-});
 module.exports = router;

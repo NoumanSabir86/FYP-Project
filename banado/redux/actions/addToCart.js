@@ -13,7 +13,9 @@ const addtoCart = (productID, qty) => async (dispatch, getState) => {
       type: t.CART_ADD_ITEM,
       payload: {
         productID: data._id,
+        storeId: data.storeId,
         productName: data.productName,
+
         stockQuantity: data.stockQuantity,
         salePrice: data.salePrice,
         shortDescription: data.shortDescription,

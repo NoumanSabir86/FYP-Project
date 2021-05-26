@@ -5,41 +5,62 @@ import "react-credit-cards/es/styles-compiled.css";
 import Cards from "react-credit-cards";
 import { useDispatch, useSelector } from "react-redux";
 import { Footer } from "../Components/Footer";
-import Link from "next/link";
 
 import cryptoJs from "crypto-js";
 import moment from "moment";
 import axios from "axios";
-import { ControlCameraOutlined } from "@material-ui/icons";
-import PAYMENT_WITH_API from "../redux/actions/PAYMENT_WITH_API";
+
 import { ToastContainer, toast } from "react-nextjs-toast";
+import UserServices from "../Services/UserServices";
+import Cookies from "js-cookie";
 const Checkout = () => {
   const dispatch = useDispatch();
+  const [b, setB] = React.useState({});
   const IntegritySalt = "zb3wx91x3x";
   let initial = {
     pp_Version: "1.1",
-    pp_InstrToken: "9580698967588146",
     pp_TxnType: "MPAY",
-    pp_TxnRefNo: "T" + moment().format("YYYYMMDDHHmmss").toString(),
     pp_MerchantID: "MC19909",
     pp_Password: "u2x8a91bc2",
-    pp_Amount: "300000",
+    pp_TxnRefNo: "T" + moment().format("YYYYMMDDHHmmss").toString(),
+    pp_Amount: "10000",
     pp_TxnCurrency: "PKR",
-    pp_TxnExpiryDateTime: moment().format("YYYYMMDDHHmmss").toString(),
+    pp_TxnDateTime: moment().format("YYYYMMDDHHmmss").toString(),
     pp_BillReference: "billRef",
-    pp_Description: "Description of transaction",
-    pp_CustomerCardNumber: "5123456789012346",
+    pp_Description: "Add Points to wallet",
+    pp_TxnExpiryDateTime: moment()
+      .add(1, "d")
+      .format("YYYYMMDDHHmmss")
+      .toString(),
+    pp_CustomerCardNumber: "",
     pp_CustomerCardExpiry: "",
     pp_CustomerCardCvv: "",
-    pp_SecureHash:
-      "F7B1A84D3FAB930CE419C29552C9FB71A62449917354DB4A676F81A3B40CADA8",
     pp_Frequency: "SINGLE",
-    pp_TxnDateTime: moment().format("YYYYMMDDHHmmss").toString(),
+    pp_SecureHash: "",
   };
-  const handelSubmit = () => {
-    let a = { ...data };
 
-    a.pp_Amount = a.pp_Amount + "00";
+  const notify = (error, type) => {
+    toast.notify(error, {
+      duration: 5,
+      type: type,
+      title: type,
+    });
+  };
+
+  const handelDataSet = () => {
+    //  setTotal(cartItems.reduce((a, b) => a + b.salePrice * b.qty, 0));
+    let a = { ...data };
+    a.pp_TxnRefNo =
+      "T" + moment().add(10, "seconds").format("YYYYMMDDHHmmss").toString();
+    a.pp_TxnDateTime = moment()
+      .add(10, "seconds")
+      .format("YYYYMMDDHHmmss")
+      .toString();
+    a.pp_TxnExpiryDateTime = moment()
+      .add(1, "d")
+      .format("YYYYMMDDHHmmss")
+      .toString();
+    a.pp_Amount = total + "00";
     let hashString =
       IntegritySalt +
       "&" +
@@ -47,43 +68,76 @@ const Checkout = () => {
       "&" +
       a.pp_BillReference +
       "&" +
-      a.pp_CustomerCardNumber +
+      a.pp_CustomerCardCvv +
       "&" +
       a.pp_CustomerCardExpiry +
       "&" +
-      a.pp_CustomerCardCvv +
+      a.pp_CustomerCardNumber +
       "&" +
       a.pp_Description +
       "&" +
       a.pp_Frequency +
       "&" +
-      a.pp_InstrToken +
-      "&" +
-      +a.pp_MerchantID +
+      a.pp_MerchantID +
       "&" +
       a.pp_Password +
       "&" +
-      a.pp_SecureHash +
-      "&" +
-      a.pp_TxnType +
-      "&" +
-      a.pp_TxnRefNo +
-      "&" +
       a.pp_TxnCurrency +
-      "&" +
-      a.TxnExpiryDateTime +
       "&" +
       a.pp_TxnDateTime +
       "&" +
+      a.pp_TxnExpiryDateTime +
+      "&" +
+      a.pp_TxnRefNo +
+      "&" +
+      a.pp_TxnType +
+      "&" +
       a.pp_Version;
-
     let hash = cryptoJs.HmacSHA256(hashString, IntegritySalt).toString();
     a.pp_SecureHash = hash;
 
-    dispatch(PAYMENT_WITH_API(a, "874238749832749823"));
+    setB(a);
+  };
+  const handelSubmit = async () => {
+    await axios
+      .post(
+        "https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Purchase/PAY",
+
+        b
+      )
+      .then(async (response) => {
+        if (response.data.responseCode === "000") {
+          notify("Trasaction Successfull!", "success");
+          await axios.post("http://localhost:3001/api/order", {
+            userId,
+            storeId,
+            cartProducts,
+            total,
+            status,
+          });
+
+          Cookies.remove("cart");
+          setTimeout(() => {
+            window.location.href = "/Thank";
+          }, 9000);
+        } else {
+          notify(response.data.responseMessage, "error");
+        }
+        console.log(response.data);
+      })
+      .catch((err) => {
+        // console.log(err.response.data);
+        // alert(err.response.data.ProcessMessage);
+        notify("There is some error! Kindly double check your data", "error");
+      });
   };
 
   const [data, setData] = React.useState(initial);
+  const [userId, setUserId] = React.useState("");
+  const [storeId, setStoreId] = React.useState("");
+  const [cartProducts, setcartProducts] = React.useState([]);
+  const [total, setTotal] = React.useState("");
+  const [status, setStatus] = React.useState("Processing");
 
   //const [cvc, setCvc] = React.useState("");
   //const [expiry, setExpiry] = React.useState("");
@@ -93,6 +147,13 @@ const Checkout = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  React.useEffect(() => {
+    setcartProducts(cartItems);
+    cartItems.map((item) => setStoreId(item.storeId));
+    setUserId(UserServices.getLoggedinfo()._id);
+    setTotal(cartItems.reduce((a, b) => a + b.salePrice * b.qty, 0));
+  }, []);
 
   const handleInputFocus = (e) => {
     setFocus(e.target.name);
@@ -301,6 +362,7 @@ const Checkout = () => {
                         </div>
                         <div>
                           <button
+                            onMouseEnter={handelDataSet}
                             onClick={() => {
                               handelSubmit();
                             }}

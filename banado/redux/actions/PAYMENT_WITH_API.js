@@ -16,19 +16,15 @@ const PAYMENT_WITH_API = (data, id) => async (dispatch) => {
     dispatch({ type: t.PAYMENT_REQUEST, payload: data });
     axios
       .post(
-        "https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Payment/DoTransaction",
+        "https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Purchase/PAY",
 
         data
       )
       .then((response) => {
-        if (response.data.pp_ResponseCode === "000") {
+        if (response.data.responseCode === "000") {
           notify("Trasaction Successfull!", "success");
-          // Cookies.remove("cart");
-          // setTimeout(() => {
-          //   window.location.href = "/Thank";
-          // }, 2000);
         } else {
-          notify(response.data.pp_ResponseMessage, "error");
+          notify(response.data.responseMessage, "error");
         }
         console.log(response.data);
       });

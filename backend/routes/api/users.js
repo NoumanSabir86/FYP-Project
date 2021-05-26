@@ -98,6 +98,7 @@ router.post("/login", validatelogin, async (req, res) => {
     let token = generateAccessToken({
       username: user.name,
       role: req.body.role,
+      _id: user._id,
     });
     console.log(user.name);
     return res.send(token);
@@ -119,6 +120,7 @@ router.post("/login", validatelogin, async (req, res) => {
     let token = generateAccessToken({
       username: user.name,
       role: req.body.role,
+      _id: user._id,
     });
     return res.send(token);
   }
