@@ -119,7 +119,7 @@ const Checkout = () => {
           Cookies.remove("cart");
           setTimeout(() => {
             window.location.href = "/Thank";
-          }, 9000);
+          }, 7000);
         } else {
           notify(response.data.responseMessage, "error");
         }
@@ -152,6 +152,7 @@ const Checkout = () => {
     setcartProducts(cartItems);
     cartItems.map((item) => setStoreId(item.storeId));
     setUserId(UserServices.getLoggedinfo()._id);
+
     setTotal(cartItems.reduce((a, b) => a + b.salePrice * b.qty, 0));
   }, []);
 

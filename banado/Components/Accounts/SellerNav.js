@@ -61,8 +61,8 @@ export const SellerNav = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/Seller/SellerOrders">
-                  <ActiveLink children="Orders" href="/Seller/Orders" />
+                <Link href="/SellerOrders">
+                  <ActiveLink children="Orders" href="/SellerOrders" />
                 </Link>
               </li>
 
