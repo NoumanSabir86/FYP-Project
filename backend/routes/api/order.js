@@ -5,6 +5,9 @@ var { Order } = require("../../models/order");
 var { Product } = require("../../models/product");
 const auth = require("../../middlewares/auth");
 var request = require("request");
+var { nanoid } = require("nanoid");
+
+const { date } = require("joi");
 //for admin get all orders
 router.get("/", async (req, res) => {
   try {
@@ -48,9 +51,10 @@ router.put("/:id", auth, async (req, res) => {
   if (!order) return res.status(400).send("Order not found.");
   order.userId = req.body.userId;
   order.storeId = req.body.storeId;
-  order.product = req.body.productId;
-  order.quantity = req.body.quantity;
-  order.tatal = req.body.total;
+  order.orderNumber = req.body.orderNumber;
+  order.orderDate = req.body.orderDate;
+  order.products = req.body.cartProducts;
+  order.total = req.body.total;
   order.status = req.body.status;
   order.save();
   res.send("order changed");
@@ -61,6 +65,8 @@ router.post("/", async (req, res) => {
   let order = new Order();
   order.userId = req.body.userId;
   order.storeId = req.body.storeId;
+  order.orderNumber = nanoid(8);
+  order.orderDate = new Date();
   order.products = req.body.cartProducts;
   order.total = req.body.total;
   order.status = req.body.status;

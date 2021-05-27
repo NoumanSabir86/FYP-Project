@@ -1,8 +1,11 @@
 var mongoose = require("mongoose");
 const Joi = require("joi");
+
 var orderSchema = mongoose.Schema({
   userId: String,
   storeId: String,
+  orderNumber: { type: String, unique: true },
+  orderDate: Date,
   products: Array,
   total: Number,
   status: String,

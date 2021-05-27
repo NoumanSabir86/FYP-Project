@@ -25,12 +25,14 @@ var sellerDetailsSchema = mongoose.Schema({
   storeName: String,
   sellerPhone: String,
   sellerId: String,
+  shopAddress: String,
 });
 
 var builderDetailsSchema = mongoose.Schema({
   companyPhone: String,
   companyName: String,
   builderId: String,
+  companyAddress: String,
 });
 
 var adminDetailsSchema = mongoose.Schema({
@@ -67,6 +69,7 @@ function validateRegister(data) {
       sellerPhone: Joi.string(),
       storeName: Joi.string(),
       role: Joi.string().min(4).required(),
+      shopAddress: Joi.string().min(4).required(),
     });
     return schema.validate(data, { abortEarly: false });
   } else {
@@ -80,6 +83,7 @@ function validateRegister(data) {
       role: Joi.string().min(4).required(),
       companyName: Joi.string(),
       companyPhone: Joi.string(),
+      companyAddress: Joi.string().min(4).required(),
     });
     return schema.validate(data, { abortEarly: false });
   }

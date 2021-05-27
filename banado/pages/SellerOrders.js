@@ -8,7 +8,7 @@ import EnhancedTable from "../Components/Table/EnhancedTable";
 
 const SellerOrders = (props) => {
   const [data, setData] = React.useState(props.orders);
-  console.log(props.names);
+  console.log(props);
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
@@ -42,7 +42,6 @@ const SellerOrders = (props) => {
         id: "expander", // It needs an ID
         Cell: ({ row }) => (
           <>
-            {console.log(row.values.products.map((i) => i.productName))}
             <select
               value="Processing"
               // onChange={(e) => setCategory(e.target.value)}

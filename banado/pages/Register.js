@@ -20,6 +20,8 @@ const Register = () => {
   const [companyName, setCompanyName] = React.useState("");
   const [companyPhone, setCompanyPhone] = React.useState("");
   const [sellerId, setSellerId] = React.useState("");
+  const [shopAddress, setShopAddress] = React.useState("");
+  const [companyAddress, setCompanyAddress] = React.useState("");
 
   const toSend = () => {
     if (role == "User") {
@@ -39,6 +41,7 @@ const Register = () => {
         repeatPassword,
         storeName,
         sellerPhone,
+        shopAddress,
       });
     } else {
       setData({
@@ -50,6 +53,7 @@ const Register = () => {
 
         companyName,
         companyPhone,
+        companyAddress,
       });
     }
   };
@@ -233,6 +237,23 @@ const Register = () => {
                           }}
                         />
                       </div>
+                      <div>
+                        <label for="password" class="sr-only ">
+                          Shop Address
+                        </label>
+                        <input
+                          name="phone Number"
+                          type="text"
+                          required
+                          class="appearance-none relative block w-full px-3 py-2  border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                          style={{ borderRadius: "5px", marginTop: "5%" }}
+                          placeholder="Shop Address"
+                          value={shopAddress}
+                          onChange={(e) => {
+                            setShopAddress(e.target.value);
+                          }}
+                        />
+                      </div>
                       {/* <div>
                         <label for="password" class="sr-only ">
                           Tags
@@ -284,6 +305,23 @@ const Register = () => {
                           value={companyPhone}
                           onChange={(e) => {
                             setCompanyPhone(e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label for="password" class="sr-only ">
+                          Company Address
+                        </label>
+                        <input
+                          name="phone Number"
+                          type="text"
+                          required
+                          class="appearance-none relative block w-full px-3 py-2  border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                          style={{ borderRadius: "5px", marginTop: "5%" }}
+                          placeholder="Company Address"
+                          value={companyAddress}
+                          onChange={(e) => {
+                            setCompanyAddress(e.target.value);
                           }}
                         />
                       </div>

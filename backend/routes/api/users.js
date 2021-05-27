@@ -56,6 +56,7 @@ router.post("/register", validateNewUser, async (req, res) => {
     sellerDetails.sellerPhone = req.body.sellerPhone;
     sellerDetails.storeName = req.body.storeName;
     sellerDetails.sellerId = user._id;
+    sellerDetails.shopAddress = req.body.shopAddress;
 
     await sellerDetails.save();
   } else if (user.role == "Builder") {
@@ -63,6 +64,7 @@ router.post("/register", validateNewUser, async (req, res) => {
     builderDetails.companyPhone = req.body.companyPhone;
     builderDetails.companyName = req.body.companyName;
     builderDetails.builderId = user._id;
+    builderDetails.companyAddress = req.body.companyAddress;
 
     await builderDetails.save();
   } else if (user.role == "admin") {
@@ -74,13 +76,36 @@ router.post("/register", validateNewUser, async (req, res) => {
     await adminDetails.save();
   }
 
-  let token = generateAccessToken({
-    username: user.name,
-    role: req.body.role,
-    userId: user._id,
-  });
-  console.log(user.name);
-  return res.send(token);
+  if (user.role == "Seller") {
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+      userId: user._id,
+      email: req.body.email,
+      shopAddress: req.body.shopAddress,
+    });
+
+    return res.send(token);
+  } else if (user.role == "Builder") {
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+      userId: user._id,
+      email: req.body.email,
+      companyAddress: req.body.companyAddress,
+    });
+
+    return res.send(token);
+  } else {
+    let token = generateAccessToken({
+      username: user.name,
+      role: req.body.role,
+      userId: user._id,
+      email: req.body.email,
+    });
+
+    return res.send(token);
+  }
 });
 
 //login
@@ -99,6 +124,7 @@ router.post("/login", validatelogin, async (req, res) => {
       username: user.name,
       role: req.body.role,
       _id: user._id,
+      email: req.body.email,
     });
     console.log(user.name);
     return res.send(token);
@@ -110,6 +136,9 @@ router.post("/login", validatelogin, async (req, res) => {
       username: user.name,
       role: req.body.role,
       sellerId: user._id,
+      email: req.body.email,
+      shopAddress: details.shopAddress,
+      shopName: details.storeName,
     });
     console.log(token);
     return res.send(token);
@@ -121,6 +150,9 @@ router.post("/login", validatelogin, async (req, res) => {
       username: user.name,
       role: req.body.role,
       _id: user._id,
+      email: req.body.email,
+      companyAddress: details.companyAddress,
+      companyName: details.companyName,
     });
     return res.send(token);
   }
