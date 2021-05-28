@@ -7,20 +7,7 @@ import { SellerNav } from "../Components/Accounts/SellerNav";
 import EnhancedTable from "../Components/Table/EnhancedTable";
 
 const SellerOrders = (props) => {
-  const [data, setData] = React.useState(
-    props.orders || [
-      {
-        products: [],
-        orderDate: "",
-        orderNumber: "",
-        status: "",
-        storeId: "",
-        total: 0,
-        userId: "",
-        _id: "",
-      },
-    ]
-  );
+  const [data, setData] = React.useState(props.orders ? props.orders : "");
   const [status, setStatus] = React.useState("");
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
@@ -101,19 +88,22 @@ const SellerOrders = (props) => {
     <>
       <div>
         <SellerNav />
+        <h1 className="heading4 mt-10 ml-20 mr-20">Order Management</h1>
 
         <div className="flex items-center justify-center flex-row pl-8 pr-8">
-          <div className="mt-10">
-            <h1 className="heading4 ">Order Management</h1>
-
+          <div className="">
             <CssBaseline />
-            <EnhancedTable
-              columns={columns}
-              data={data}
-              setData={setData}
-              updateMyData={updateMyData}
-              skipPageReset={skipPageReset}
-            />
+            {props.orders ? (
+              <EnhancedTable
+                columns={columns}
+                data={data}
+                setData={setData}
+                updateMyData={updateMyData}
+                skipPageReset={skipPageReset}
+              />
+            ) : (
+              "Nothing to Show"
+            )}
           </div>
         </div>
       </div>
@@ -122,23 +112,27 @@ const SellerOrders = (props) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const parsedCookies = cookie.parse(context.req.headers.cookie);
-  const data1 = await axios.get(
-    "http://localhost:3001/api/order/byStore/" + parsedCookies.id
-  );
-  const orders = data1.data;
-  let names;
-  let subitems;
+  try {
+    const parsedCookies = cookie.parse(context.req.headers.cookie);
+    const data1 = await axios.get(
+      "http://localhost:3001/api/order/byStore/" + parsedCookies.id
+    );
+    const orders = data1.data;
+    let names;
+    let subitems;
 
-  orders.map((i) => {
-    subitems = i.products;
-  });
+    orders.map((i) => {
+      subitems = i.products;
+    });
 
-  subitems.map((i, index) => {
-    names = i.productName;
-  });
+    subitems.map((i, index) => {
+      names = i.productName;
+    });
 
-  return { props: { orders, names } };
+    return { props: { orders, names } };
+  } catch (error) {
+    return { props: {} };
+  }
 };
 
 export default SellerOrders;

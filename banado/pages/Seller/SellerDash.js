@@ -8,7 +8,7 @@ import UserServices from "../../Services/UserServices";
 const SellerDash = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+    dispatch(getStoreProducts(UserServices.getLoggedinfo()._id));
   }, []);
 
   return (

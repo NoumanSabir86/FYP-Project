@@ -16,9 +16,8 @@ class userServices extends GenericServices {
   register = (data) =>
     new Promise((resolve, reject) => {
       this.post("users/register", data)
-        .then((token) => {
-          localStorage.setItem("token", token);
-          resolve(token);
+        .then((token1) => {
+          resolve(token1);
         })
         .catch((err) => {
           reject(err);

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Navbar } from "../Components/Navbar";
+import jwt_decode from "jwt-decode";
 
 import UserServices from "../Services/UserServices";
 import { toast, ToastContainer } from "react-nextjs-toast";
@@ -57,13 +58,6 @@ const Register = () => {
       });
     }
   };
-
-  React.useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setSellerId(UserServices.getLoggedinfo().userId);
-    } else {
-    }
-  }, []);
 
   const notify = (error, type) => {
     toast.notify(error, {
@@ -411,8 +405,9 @@ const Register = () => {
                       onMouseEnter={toSend}
                       onClick={() => {
                         UserServices.register(data)
-                          .then((data) => {
-                            setSellerId(UserServices.getLoggedinfo().userId);
+                          .then((res) => {
+                            var decode = jwt_decode(res);
+                            setSellerId(decode.userId);
                             alert("Account Created Successfully!");
                             if (role == "Seller") {
                               storeServices.createStore({
@@ -422,6 +417,7 @@ const Register = () => {
                               });
                               window.location.href = "/SignIn";
                             }
+                            window.location.href = "/SignIn";
                           })
 
                           .catch((err) => {

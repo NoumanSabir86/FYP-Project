@@ -32,8 +32,8 @@ const CreateProduct = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    setStoreId(UserServices.getLoggedinfo().sellerId);
-    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+    setStoreId(UserServices.getLoggedinfo()._id);
+    dispatch(getStoreProducts(UserServices.getLoggedinfo()._id));
   }, []);
 
   const addProductHandler = () => {

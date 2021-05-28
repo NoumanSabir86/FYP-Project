@@ -10,20 +10,7 @@ import EnhancedTable from "../Components/Table/EnhancedTable";
 import UserServices from "../Services/UserServices";
 
 const UserOrders = (props) => {
-  const [data, setData] = React.useState(
-    props.orders || [
-      {
-        products: [],
-        orderDate: "",
-        orderNumber: "",
-        status: "",
-        storeId: "",
-        total: 0,
-        userId: "",
-        _id: "",
-      },
-    ]
-  );
+  const [data, setData] = React.useState(props.orders ? props.orders : "");
   const [status, setStatus] = React.useState("");
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
@@ -87,26 +74,38 @@ const UserOrders = (props) => {
 
   return (
     <>
-      <div>
-        <Navbar />
-
-        <div className="flex items-center justify-center flex-row pl-8 pr-8">
-          <div className="mt-10">
-            <Link href="/UserProfile" style={{ float: "right" }}>
-              <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                My Profile
-              </button>
-            </Link>
-            <h1 className="heading4 ">Orders</h1>
-
-            <CssBaseline />
-            <EnhancedTable
-              columns={columns}
-              data={data}
-              setData={setData}
-              updateMyData={updateMyData}
-              skipPageReset={skipPageReset}
-            />
+      <Navbar />
+      <div className="flex  flex-col pl-24 mt-5">
+        <div>
+          <Link href="/UserProfile" style={{ float: "right" }}>
+            <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+              My Profile
+            </button>
+          </Link>
+        </div>
+        <div>
+          <h1 className="heading4 " style={{ fontSize: "40px" }}>
+            Orders
+          </h1>
+        </div>
+      </div>
+      <div className=" ml-20 mr-20 p-5 pb-10 mb-10  rounded-lg shadow-lg mt-2 bg-white border">
+        <div>
+          <div className="flex items-center justify-center flex-row pl-8 pr-8">
+            <div>
+              <CssBaseline />
+              {props.orders ? (
+                <EnhancedTable
+                  columns={columns}
+                  data={data}
+                  setData={setData}
+                  updateMyData={updateMyData}
+                  skipPageReset={skipPageReset}
+                />
+              ) : (
+                "No Data to Show"
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -115,24 +114,28 @@ const UserOrders = (props) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const parsedCookies = cookie.parse(context.req.headers.cookie);
+  try {
+    const parsedCookies = cookie.parse(context.req.headers.cookie);
 
-  const data1 = await axios.get(
-    "http://localhost:3001/api/order/byUser/" + parsedCookies.id
-  );
-  const orders = data1.data;
-  let names;
-  let subitems;
+    const data1 = await axios.get(
+      "http://localhost:3001/api/order/byUser/" + parsedCookies.id
+    );
+    const orders = data1.data;
+    let names;
+    let subitems;
 
-  orders.map((i) => {
-    subitems = i.products;
-  });
+    orders.map((i) => {
+      subitems = i.products;
+    });
 
-  subitems.map((i, index) => {
-    names = i.productName;
-  });
+    subitems.map((i, index) => {
+      names = i.productName;
+    });
 
-  return { props: { orders, names } };
+    return { props: { orders, names } };
+  } catch (error) {
+    return { props: {} };
+  }
 };
 
 export default UserOrders;

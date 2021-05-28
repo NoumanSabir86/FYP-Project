@@ -20,7 +20,7 @@ export default function Home() {
   React.useEffect(() => {
     dispatch(getProductList());
     try {
-      dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+      dispatch(getStoreProducts(UserServices.getLoggedinfo()._id));
     } catch (error) {}
   }, []);
 

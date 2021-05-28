@@ -75,37 +75,13 @@ router.post("/register", validateNewUser, async (req, res) => {
 
     await adminDetails.save();
   }
+  let token1 = generateAccessToken({
+    username: req.body.username,
+    role: req.body.role,
+    userId: user._id,
+  });
 
-  if (user.role == "Seller") {
-    let token = generateAccessToken({
-      username: user.name,
-      role: req.body.role,
-      userId: user._id,
-      email: req.body.email,
-      shopAddress: req.body.shopAddress,
-    });
-
-    return res.send(token);
-  } else if (user.role == "Builder") {
-    let token = generateAccessToken({
-      username: user.name,
-      role: req.body.role,
-      userId: user._id,
-      email: req.body.email,
-      companyAddress: req.body.companyAddress,
-    });
-
-    return res.send(token);
-  } else {
-    let token = generateAccessToken({
-      username: user.name,
-      role: req.body.role,
-      userId: user._id,
-      email: req.body.email,
-    });
-
-    return res.send(token);
-  }
+  return res.send(token1);
 });
 
 //login

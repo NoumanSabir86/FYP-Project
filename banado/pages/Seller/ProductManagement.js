@@ -35,7 +35,7 @@ const ProductManagement = () => {
   };
 
   React.useEffect(async () => {
-    dispatch(getStoreProducts(UserServices.getLoggedinfo().sellerId));
+    dispatch(getStoreProducts(UserServices.getLoggedinfo()._id));
 
     setData(products);
   }, [successDelete]);
