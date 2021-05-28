@@ -19,6 +19,7 @@
     "@tailwindcss/forms": "^0.2.1",
     "axios": "^0.21.1",
     "beauty-stars": "^1.1.0",
+    "cookie": "^0.4.1",
     "crypto-js": "^4.0.0",
     "disqus-react": "^1.0.11",
     "draft-js": "^0.11.7",

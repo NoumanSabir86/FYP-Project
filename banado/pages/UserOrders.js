@@ -1,12 +1,15 @@
 import { CssBaseline } from "@material-ui/core";
 import axios from "axios";
+import Cookies from "js-cookie";
 import cookie from "cookie";
 import Link from "next/link";
 import React from "react";
 import { SellerNav } from "../Components/Accounts/SellerNav";
+import { Navbar } from "../Components/Navbar";
 import EnhancedTable from "../Components/Table/EnhancedTable";
+import UserServices from "../Services/UserServices";
 
-const SellerOrders = (props) => {
+const UserOrders = (props) => {
   const [data, setData] = React.useState(
     props.orders || [
       {
@@ -60,22 +63,7 @@ const SellerOrders = (props) => {
       {
         Header: "Status",
         accessor: "status",
-        Cell: ({ row }) => (
-          <>
-            <select
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
-                row.values.Status = e.target.value;
-              }}
-              class="form-select  block w-full rounded-lg   border-transparent flex-1  border border-gray-300  py-2  bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-            >
-              <option value="Processing">Processing</option>
-              <option value="Completed">Completed</option>
-              <option value="Canceled">Canceled</option>
-            </select>
-          </>
-        ),
+        Cell: ({ row }) => <>{row.original.status}</>,
       },
     ],
     []
@@ -100,11 +88,16 @@ const SellerOrders = (props) => {
   return (
     <>
       <div>
-        <SellerNav />
+        <Navbar />
 
         <div className="flex items-center justify-center flex-row pl-8 pr-8">
           <div className="mt-10">
-            <h1 className="heading4 ">Order Management</h1>
+            <Link href="/UserProfile" style={{ float: "right" }}>
+              <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+                My Profile
+              </button>
+            </Link>
+            <h1 className="heading4 ">Orders</h1>
 
             <CssBaseline />
             <EnhancedTable
@@ -123,8 +116,9 @@ const SellerOrders = (props) => {
 
 export const getServerSideProps = async (context) => {
   const parsedCookies = cookie.parse(context.req.headers.cookie);
+
   const data1 = await axios.get(
-    "http://localhost:3001/api/order/byStore/" + parsedCookies.id
+    "http://localhost:3001/api/order/byUser/" + parsedCookies.id
   );
   const orders = data1.data;
   let names;
@@ -141,4 +135,4 @@ export const getServerSideProps = async (context) => {
   return { props: { orders, names } };
 };
 
-export default SellerOrders;
+export default UserOrders;

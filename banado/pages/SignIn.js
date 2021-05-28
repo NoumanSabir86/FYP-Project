@@ -1,4 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import cookie from "cookie";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import React from "react";
 import { ToastContainer, toast } from "react-nextjs-toast";
@@ -135,8 +137,14 @@ const SignIn = () => {
                     <button
                       onClick={() => {
                         UserServices.login(data)
-                          .then((data) => {
+                          .then((res) => {
                             alert("Logged In!");
+
+                            cookie.serialize(
+                              "id",
+                              UserServices.getLoggedinfo()._id
+                            );
+                            Cookies.set("id", UserServices.getLoggedinfo()._id);
 
                             if (role == "Seller") {
                               window.location.href = "/Seller/SellerDash";

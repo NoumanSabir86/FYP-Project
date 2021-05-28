@@ -135,10 +135,11 @@ router.post("/login", validatelogin, async (req, res) => {
     let token = generateAccessToken({
       username: user.name,
       role: req.body.role,
-      sellerId: user._id,
+      _id: user._id,
       email: req.body.email,
       shopAddress: details.shopAddress,
       shopName: details.storeName,
+      sellerPhone: details.sellerPhone,
     });
     console.log(token);
     return res.send(token);
@@ -165,6 +166,59 @@ router.post("/login", validatelogin, async (req, res) => {
     });
     return res.send(token);
   }
+});
+
+//update users
+router.put("/update/:id", async (req, res) => {
+  let user = await User.findById(req.params.id);
+  if (!user) return res.status(400).send("User not exists");
+
+  user.name = req.body.username;
+  if (req.body.password != "") {
+    user.password = req.body.password;
+    await user.generateHashedPassword();
+  }
+
+  await user.save();
+
+  //Save additional details
+
+  // if(user.role=="user"){
+  //   console.log(user.contact);
+  // userDeatils=new UserDetails();
+
+  // userDeatils.cnic=req.body.cnic;
+
+  // userDetails.userID=user._id;
+
+  // await userDetails.save();
+  // }
+  // else
+  if (user.role == "Seller") {
+    console.log("seller schema .........");
+    let sellerDetails = await SellerDetails.findOne({
+      sellerId: req.params.id,
+    });
+    console.log(sellerDetails);
+    if (!sellerDetails) res.send("seller details not found");
+    sellerDetails.sellerPhone = req.body.sellerPhone;
+    sellerDetails.storeName = req.body.shopName;
+    sellerDetails.shopAddress = req.body.shopAddress;
+    await sellerDetails.save();
+  } else if (user.role == "Builder") {
+    let builderDetails = await BuilderDetails.findOne({
+      builderId: req.params.id,
+    });
+    builderDetails.companyPhone = req.body.companyPhone;
+    builderDetails.companyName = req.body.companyName;
+    builderDetails.companyAddress = req.body.companyAddress;
+    await builderDetails.save();
+  } else if (user.role == "admin") {
+    let adminDetails = await AdminDetails.findOne({ adminId: req.params.id });
+    adminDetails.hobby = req.body.hobby;
+    await adminDetails.save();
+  }
+  return res.send("Updated Successfully!");
 });
 
 module.exports = router;

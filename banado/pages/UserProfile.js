@@ -1,17 +1,13 @@
-import ProgressBar from "@ramonak/react-progress-bar";
 import axios from "axios";
-import Link from "next/link";
+
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-nextjs-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { SellerNav } from "../../Components/Accounts/SellerNav";
-import Loader from "../../Components/Loader";
-import { storage } from "../../firebase";
-import getProductDetails from "../../redux/actions/getProductDetails";
-import productServices from "../../Services/productServices";
-import UserServices from "../../Services/UserServices";
-const SellerProfile = (props) => {
+
+import { Navbar } from "../Components/Navbar";
+import UserServices from "../Services/UserServices";
+const UserProfile = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("Architecture");
   const [address, setAddress] = useState("");
@@ -63,7 +59,7 @@ const SellerProfile = (props) => {
   return (
     <>
       <div>
-        <SellerNav />
+        <Navbar />
         <div>
           <p className="heading4 ml-20 mt-14 text-bold uppercase">Profile</p>
           <ToastContainer />
@@ -86,42 +82,10 @@ const SellerProfile = (props) => {
             <input
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              disabled
               type="text"
               class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
               placeholder="Stock Quantity"
-            />
-
-            <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
-              Shop Address
-            </label>
-            <input
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
-              type="text"
-              class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              placeholder="Price"
-            />
-          </div>
-          <div>
-            <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
-              Shop Name
-            </label>
-            <input
-              onChange={(e) => setShopName(e.target.value)}
-              value={shopName}
-              type="text"
-              class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              placeholder="Enter Brand"
-            />
-            <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
-              Phone Number
-            </label>
-            <input
-              onChange={(e) => setSellerPhone(e.target.value)}
-              value={sellerPhone}
-              type="text"
-              class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-              placeholder="Enter Brand"
             />
             <label class="text-gray-700 " style={{ fontSize: "1.2rem" }}>
               Password
@@ -134,6 +98,7 @@ const SellerProfile = (props) => {
               placeholder="Blank to keep Current Password "
             />
           </div>
+          <div></div>
 
           <div>
             {" "}
@@ -159,4 +124,4 @@ const SellerProfile = (props) => {
 //   return { props: { data } };
 // };
 
-export default SellerProfile;
+export default UserProfile;

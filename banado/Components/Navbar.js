@@ -15,7 +15,7 @@ import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import Cookies from "js-cookie";
-
+import cookie from "cookie";
 const StyledBadge = withStyles((theme) => ({
   badge: {
     right: -3,
@@ -129,7 +129,6 @@ export const Navbar = () => {
                     <>
                       <li
                         onClick={() => {
-                          Cookies.remove("cart");
                           UserServices.logout();
                         }}
                       >
@@ -140,14 +139,33 @@ export const Navbar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/">
+                        <Link href="/UserOrders">
                           <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
                             <FontAwesomeIcon
                               icon={faUser}
-                              style={{ fontSize: "20px" }}
+                              style={{
+                                fontSize: "20px",
+                                color:
+                                  router.asPath === "/UserOrders"
+                                    ? "#FF5E14"
+                                    : "#00235A",
+                              }}
                             />
                             <span className="ml-2">
-                              {username !== "" ? <span>{username}</span> : ""}
+                              {username !== "" ? (
+                                <span
+                                  style={{
+                                    color:
+                                      router.asPath === "/UserOrders"
+                                        ? "#FF5E14"
+                                        : "#00235A",
+                                  }}
+                                >
+                                  {username}
+                                </span>
+                              ) : (
+                                ""
+                              )}
                             </span>
                           </a>
                         </Link>
