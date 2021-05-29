@@ -51,9 +51,10 @@ router.put("/:id", async (req, res) => {
   if (!order) return res.status(400).send("Order not found.");
 
   order.status = req.body.status;
-  order.save();
+  await order.save();
   res.send("Status Updated!");
 });
+
 router.get("/:id", async (req, res) => {
   let order = await Order.findById(req.params.id);
   if (!order) return res.status(400).send("Order not found.");

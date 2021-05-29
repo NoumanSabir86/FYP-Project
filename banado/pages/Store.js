@@ -11,13 +11,14 @@ import Fuse from "fuse.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Footer } from "../Components/Footer";
+import ReactPaginate from "react-paginate";
 
 const Store = () => {
   const pList = useSelector((state) => state.getProductList);
-  const { products, loading, error } = pList;
+  const { products, loading, error, pageCount, currentPage } = pList;
   const [data, setData] = React.useState(products);
   const [query, setQuery] = React.useState("");
-
+  console.log(currentPage);
   const dispatch = useDispatch();
 
   const options = {
@@ -44,11 +45,14 @@ const Store = () => {
   const searchList = fuse.search(query);
 
   const Results = searchList.map((result) => result.item);
-  console.log(Results);
 
   React.useEffect(() => {
-    dispatch(getProductList());
+    dispatch(getProductList(1));
   }, []);
+
+  const paginationHandler = (page) => {
+    dispatch(getProductList(page));
+  };
 
   return (
     <>
@@ -166,35 +170,27 @@ const Store = () => {
                 })
               )}
             </div>
-
             {loading ? (
               ""
-            ) : products.length >= 9 ? (
-              <div class="flex justify-center mt-10 space-x-1">
-                <button
-                  class="background flex items-center justify-center h-8 w-8  "
-                  style={{ color: "white" }}
-                >
-                  1
-                </button>
-                <button class="flex items-center justify-center h-8 w-8 ">
-                  2
-                </button>
-
-                <button class="flex items-center justify-center h-8 w-8 ">
-                  <svg
-                    class="h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
+            ) : products.length >= 1 ? (
+              <div class="flex flex-row justify-center mt-10 ">
+                <ReactPaginate
+                  previousLabel={"previous"}
+                  nextLabel={"next"}
+                  breakLabel={"..."}
+                  breakClassName={"break-me"}
+                  disableInitialCallback={true}
+                  initialPage={currentPage - 1}
+                  activeClassName={"active"}
+                  containerClassName={"pagination"}
+                  subContainerClassName={"pages pagination"}
+                  pageCount={pageCount}
+                  pageRangeDisplayed={5}
+                  marginPagesDisplayed={2}
+                  onPageChange={(e) => {
+                    paginationHandler(e.selected + 1);
+                  }}
+                />
               </div>
             ) : (
               ""
@@ -202,6 +198,7 @@ const Store = () => {
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );

@@ -101,3 +101,13 @@ button:focus {
   transform: scale(1.2);
   transition: 0.2s ease-in-out;
 }
+
+#react-paginate ul {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#react-paginate li {
+  display: inline-block;
+}

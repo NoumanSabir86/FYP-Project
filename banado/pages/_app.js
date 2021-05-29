@@ -9,7 +9,7 @@ import "nprogress/nprogress.css"; //styles of nprogress
 import "react-credit-cards/es/styles-compiled.css";
 import "react-multi-carousel/lib/styles.css";
 import { Footer } from "../Components/Footer";
-
+import "./store.scss";
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

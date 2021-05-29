@@ -42,7 +42,7 @@ const UpdateOrder = (props) => {
   const updateData = async () => {
     console.log(status);
     await axios
-      .put("http://localhost:3001/api/order/" + order._id, status)
+      .put("http://localhost:3001/api/order/" + order._id, { status })
       .then((res) => {
         notify(res.data, "success");
       })
@@ -142,24 +142,19 @@ const UpdateOrder = (props) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const parsedCookies = cookie.parse(context.req.headers.cookie);
+  try {
+    const parsedCookies = cookie.parse(context.req.headers.cookie);
 
-  const data1 = await axios.get(
-    "http://localhost:3001/api/order/" + parsedCookies.orderId
-  );
-  const order = data1.data;
-  let names;
-  let subitems;
+    const data1 = await axios
+      .get("http://localhost:3001/api/order/" + parsedCookies.orderId)
+      .catch((err) => {
+        console.log(err);
+      });
 
-  //   order.map((i) => {
-  //     subitems = i.products;
-  //   });
-
-  //   subitems.map((i, index) => {
-  //     names = i.productName;
-  //   });
-
-  return { props: { data: data1.data } };
+    return { props: { data: data1.data } };
+  } catch (error) {
+    return { props: {} };
+  }
 };
 
 export default UpdateOrder;

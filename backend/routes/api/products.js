@@ -9,10 +9,14 @@ const seller = require("../../middlewares/seller");
 //get all
 router.get("/", async (req, res) => {
   let page = Number(req.query.page ? req.query.page : 1);
-  let perPage = Number(req.query.perPage ? req.query.perPage : 20);
+  let perPage = Number(req.query.perPage ? req.query.perPage : 12);
   let skipRecords = perPage * (page - 1);
-  let products = await Product.find().skip(skipRecords).limit(perPage);
-  return res.send(products);
+  let currentPage = Number(req.query.page);
+  let filteredProducts = await Product.find().skip(skipRecords).limit(perPage);
+  let products = await Product.find();
+
+  const pageCount = Math.ceil(products.length / 5);
+  return res.json({ products: filteredProducts, pageCount, currentPage });
 });
 
 //get by product id
