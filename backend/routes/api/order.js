@@ -46,18 +46,19 @@ router.get("/byUser/:userId", async (req, res) => {
 });
 
 //put
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", async (req, res) => {
   let order = await Order.findById(req.params.id);
   if (!order) return res.status(400).send("Order not found.");
-  order.userId = req.body.userId;
-  order.storeId = req.body.storeId;
-  order.orderNumber = req.body.orderNumber;
-  order.orderDate = req.body.orderDate;
-  order.products = req.body.cartProducts;
-  order.total = req.body.total;
+
   order.status = req.body.status;
   order.save();
-  res.send("order changed");
+  res.send("Status Updated!");
+});
+router.get("/:id", async (req, res) => {
+  let order = await Order.findById(req.params.id);
+  if (!order) return res.status(400).send("Order not found.");
+
+  res.send(order);
 });
 
 //post

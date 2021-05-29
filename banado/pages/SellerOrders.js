@@ -5,6 +5,8 @@ import Link from "next/link";
 import React from "react";
 import { SellerNav } from "../Components/Accounts/SellerNav";
 import EnhancedTable from "../Components/Table/EnhancedTable";
+import EditIcon from "@material-ui/icons/Edit";
+import Cookies from "js-cookie";
 
 const SellerOrders = (props) => {
   const [data, setData] = React.useState(props.orders ? props.orders : "");
@@ -47,20 +49,30 @@ const SellerOrders = (props) => {
       {
         Header: "Status",
         accessor: "status",
+        Cell: ({ row }) => <>{row.original.status}</>,
+      },
+      {
+        Header: "Action",
+        accessor: "action",
+
         Cell: ({ row }) => (
           <>
-            <select
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
-                row.values.Status = e.target.value;
-              }}
-              class="form-select  block w-full rounded-lg   border-transparent flex-1  border border-gray-300  py-2  bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-            >
-              <option value="Processing">Processing</option>
-              <option value="Completed">Completed</option>
-              <option value="Canceled">Canceled</option>
-            </select>
+            <div className="flex flex-row">
+              <div>
+                <Link
+                  href="/Seller/UpdateOrder"
+                  className="edit"
+                  style={{ marginLeft: ".5rem" }}
+                >
+                  <EditIcon
+                    onClick={() => {
+                      Cookies.set("orderId", row.original._id);
+                    }}
+                    className=" hover:text-blue-600 cursor-pointer"
+                  />
+                </Link>
+              </div>
+            </div>
           </>
         ),
       },
@@ -90,7 +102,7 @@ const SellerOrders = (props) => {
         <SellerNav />
         <h1 className="heading4 mt-10 ml-20 mr-20">Order Management</h1>
 
-        <div className="flex items-center justify-center flex-row pl-8 pr-8">
+        <div className="flex items-center justify-center flex-row pl-4 pr-4">
           <div className="">
             <CssBaseline />
             {props.orders ? (
