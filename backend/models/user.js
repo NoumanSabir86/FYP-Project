@@ -40,11 +40,46 @@ var adminDetailsSchema = mongoose.Schema({
   adminId: String,
 });
 
+var builderAdditionalDetailsSchema = new mongoose.Schema({
+  builderId: String(),
+  companyName: String(),
+  portfolio: String(),
+  establishedIn: String(),
+  businessEntity: String(),
+  noOfEmployees: Number,
+  location: String(),
+  phoneNumber: String(),
+  logo: String(),
+  coverImage: String(),
+  aboutCompany: String(),
+});
+
+var BuilderAdditionalDetails = mongoose.model(
+  "BuilderAdditionalDetails",
+  builderAdditionalDetailsSchema
+);
 var User = mongoose.model("User", userSchema);
 var UserDetails = mongoose.model("UserDetails", userDetailsSchema);
 var SellerDetails = mongoose.model("SellerDetails", sellerDetailsSchema);
 var BuilderDetails = mongoose.model("BuilderDetails", builderDetailsSchema);
 var AdminDetails = mongoose.model("adminDetails", adminDetailsSchema);
+
+function validateBuilderAdditionalDetails(data) {
+  const schema = Joi.object({
+    builderId: Joi.string().required(),
+    companyName: Joi.string().required(),
+    portfolio: Joi.string(),
+    establishedIn: Joi.string().required(),
+    businessEntity: Joi.string().required(),
+    noOfEmployees: Joi.number().required(),
+    location: Joi.string().required(),
+    phoneNumber: Joi.string().max(11).required(),
+    logo: Joi.string(),
+    coverImage: Joi.string(),
+    aboutCompany: Joi.string(),
+  });
+  return schema.validate(data, { abortEarly: false });
+}
 
 //validate register
 function validateRegister(data) {
@@ -104,6 +139,8 @@ module.exports.UserDetails = UserDetails;
 module.exports.SellerDetails = SellerDetails;
 module.exports.BuilderDetails = BuilderDetails;
 module.exports.AdminDetails = AdminDetails;
-
+module.exports.BuilderAdditionalDetails = BuilderAdditionalDetails;
 module.exports.validateRegister = validateRegister;
 module.exports.validateLogin = validateLogin;
+module.exports.validateBuilderAdditionalDetails =
+  validateBuilderAdditionalDetails;

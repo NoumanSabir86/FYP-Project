@@ -18,7 +18,7 @@ export default function Home() {
   const { products, loading: ploading, error: perror } = pList;
 
   React.useEffect(() => {
-    dispatch(getProductList());
+    dispatch(getProductList(1));
     try {
       dispatch(getStoreProducts(UserServices.getLoggedinfo()._id));
     } catch (error) {}

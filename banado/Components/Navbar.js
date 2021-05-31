@@ -125,7 +125,7 @@ export const Navbar = () => {
 
               {log && (
                 <>
-                  {role == "User" && (
+                  {role == "User " && (
                     <>
                       <li
                         onClick={() => {
@@ -206,9 +206,33 @@ export const Navbar = () => {
               {role == "Seller" && (
                 <Link href="/Seller/SellerDash">
                   <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                    Dashboard
+                    Seller Dashboard
                   </button>
                 </Link>
+              )}
+              {log && (
+                <>
+                  {role == "Builder" && (
+                    <>
+                      <li
+                        onClick={() => {
+                          UserServices.logout();
+                        }}
+                      >
+                        <Link href="/">
+                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
+                            <span className="ml-2">Logout</span>
+                          </a>
+                        </Link>
+                      </li>
+                      <Link href="/BuilderDash">
+                        <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
+                          Builder Dashboard
+                        </button>
+                      </Link>
+                    </>
+                  )}{" "}
+                </>
               )}
             </ul>
           </div>

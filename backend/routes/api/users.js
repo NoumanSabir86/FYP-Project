@@ -6,6 +6,7 @@ var {
   SellerDetails,
   BuilderDetails,
   AdminDetails,
+  BuilderAdditionalDetails,
 } = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -14,6 +15,7 @@ const validateNewUser = require("../../middlewares/validateUser");
 const validateUser = require("../../middlewares/validatelogin");
 const auth = require("../../middlewares/auth");
 const validatelogin = require("../../middlewares/validatelogin");
+const validateBuilderInfo = require("../../middlewares/validateBuilderInfo");
 
 function generateAccessToken(data) {
   // expires after half and hour (1800 seconds = 30 minutes)
@@ -196,5 +198,86 @@ router.put("/update/:id", async (req, res) => {
   }
   return res.send("Updated Successfully!");
 });
+
+router.get(
+  "/builderAdditionalDetails/:id",
+
+  async (req, res) => {
+    let builderAdditionalDetails = await BuilderAdditionalDetails.findOne({
+      builderId: req.params.id,
+    });
+    if (!builderAdditionalDetails) {
+      res.send(false);
+    }
+    res.send(builderAdditionalDetails);
+  }
+);
+
+router.get(
+  "/builderAdditionalDetails",
+
+  async (req, res) => {
+    let builderAdditionalDetails = await BuilderAdditionalDetails.find();
+    if (!builderAdditionalDetails) {
+      res.send("No records found");
+    }
+    res.send(builderAdditionalDetails);
+  }
+);
+
+router.put(
+  "/builderAdditionalDetails/:id",
+  validateBuilderInfo,
+  async (req, res) => {
+    let builderAdditionalDetails = await BuilderAdditionalDetails.findOne({
+      builderId: req.params.id,
+    });
+    if (!builderAdditionalDetails) res.status(400).send("builder Not Found !");
+    builderAdditionalDetails.builderId = req.params.id;
+
+    builderAdditionalDetails.companyName = req.body.companyName;
+    builderAdditionalDetails.portfolio = req.body.portfolio;
+    builderAdditionalDetails.establishedIn = req.body.establishedIn;
+    builderAdditionalDetails.businessEntity = req.body.businessEntity;
+    builderAdditionalDetails.noOfEmployees = req.body.noOfEmployees;
+    builderAdditionalDetails.location = req.body.location;
+    builderAdditionalDetails.phoneNumber = req.body.phoneNumber;
+    builderAdditionalDetails.logo = req.body.logo;
+    builderAdditionalDetails.coverImage = req.body.coverImage;
+    builderAdditionalDetails.aboutCompany = req.body.aboutCompany;
+
+    await builderAdditionalDetails.save();
+    res.send(builderAdditionalDetails);
+  }
+);
+
+//builder additional details
+router.post(
+  "/builderAdditionalDetails/:id",
+  validateBuilderInfo,
+  async (req, res) => {
+    let builderAdditionalDetails = await BuilderAdditionalDetails.findOne({
+      builderId: req.params.id,
+    });
+    if (builderAdditionalDetails)
+      return res.status(400).send("User already exists");
+
+    builderAdditionalDetails = new BuilderAdditionalDetails();
+    builderAdditionalDetails.builderId = req.params.id;
+    builderAdditionalDetails.companyName = req.body.companyName;
+    builderAdditionalDetails.portfolio = req.body.portfolio;
+    builderAdditionalDetails.establishedIn = req.body.establishedIn;
+    builderAdditionalDetails.businessEntity = req.body.businessEntity;
+    builderAdditionalDetails.noOfEmployees = req.body.noOfEmployees;
+    builderAdditionalDetails.location = req.body.location;
+    builderAdditionalDetails.phoneNumber = req.body.phoneNumber;
+    builderAdditionalDetails.logo = req.body.logo;
+    builderAdditionalDetails.coverImage = req.body.coverImage;
+    builderAdditionalDetails.aboutCompany = req.body.aboutCompany;
+
+    await builderAdditionalDetails.save();
+    res.send(builderAdditionalDetails);
+  }
+);
 
 module.exports = router;

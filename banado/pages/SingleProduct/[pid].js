@@ -154,7 +154,7 @@ const SingleProduct = () => {
                           <button
                             className={
                               styles.btnShadow +
-                              " hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+                              "transform hover:scale-105 transition-all  hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
                             }
                           >
                             Add to Cart
