@@ -20,8 +20,13 @@ const BuilderDash = () => {
   const [coverImage, setcoverImage] = useState("");
   const [aboutCompany, setaboutCompany] = useState("");
   const [businessEntity, setBusinessEntity] = useState("");
+  const [portfolio, setPortfolio] = useState("");
+  const [done, setDone] = useState(false);
+
   const [progress1, setProgress1] = useState(0);
   const [progress2, setProgress2] = useState(0);
+  const [progress3, setProgress3] = useState(0);
+
   const [action, setAction] = useState("");
 
   const [URL1, setURL1] = useState("");
@@ -48,7 +53,9 @@ const BuilderDash = () => {
           setcoverImage(res.data.coverImage);
           setaboutCompany(res.data.aboutCompany);
           setBusinessEntity(res.data.businessEntity);
+          setPortfolio(res.data.portfolio);
           setAction("Update");
+          setDone(true);
         } else {
           setAction("Add");
         }
@@ -77,6 +84,7 @@ const BuilderDash = () => {
           coverImage,
           aboutCompany,
           businessEntity,
+          portfolio,
         }
       )
       .then((res) => {
@@ -117,6 +125,7 @@ const BuilderDash = () => {
           coverImage,
           aboutCompany,
           businessEntity,
+          portfolio,
         }
       )
       .then((res) => {
@@ -185,6 +194,33 @@ const BuilderDash = () => {
             setcoverImage(url);
             setURL2(url);
             console.log(url);
+          });
+      }
+    );
+  };
+
+  const uploadPortfolio = () => {
+    let uploadTask = storage.ref(`portfolio/${portfolio.name}`).put(portfolio);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress3(progress);
+        progress == 100 ? setDone(true) : setDone(false);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("portfolio")
+          .child(portfolio.name)
+          .getDownloadURL()
+          .then((url) => {
+            setPortfolio(url);
           });
       }
     );
@@ -290,7 +326,7 @@ const BuilderDash = () => {
             Upload Image
           </button>
           <img
-            src={URL1 == "" ? logo : "http://via.placeholder.com/150" || URL1}
+            src={logo == "" ? "http://via.placeholder.com/150" : logo}
             class="w-40 rounded mb-4"
             alt="Thumbnail"
           ></img>
@@ -321,7 +357,7 @@ const BuilderDash = () => {
           </button>
           <img
             src={
-              URL2 == "" ? coverImage : "http://via.placeholder.com/150" || URL2
+              coverImage == "" ? "http://via.placeholder.com/150" : coverImage
             }
             class="w-40 rounded"
             alt="Thumbnail"
@@ -342,16 +378,46 @@ const BuilderDash = () => {
             onChange={(e) => setaboutCompany(e.target.value)}
           ></textarea>
         </div>
+        <div className="flex flex-col">
+          <div className="w-full">
+            <label class="text-gray-700" style={{ fontSize: "1.2rem" }}>
+              Add your portfolio(PDF) to <b>capture more clients</b>
+            </label>
+            <p>{done == true ? "Portolio Added!" : ""}</p>
+            <ProgressBar
+              completed={progress3}
+              bgColor="#00235A"
+              height="10px"
+              borderRadius="10px"
+              isLabelVisible={false}
+            />
+            <input
+              type="file"
+              className="hoverBtn rounded  pr-4 py-2 mt-4 mb-4 "
+              onChange={(e) => {
+                setPortfolio(e.target.files[0]);
+              }}
+            ></input>{" "}
+            <button
+              className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+              onClick={() => {
+                uploadPortfolio();
+              }}
+            >
+              Upload Portfolio
+            </button>
+          </div>
 
-        <div>
-          <button
-            onClick={() => {
-              action == "Add" ? saveDetails() : updateDetails();
-            }}
-            className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
-          >
-            {action == "Add" ? "Submit" : "Update"}
-          </button>
+          <div>
+            <button
+              onClick={() => {
+                action == "Add" ? saveDetails() : updateDetails();
+              }}
+              className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+            >
+              {action == "Add" ? "Submit" : "Update"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

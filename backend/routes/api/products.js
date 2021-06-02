@@ -15,8 +15,16 @@ router.get("/", async (req, res) => {
   let filteredProducts = await Product.find().skip(skipRecords).limit(perPage);
   let products = await Product.find();
 
-  const pageCount = Math.ceil(products.length / 5);
+  const pageCount = Math.ceil(products.length / 12);
   return res.json({ products: filteredProducts, pageCount, currentPage });
+});
+
+router.get("/allproducts", async (req, res) => {
+  let allProducts = await Product.find();
+
+  return res.json({
+    allProducts,
+  });
 });
 
 //get by product id

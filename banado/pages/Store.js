@@ -12,11 +12,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Footer } from "../Components/Footer";
 import ReactPaginate from "react-paginate";
+import axios from "axios";
 
-const Store = () => {
+const Store = (props) => {
   const pList = useSelector((state) => state.getProductList);
   const { products, loading, error, pageCount, currentPage } = pList;
-  const [data, setData] = React.useState(products);
+  const [data, setData] = React.useState(props.allProducts);
   const [query, setQuery] = React.useState("");
   console.log(currentPage);
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Store = () => {
 
   const Results = searchList.map((result) => result.item);
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
     dispatch(getProductList(1));
   }, []);
 
@@ -202,6 +203,18 @@ const Store = () => {
       <Footer />
     </>
   );
+};
+
+export const getServerSideProps = async () => {
+  try {
+    const data1 = await axios.get(
+      "http://localhost:3001/api/products/allproducts"
+    );
+
+    return { props: { allProducts: data1.data.allProducts } };
+  } catch (error) {
+    return { props: {} };
+  }
 };
 
 export default Store;

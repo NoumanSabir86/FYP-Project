@@ -149,7 +149,7 @@ const SignIn = () => {
                             if (role == "Seller") {
                               window.location.href = "/Seller/SellerDash";
                             } else if (role == "Builder") {
-                              window.location.href = "/Seller/SellerDash";
+                              window.location.href = "/BuilderDash";
                             } else {
                               window.location.href = "/";
                             }

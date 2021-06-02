@@ -17,11 +17,9 @@ import SingleCompanyCard from "./SingleCompanyCard";
 import axios from "axios";
 
 const Services = (props) => {
-  const pList = useSelector((state) => state.getProductList);
-  const { products, loading, error, pageCount, currentPage } = pList;
-  const [data, setData] = React.useState(products);
+  const [data, setData] = React.useState(props.record ? props.record : "");
   const [query, setQuery] = React.useState("");
-  console.log(currentPage);
+
   const dispatch = useDispatch();
 
   const options = {
@@ -38,7 +36,7 @@ const Services = (props) => {
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
 
-    keys: ["productName", "category"],
+    keys: ["companyName"],
   };
 
   const fuse = new Fuse(data, options);
@@ -48,10 +46,8 @@ const Services = (props) => {
   const searchList = fuse.search(query);
 
   const Results = searchList.map((result) => result.item);
-  console.log(props);
-  React.useEffect(async () => {
-    dispatch(getProductList(1));
-  }, []);
+
+  console.log(Results);
 
   const paginationHandler = (page) => {
     dispatch(getProductList(page));
@@ -143,7 +139,7 @@ const Services = (props) => {
                   class="px-4 py-3 text-gray-700 w-full placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
                   type="text"
                   name="email"
-                  placeholder="Search Products"
+                  placeholder="Search Builders"
                   aria-label="Search"
                   onChange={(e) => {
                     setQuery(e.target.value);
@@ -155,15 +151,19 @@ const Services = (props) => {
                 </button>
               </div>
               <span class="text-sm font-semibold  colorheading ">
-                1-9 of 148 Products
+                1-9 of 148 Service Providers
               </span>
             </div>
             <div className="grid grid-cols-1 md:gap-8 lg:gap-20 md:grid-cols-1 lg:grid-cols-1 mt-12">
-              {props.record.map((item, index) => {
-                return <SingleCompanyCard key={index} record={item} />;
-              })}
+              {searchList.length == 0
+                ? props.record.map((item, index) => {
+                    return <SingleCompanyCard key={index} record={item} />;
+                  })
+                : Results.map((item, index) => {
+                    return <SingleCompanyCard key={index} record={item} />;
+                  })}
             </div>
-            {loading ? (
+            {/* {loading ? (
               ""
             ) : products.length >= 1 ? (
               <div class="flex flex-row justify-center mt-10 ">
@@ -187,7 +187,7 @@ const Services = (props) => {
               </div>
             ) : (
               ""
-            )}
+            )} */}
           </div>
         </div>
       </div>
