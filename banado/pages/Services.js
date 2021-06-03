@@ -47,8 +47,6 @@ const Services = (props) => {
 
   const Results = searchList.map((result) => result.item);
 
-  console.log(Results);
-
   const paginationHandler = (page) => {
     dispatch(getProductList(page));
   };

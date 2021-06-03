@@ -11,13 +11,12 @@ const { date } = require("joi");
 //for admin get all orders
 router.get("/", async (req, res) => {
   try {
-    let order = await await Order.find().populate("product");
+    let order = await Order.find();
     if (!order) return res.status(400).send("No order found"); //when id is not present id db
     return res.send(order); //everything is ok
   } catch (err) {
     return res.status(400).send("Invalid ID"); // format of id is not correct
   }
-  return res.send(order);
 });
 
 //get by storeID

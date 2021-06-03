@@ -7,6 +7,7 @@ var {
   BuilderDetails,
   AdminDetails,
   BuilderAdditionalDetails,
+  ShippingAddress,
 } = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -16,6 +17,9 @@ const validateUser = require("../../middlewares/validatelogin");
 const auth = require("../../middlewares/auth");
 const validatelogin = require("../../middlewares/validatelogin");
 const validateBuilderInfo = require("../../middlewares/validateBuilderInfo");
+const { Product } = require("../../models/product");
+const { ObjectId } = require("bson");
+const { Store } = require("../../models/store");
 
 function generateAccessToken(data) {
   // expires after half and hour (1800 seconds = 30 minutes)
@@ -104,7 +108,7 @@ router.post("/login", validatelogin, async (req, res) => {
       _id: user._id,
       email: req.body.email,
     });
-    console.log(user.name);
+
     return res.send(token);
   }
 
@@ -119,7 +123,7 @@ router.post("/login", validatelogin, async (req, res) => {
       shopName: details.storeName,
       sellerPhone: details.sellerPhone,
     });
-    console.log(token);
+
     return res.send(token);
   }
 
@@ -136,7 +140,7 @@ router.post("/login", validatelogin, async (req, res) => {
     return res.send(token);
   }
 
-  if (user.role == "admin") {
+  if (user.role == "Admin") {
     let details = await AdminDetails.findOne({ adminId: user._id });
     let token = generateAccessToken({
       username: user.name,
@@ -279,5 +283,91 @@ router.post(
     res.send(builderAdditionalDetails);
   }
 );
+
+// get vendors data
+
+router.get(
+  "/vendors",
+
+  async (req, res) => {
+    let record = SellerDetails.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "sellerId",
+          foreignField: "_id",
+          as: "details",
+        },
+      },
+    ]).then((data) => {
+      res.send(data);
+    });
+  }
+);
+
+router.delete("/deleteVendor/:id", async (req, res) => {
+  let sellerDet = await SellerDetails.deleteMany({
+    sellerId: ObjectId(req.params.id),
+  });
+  let seller = await User.findByIdAndDelete(req.params.id);
+  let products = await Product.deleteMany({ storeId: req.params.id });
+  let store = await Store.deleteMany({ storeId: req.params.id });
+  let builder = await BuilderDetails.deleteMany({ builderId: req.params.id });
+  let builderDet = await BuilderAdditionalDetails.deleteMany({
+    builderId: req.params.id,
+  });
+
+  return res.send("Deleted Successfuly");
+});
+
+// Get all users
+router.get(
+  "/",
+
+  async (req, res) => {
+    let users = await User.find();
+    if (!users) {
+      res.send("No records found");
+    }
+    res.send(users);
+  }
+);
+
+router.post("/shipping/:id", async (req, res) => {
+  let shipping = await ShippingAddress.findOne({ userId: req.params.id });
+
+  if (shipping) return res.status(400).send("Already exists");
+
+  shipping = new ShippingAddress();
+  shipping.userId = req.params.id;
+  shipping.streetAddress = req.body.streetAddress;
+  shipping.city = req.body.city;
+  shipping.postalCode = req.body.postalCode;
+
+  await shipping.save();
+  return res.send(shipping);
+});
+
+router.put("/shipping/:id", async (req, res) => {
+  let shipping = await ShippingAddress.findOne({ userId: req.params.id });
+
+  if (!shipping) return res.status(400).send("No record Found!");
+
+  shipping.userId = req.params.id;
+  shipping.streetAddress = req.body.streetAddress;
+  shipping.city = req.body.city;
+  shipping.postalCode = req.body.postalCode;
+
+  await shipping.save();
+  return res.send(shipping);
+});
+
+router.get("/shipping/:id", async (req, res) => {
+  let shipping = await ShippingAddress.findOne({ userId: req.params.id });
+
+  if (!shipping) return res.send(false);
+
+  return res.send(shipping);
+});
 
 module.exports = router;

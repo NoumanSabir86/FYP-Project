@@ -411,7 +411,7 @@ const Register = () => {
                             alert("Account Created Successfully!");
                             if (role == "Seller") {
                               storeServices.createStore({
-                                sellerId,
+                                sellerId: decode.userId,
                                 storeName,
                                 sellerPhone,
                               });

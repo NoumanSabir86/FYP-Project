@@ -8,7 +8,6 @@ import axios from "axios";
 import CompanyDisqus from "../../Components/CompanyDisqus";
 const SingleCompany = (props) => {
   const builder = props.record;
-  console.log(props);
 
   return (
     <>

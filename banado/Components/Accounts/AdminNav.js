@@ -1,56 +1,16 @@
 import React, { useState } from "react";
-import {
-  faCoffee,
-  faShoppingBasket,
-  faShoppingCart,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import UserServices from "../Services/UserServices";
-import ActiveLink from "./ActiveLink";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import Badge from "@material-ui/core/Badge";
-import { withStyles } from "@material-ui/core";
-import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import styles from "./SellerDash.module.css";
+import ActiveLink from "../ActiveLink";
+import UserServices from "../../Services/UserServices";
 import Cookies from "js-cookie";
-import cookie from "cookie";
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -3,
-    top: 5,
-
-    padding: "0 4px",
-  },
-}))(Badge);
-
-export const Navbar = () => {
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+export const AdminNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [log, setLog] = useState(false);
-  const [role, setRole] = useState("");
-  const router = useRouter();
-  const cartlink = (href) => {
-    e.preventDefault();
-    router.push(href);
-  };
-
-  React.useEffect(() => {
-    try {
-      setUsername(UserServices.getLoggedinfo().username);
-      setLog(UserServices.isLoggedin());
-      setRole(UserServices.getLoggedinfo().role);
-    } catch (error) {}
-  }, []);
 
   return (
-    <div
-      className="bg-white sticky top-0 z-50 shadow-md "
-      style={{ height: "64px" }}
-    >
+    <div className="bg-white sticky top-0 z-50 shadow-md">
       <div className="  sm:max-w-xl md:max-w-full lg:max-w-screen-xl  items-start">
         <div className="relative flex items-start justify-start">
           <div className="flex items-center ">
@@ -88,176 +48,42 @@ export const Navbar = () => {
               }}
             >
               <li>
+                <Link href="/AdminDash">
+                  <ActiveLink children="Dashboard" href="/AdminDash" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/Admin/Orders">
+                  <ActiveLink children="Orders" href="/Admin/Orders" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/Admin/Vendors">
+                  <ActiveLink
+                    children="Vendors Management"
+                    href="/Admin/Vendors"
+                  />
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/Seller/SellerProfile">
+                  <ActiveLink children="Users Management" href="/Admin/Users" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/">
-                  <ActiveLink children="Home" href="/" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/Store">
-                  <ActiveLink children="Store" href="/Store" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/Services">
-                  <ActiveLink children="Services" href="/Services" />
-                </Link>
-              </li>
-
-              <li>
-                <Link href="/ContactUs">
-                  <ActiveLink children="Contact Us" href="/ContactUs" />
-                </Link>
-              </li>
-              {!log && (
-                <>
-                  <li>
-                    <Link href="/SignIn">
-                      <ActiveLink children="Login" href="/SignIn" />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/Register">
-                      <ActiveLink children="Sign Up" href="/Register" />
-                    </Link>
-                  </li>
-                </>
-              )}
-
-              {log && (
-                <>
-                  {role == "User" && (
-                    <>
-                      <li
-                        onClick={() => {
-                          UserServices.logout();
-                        }}
-                      >
-                        <Link href="/">
-                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                            <span className="ml-2">Logout</span>
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/UserOrders">
-                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                            <FontAwesomeIcon
-                              icon={faUser}
-                              style={{
-                                fontSize: "20px",
-                                color:
-                                  router.asPath === "/UserOrders"
-                                    ? "#FF5E14"
-                                    : "#00235A",
-                              }}
-                            />
-                            <span className="ml-2">
-                              {username !== "" ? (
-                                <span
-                                  style={{
-                                    color:
-                                      router.asPath === "/UserOrders"
-                                        ? "#FF5E14"
-                                        : "#00235A",
-                                  }}
-                                >
-                                  {username}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                            </span>
-                          </a>
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                </>
-              )}
-              <li>
-                <Link href="/Cart" onMouseEnter={cartlink}>
-                  <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                    <StyledBadge
-                      badgeContent={cartItems.reduce(
-                        (a, c) => a + Number(c.qty),
-                        0
-                      )}
-                      color="secondary"
-                    >
-                      {/* <FontAwesomeIcon
-                        icon={faShoppingBasket}
-                        style={{
-                          fontSize: "28px",
-                          color:
-                            router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
-                        }}
-                      /> */}
-                      <ShoppingCartOutlinedIcon
-                        style={{
-                          fontSize: "24px",
-                          color:
-                            router.asPath === "/Cart" ? "#FF5E14" : "#00235A",
-                        }}
-                      />
-                    </StyledBadge>
+                  <a
+                    className="item uppercase font-medium tracking-wide  transition-colors duration-200 "
+                    onClick={() => {
+                      Cookies.remove("cart");
+                      UserServices.logout();
+                    }}
+                  >
+                    Logout
                   </a>
                 </Link>
               </li>
-              {role == "Seller" && (
-                <Link href="/Seller/SellerDash">
-                  <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                    Seller Dashboard
-                  </button>
-                </Link>
-              )}
-              {log && (
-                <>
-                  {role == "Builder" && (
-                    <>
-                      <li
-                        onClick={() => {
-                          UserServices.logout();
-                        }}
-                      >
-                        <Link href="/">
-                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                            <span className="ml-2">Logout</span>
-                          </a>
-                        </Link>
-                      </li>
-                      <Link href="/BuilderDash">
-                        <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                          Builder Dashboard
-                        </button>
-                      </Link>
-                    </>
-                  )}{" "}
-                </>
-              )}
-              {log && (
-                <>
-                  {role == "Admin" && (
-                    <>
-                      <li
-                        onClick={() => {
-                          UserServices.logout();
-                        }}
-                      >
-                        <Link href="/">
-                          <a className="item font-medium tracking-wide  transition-colors duration-200 hover:text-teal-accent-400">
-                            <span className="ml-2">Logout</span>
-                          </a>
-                        </Link>
-                      </li>
-                      <Link href="/AdminDash">
-                        <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                          Admin Dashboard
-                        </button>
-                      </Link>
-                    </>
-                  )}{" "}
-                </>
-              )}
             </ul>
           </div>
 

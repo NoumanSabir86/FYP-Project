@@ -1,3 +1,4 @@
+import axios from "axios";
 import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,12 +14,80 @@ const Cart = (props) => {
   const { cartItems } = cart;
 
   const [quantity, setQuantity] = React.useState(1);
+  const [action, setAction] = React.useState("");
+  const [message, setMessage] = React.useState("");
+  const [streetAddress, setStreetAddress] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [postalCode, setPostalCode] = React.useState("");
+
   const dispatch = useDispatch();
+
+  React.useEffect(async () => {
+    await axios
+      .get(
+        `http://localhost:3001/api/users/shipping/${
+          UserServices.getLoggedinfo()._id
+        }`
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (res.data != false) {
+          setStreetAddress(res.data.streetAddress);
+          setCity(res.data.city);
+          setPostalCode(res.data.postalCode);
+          setAction("Update");
+          setMessage("");
+        } else {
+          setAction("Add");
+          setMessage("Add Shipping Address To proceed Further");
+        }
+      });
+  }, [action]);
 
   const removeFromCart = (productID) => {
     dispatch(cartRemove(productID));
   };
 
+  const shippingAddress = async () => {
+    UserServices.getLoggedinfo().role == "Seller"
+      ? await axios
+          .post(
+            "http://localhost:3001/api/users/shipping/" +
+              UserServices.getLoggedinfo().userId,
+            { streetAddress, city, postalCode }
+          )
+          .then((res) => {
+            setAction("Added Successfully!");
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      : await axios
+          .post(
+            "http://localhost:3001/api/users/shipping/" +
+              UserServices.getLoggedinfo()._id,
+            { streetAddress, city, postalCode }
+          )
+          .then((res) => {
+            setAction("Added Successfully!");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+  };
+
+  const updateAddress = async () => {
+    await axios
+      .put(
+        "http://localhost:3001/api/users/shipping/" +
+          UserServices.getLoggedinfo()._id,
+        { streetAddress, city, postalCode }
+      )
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   React.useEffect(() => {
     dispatch(
       addtoCart(
@@ -178,7 +247,7 @@ const Cart = (props) => {
                     <div class="lg:px-2 lg:w-1/2">
                       <div class="p-4 bg-gray-100 rounded ">
                         <h1 class="ml-2  font-bold uppercase">
-                          Calculate Shipping
+                          Add Shipping Address
                         </h1>
                       </div>
                       <div class="p-4 pl-0">
@@ -186,46 +255,40 @@ const Cart = (props) => {
                           class="text-gray-700 "
                           style={{ fontSize: "1.2rem" }}
                         >
-                          <select
-                            value="1"
-                            defaultValue=""
-                            // onChange={(e) => setCategory(e.target.value)}
-                            class="form-select  block w-full rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                          >
-                            <option hidden value="">
-                              Select Country
-                            </option>
-                            <option value="Architecture">Architecture</option>
-                            <option value="Interior Design">
-                              Interior Design
-                            </option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Other">Other</option>
-                          </select>
+                          <input
+                            type="text"
+                            value={streetAddress}
+                            class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Street Address"
+                            onChange={(e) => setStreetAddress(e.target.value)}
+                          />
                         </label>
 
                         <input
                           type="text"
-                          class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                          placeholder="Province"
-                          // onChange={(e) => setBrandName(e.target.value)}
-                        />
-
-                        <input
-                          type="text"
+                          value={city}
                           class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           placeholder="City"
-                          // onChange={(e) => setBrandName(e.target.value)}
+                          onChange={(e) => setCity(e.target.value)}
                         />
 
                         <input
                           type="text"
                           class=" rounded-lg mb-4  border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           placeholder="Postal Code"
-                          // onChange={(e) => setBrandName(e.target.value)}
+                          onChange={(e) => setPostalCode(e.target.value)}
+                          value={postalCode}
                         />
-                        <button className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 ">
-                          Update Totals
+
+                        <button
+                          onClick={() => {
+                            action == "Add"
+                              ? shippingAddress()
+                              : updateAddress();
+                          }}
+                          className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+                        >
+                          {action == "Add" ? "Add" : "Update"}
                         </button>
                       </div>
                     </div>
@@ -274,28 +337,36 @@ const Cart = (props) => {
                           </div>
                         </div>
                         {UserServices.isLoggedin() && (
-                          <Link href="/Checkout">
-                            <a href="">
-                              <button class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                                <svg
-                                  aria-hidden="true"
-                                  data-prefix="far"
-                                  data-icon="credit-card"
-                                  class="w-8"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 576 512"
-                                >
-                                  <path
-                                    fill="currentColor"
-                                    d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"
-                                  />
-                                </svg>
-                                <span class="ml-2 mt-5px">
-                                  Procceed to checkout
-                                </span>
-                              </button>
-                            </a>
-                          </Link>
+                          <>
+                            {action == "Update" ? (
+                              <Link href="/Checkout">
+                                <a href="">
+                                  <button class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                                    <svg
+                                      aria-hidden="true"
+                                      data-prefix="far"
+                                      data-icon="credit-card"
+                                      class="w-8"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 576 512"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z"
+                                      />
+                                    </svg>
+                                    <span class="ml-2 mt-5px">
+                                      Procceed to checkout
+                                    </span>
+                                  </button>
+                                </a>
+                              </Link>
+                            ) : (
+                              <p className="p-4 w-full text-center text-lg ">
+                                {message}
+                              </p>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>

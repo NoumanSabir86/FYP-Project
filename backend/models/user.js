@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
+const { ObjectId } = require("bson");
 
 var userSchema = mongoose.Schema({
   name: String,
@@ -24,20 +25,27 @@ var userDetailsSchema = mongoose.Schema({
 var sellerDetailsSchema = mongoose.Schema({
   storeName: String,
   sellerPhone: String,
-  sellerId: String,
+  sellerId: ObjectId,
   shopAddress: String,
 });
 
 var builderDetailsSchema = mongoose.Schema({
   companyPhone: String,
   companyName: String,
-  builderId: String,
+  builderId: ObjectId,
   companyAddress: String,
 });
 
 var adminDetailsSchema = mongoose.Schema({
   hobby: String,
   adminId: String,
+});
+
+var shippingSchema = mongoose.Schema({
+  userId: ObjectId,
+  streetAddress: String,
+  city: String,
+  postalCode: String,
 });
 
 var builderAdditionalDetailsSchema = new mongoose.Schema({
@@ -62,7 +70,17 @@ var User = mongoose.model("User", userSchema);
 var UserDetails = mongoose.model("UserDetails", userDetailsSchema);
 var SellerDetails = mongoose.model("SellerDetails", sellerDetailsSchema);
 var BuilderDetails = mongoose.model("BuilderDetails", builderDetailsSchema);
-var AdminDetails = mongoose.model("adminDetails", adminDetailsSchema);
+var AdminDetails = mongoose.model("AdminDetails", adminDetailsSchema);
+var ShippingAddress = mongoose.model("ShippingAddress", shippingSchema);
+
+function validateShipping(data) {
+  const schema = Joi.object({
+    streetAddress: Joi.string().required(),
+    city: Joi.string().required(),
+    postalCode: Joi.string().required(),
+  });
+  return schema.validate(data, { abortEarly: false });
+}
 
 function validateBuilderAdditionalDetails(data) {
   const schema = Joi.object({
@@ -140,7 +158,9 @@ module.exports.SellerDetails = SellerDetails;
 module.exports.BuilderDetails = BuilderDetails;
 module.exports.AdminDetails = AdminDetails;
 module.exports.BuilderAdditionalDetails = BuilderAdditionalDetails;
+module.exports.ShippingAddress = ShippingAddress;
 module.exports.validateRegister = validateRegister;
 module.exports.validateLogin = validateLogin;
+module.exports.validateShipping = validateShipping;
 module.exports.validateBuilderAdditionalDetails =
   validateBuilderAdditionalDetails;
