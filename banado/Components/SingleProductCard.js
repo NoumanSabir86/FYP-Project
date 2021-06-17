@@ -6,14 +6,37 @@ import { useDispatch } from "react-redux";
 import addtoCart from "../redux/actions/addToCart";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import axios from "axios";
 
 const SingleProductCard = ({ product }) => {
   const [text, setText] = React.useState("Add to Cart");
+  const [rating, setRating] = React.useState(0);
+  const [count, setCount] = React.useState(0);
 
   const router = useRouter();
   const qty = 1;
   const productID = product._id;
   const dispatch = useDispatch();
+
+  React.useEffect(async () => {
+    await axios
+      .get("http://localhost:3001/api/review/" + product._id)
+      .then((res) => {
+        let avg = 0,
+          total = 0;
+        let count = res.data.count;
+        res.data.review.map((item, index) => {
+          total = total + item.rating;
+        });
+        setCount(count);
+
+        avg = total / count;
+        res.data.review.length == 0 ? setRating(0) : setRating(avg);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const cartHandler = () => {
     dispatch(addtoCart(productID, qty));
@@ -86,16 +109,20 @@ const SingleProductCard = ({ product }) => {
             </div>
 
             <div style={{ position: "absolute", right: "5%" }}>
-              <ReactStars
-                count={5}
-                size={18}
-                isHalf={true}
-                emptyIcon={<i className="far fa-star"></i>}
-                halfIcon={<i className="fa fa-star-half-alt"></i>}
-                fullIcon={<i className="fa fa-star"></i>}
-                value="5"
-                activeColor="#FF5E14"
-              />
+              <div className="flex flex-row">
+                <ReactStars
+                  count={5}
+                  size={18}
+                  isHalf={true}
+                  emptyIcon={<i className="far fa-star"></i>}
+                  halfIcon={<i className="fa fa-star-half-alt"></i>}
+                  fullIcon={<i className="fa fa-star"></i>}
+                  value={rating}
+                  activeColor="#FF5E14"
+                  edit={false}
+                />{" "}
+                <div className="ml-4">({count})</div>
+              </div>
             </div>
           </div>
 

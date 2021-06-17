@@ -47,6 +47,7 @@
     "react-redux": "^7.2.3",
     "react-table": "^7.6.3",
     "react-tag-input": "^6.5.2",
+    "react-whatsapp-widget": "^1.3.0",
     "reactjs-popup": "^2.0.4"
   },
   "devDependencies": {

@@ -4,10 +4,14 @@ import { Footer } from "../../Components/Footer";
 import { Navbar } from "../../Components/Navbar";
 import cookie from "cookie";
 import axios from "axios";
-
+import WhatsAppWidget from "react-whatsapp-widget";
 import CompanyDisqus from "../../Components/CompanyDisqus";
 const SingleCompany = (props) => {
   const builder = props.record;
+
+  const cutPhone = builder.phoneNumber.substring(1);
+
+  const completePhone = "+92" + cutPhone;
 
   return (
     <>
@@ -88,7 +92,14 @@ const SingleCompany = (props) => {
                 <span className="mytext" style={{ fontSize: "21px" }}>
                   Phone Number
                 </span>
-                : <span className="mytext text-xs"> {builder.phoneNumber}</span>
+                :{" "}
+                <a
+                  href={`tel:${builder.phoneNumber}`}
+                  className="mytext text-xs"
+                >
+                  {" "}
+                  {builder.phoneNumber}
+                </a>
               </div>
             </div>
           </div>
@@ -148,6 +159,7 @@ const SingleCompany = (props) => {
           </div>
         </div>
       </div>
+      <WhatsAppWidget phoneNumber={completePhone} />
       <Footer />
     </>
   );

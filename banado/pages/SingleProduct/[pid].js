@@ -85,6 +85,7 @@ const SingleProduct = () => {
                       fullIcon={<i className="fa fa-star"></i>}
                       value="5"
                       activeColor="#FFA41C"
+                      edit={false}
                     />
                   </div>
                   <div>
@@ -271,17 +272,16 @@ const SingleProduct = () => {
               <div className="mt-20">
                 <div>
                   <h1
-                    className="heading2"
+                    className="heading2 pb-2 mb-4"
                     style={{
                       textTransform: "Capitalize",
                       fontSize: "30px",
                       fontFamily: "open sans",
                       borderBottom: "5px solid orange",
-                      width: "125px",
-                      marginBottom: "3%",
+                      width: "370px",
                     }}
                   >
-                    Reviews
+                    Question and Answers
                   </h1>
                 </div>
                 <DisqusComments post={product} />

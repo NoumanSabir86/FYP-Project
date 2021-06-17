@@ -10,6 +10,7 @@ import "react-credit-cards/es/styles-compiled.css";
 import "react-multi-carousel/lib/styles.css";
 import { Footer } from "../Components/Footer";
 import "./store.scss";
+import "react-whatsapp-widget/dist/index.css";
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
