@@ -12,14 +12,21 @@ import SingleProductCard from "../../Components/SingleProductCard";
 import getProductList from "../../redux/actions/getProductList";
 import { Footer } from "../../Components/Footer";
 import DisqusComments from "../../Components/DisqusComments";
+import axios from "axios";
+import cookie from "cookie";
+import Review from "../../Components/Review";
+import UserServices from "../../Services/UserServices";
+import { ToastContainer, toast } from "react-nextjs-toast";
 
-const SingleProduct = () => {
+const SingleProduct = (props) => {
   const pDetails = useSelector((state) => state.getProductDetails);
   const [quantity, setQuantity] = React.useState(1);
   const [productID, setpID] = React.useState("");
-
+  const [rating, setRating] = React.useState(0);
   const { product, loading, error } = pDetails;
-
+  const [review, setReview] = React.useState("");
+  const [role, setRole] = React.useState("sadsad");
+  const [isPresent, setIsPresent] = React.useState(false);
   const pList = useSelector((state) => state.getProductList);
   const { products, loading: ploading, error: perror } = pList;
 
@@ -27,16 +34,71 @@ const SingleProduct = () => {
 
   const router = useRouter();
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
+    localStorage.getItem("token")
+      ? setRole(UserServices.getLoggedinfo().role)
+      : setRole("NADS");
+
     localStorage.setItem("quantity", quantity);
     dispatch(getProductList());
     dispatch(getProductDetails(localStorage.getItem("productID")));
+
+    present();
   }, [router.query]);
 
+  const ratingChanged = (newRating) => {
+    setRating(newRating);
+  };
+
+  const present = async () => {
+    const id = UserServices.getLoggedinfo()._id;
+    await axios
+      .get(
+        "http://localhost:3001/api/review/present/" +
+          id +
+          "/" +
+          localStorage.getItem("productID")
+      )
+      .then((res) => {
+        res.data == true ? setIsPresent(true) : setIsPresent(false);
+      });
+  };
+
+  const notify = (error, type) => {
+    toast.notify(error, {
+      duration: 5,
+      type: type,
+      title: type,
+    });
+  };
+
+  const addRating = async () => {
+    await axios
+      .post("http://localhost:3001/api/review/", {
+        userId: UserServices.getLoggedinfo()._id,
+        userName: UserServices.getLoggedinfo().username,
+        productId: localStorage.getItem("productID"),
+        sellerId: product.storeId,
+        review,
+        rating,
+      })
+      .then((res) => {
+        notify("Review added Successfully!", "success");
+
+        setTimeout(() => {
+          window.location.href =
+            "/SingleProduct/" + localStorage.getItem("productID");
+        }, 2000);
+      })
+      .catch((err) => {
+        notify(err.response.data, "error");
+      });
+  };
   return (
     <>
       <div>
         <Navbar />
+        <ToastContainer />
 
         {loading ? (
           <Loader />
@@ -79,11 +141,11 @@ const SingleProduct = () => {
                     <ReactStars
                       count={5}
                       size={30}
-                      isHalf={false}
+                      isHalf={true}
                       emptyIcon={<i className="far fa-star"></i>}
                       halfIcon={<i className="fa fa-star-half-alt"></i>}
                       fullIcon={<i className="fa fa-star"></i>}
-                      value="5"
+                      value={props.avg}
                       activeColor="#FFA41C"
                       edit={false}
                     />
@@ -284,15 +346,139 @@ const SingleProduct = () => {
                     Question and Answers
                   </h1>
                 </div>
-                <DisqusComments post={product} />
+                {loading ? "wait..." : <DisqusComments post={product} />}
               </div>
+              {/* ---------------------------------------------------------Reviews */}
+              <div className="reviews mt-10">
+                {isPresent == false && (
+                  <div>
+                    {role == "User" && (
+                      <>
+                        {" "}
+                        <h1
+                          className="heading2 pb-2 mb-4"
+                          style={{
+                            textTransform: "Capitalize",
+                            fontSize: "30px",
+                            fontFamily: "open sans",
+                            borderBottom: "5px solid orange",
+                            width: "350px",
+                          }}
+                        >
+                          Rate your experience!
+                        </h1>
+                        <div className="flex flex-col">
+                          <div>
+                            <p className="mytext">
+                              How would you rate this product?
+                            </p>
+                          </div>
+                          <div>
+                            <ReactStars
+                              count={5}
+                              size={30}
+                              isHalf={true}
+                              emptyIcon={<i className="far fa-star"></i>}
+                              halfIcon={<i className="fa fa-star-half-alt"></i>}
+                              fullIcon={<i className="fa fa-star"></i>}
+                              onChange={ratingChanged}
+                              value={rating}
+                              activeColor="#FFA41C"
+                              edit={true}
+                            />
+                          </div>
+                          <div>
+                            <p className="mytext">
+                              Kindly provide us your feedback
+                            </p>
+                          </div>
+                          <div>
+                            <textarea
+                              class="col-span-full appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                              placeholder="Review...."
+                              name="review"
+                              rows="5"
+                              cols="40"
+                              onChange={(e) => setReview(e.target.value)}
+                              style={{ width: "60%" }}
+                            ></textarea>
+                          </div>
+                          <div>
+                            <button
+                              onClick={() => {
+                                addRating();
+                              }}
+                              className="hoverBtn rounded colortheme text-white px-10 py-2 mt-4 mb-4 "
+                            >
+                              Submit
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+                <div className="mt-8">
+                  <h1
+                    className="heading2 pb-2 mb-4"
+                    style={{
+                      textTransform: "Capitalize",
+                      fontSize: "30px",
+                      fontFamily: "open sans",
+                      borderBottom: "5px solid orange",
+                      width: "100px",
+                    }}
+                  >
+                    Reviews
+                  </h1>
+                </div>
+              </div>
+
+              {/* feedbacks */}
+
+              {props.review.length == 0 ? (
+                <p>Not rated yet</p>
+              ) : (
+                props.review.map((review, index) => {
+                  return <Review key={index} review={review} />;
+                })
+              )}
+
+              {/* end feedbacks */}
+              {/* ---------------------------------------------------------End Reviews */}
             </div>
           </>
         )}
       </div>
-      <Footer />
+      {product && <Footer />}
     </>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  let avg = 0,
+    total = 0;
+  const parsedCookies = cookie.parse(context.req.headers.cookie);
+
+  await axios
+    .get("http://localhost:3001/api/review/" + parsedCookies.p_id)
+    .then((res) => {
+      let count = res.data.count;
+      res.data.review.map((item, index) => {
+        total = total + item.rating;
+      });
+
+      avg = total / count;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  const reviews = await axios.get(
+    "http://localhost:3001/api/review/" + parsedCookies.p_id
+  );
+
+  return { props: { avg, review: reviews.data.review } };
 };
 
 export default SingleProduct;

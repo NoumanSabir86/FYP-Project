@@ -3,6 +3,7 @@ const Joi = require("joi");
 
 var reviewSchema = mongoose.Schema({
   userId: String,
+  userName: String,
   productId: String,
   sellerId: String,
 
@@ -16,7 +17,8 @@ function validateReview(data) {
     userId: Joi.string(),
     sellerId: Joi.string(),
     productId: Joi.string(),
-    review: Joi.string().max(200),
+    userName: Joi.string(),
+    review: Joi.string().max(2000).required(),
     rating: Joi.number().min(1).max(5).required(),
   });
   return schema.validate(data, { abortEarly: false });

@@ -26,6 +26,17 @@ router.get("/:productId", async (req, res) => {
   );
 });
 
+router.get("/present/:userId/:productId", async (req, res) => {
+  let review = await Review.find({
+    userId: req.params.userId,
+    productId: req.params.productId,
+  });
+
+  if (review.length == 0) return res.send(false);
+  //when id is not present id db
+  else return res.send(true);
+});
+
 //post
 router.post("/", validateReview, async (req, res) => {
   let review = new Review();
@@ -34,7 +45,7 @@ router.post("/", validateReview, async (req, res) => {
   review.sellerId = req.body.sellerId;
   review.review = req.body.review;
   review.rating = req.body.rating;
-
+  review.userName = req.body.userName;
   review.save();
   res.send("review added");
 });

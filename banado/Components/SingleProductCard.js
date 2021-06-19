@@ -7,6 +7,7 @@ import addtoCart from "../redux/actions/addToCart";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const SingleProductCard = ({ product }) => {
   const [text, setText] = React.useState("Add to Cart");
@@ -73,6 +74,7 @@ const SingleProductCard = ({ product }) => {
                 }
               );
               localStorage.setItem("productID", product._id);
+              Cookies.set("p_id", product._id);
             }}
           ></img>
         </Link>
@@ -109,20 +111,21 @@ const SingleProductCard = ({ product }) => {
             </div>
 
             <div style={{ position: "absolute", right: "5%" }}>
-              <div className="flex flex-row">
-                <ReactStars
-                  count={5}
-                  size={18}
-                  isHalf={true}
-                  emptyIcon={<i className="far fa-star"></i>}
-                  halfIcon={<i className="fa fa-star-half-alt"></i>}
-                  fullIcon={<i className="fa fa-star"></i>}
-                  value={rating}
-                  activeColor="#FF5E14"
-                  edit={false}
-                />{" "}
-                <div className="ml-4">({count})</div>
-              </div>
+              {rating > 0 && (
+                <div className="flex flex-row">
+                  <ReactStars
+                    count={5}
+                    size={18}
+                    isHalf={true}
+                    emptyIcon={<i className="far fa-star"></i>}
+                    halfIcon={<i className="fa fa-star-half-alt"></i>}
+                    fullIcon={<i className="fa fa-star"></i>}
+                    value={rating}
+                    activeColor="#FF5E14"
+                    edit={false}
+                  />{" "}
+                </div>
+              )}
             </div>
           </div>
 
