@@ -31,9 +31,8 @@ export default function Home() {
 
       <div className="relative">
         <div
-          className="relative bg-gray-900 bg-opacity-75 "
+          className="relative homHero bg-gray-900 bg-opacity-75 "
           style={{
-            height: "100vh",
             backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/banado-50bce.appspot.com/o/productImages%2Fhero.png?alt=media&token=796b9fdb-6659-40e8-a558-7fb1b9d6a09c")`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -50,11 +49,10 @@ export default function Home() {
                   Welcome to BANADO
                 </p>
                 <h2
-                  className=" heading1"
+                  className=" heading1 homHeading"
                   style={{
                     color: "white",
                     fontFamily: "Yantramanav",
-                    lineHeight: "4.7rem",
                   }}
                 >
                   ALWAYS AHEAD<br></br> OF SCHEDULE
@@ -69,10 +67,7 @@ export default function Home() {
                 <div className="flex flex-row">
                   <div>
                     <Link href="/Store">
-                      <button
-                        className="hoverBtn rounded colortheme text-white px-8 py-3 mt-4 mb-4 mr-4 "
-                        style={{ fontSize: "20px" }}
-                      >
+                      <button className="hoverBtn rounded colortheme lg:text-lg text-white lg:px-8 lg:py-3 lg:mt-4 lg:mb-4 lg:mr-4 px-4 py-2 ">
                         Go to Store
                       </button>
                     </Link>
@@ -80,8 +75,8 @@ export default function Home() {
                   <div>
                     <Link href="/Services">
                       <button
-                        className="hoverBtn rounded colortheme text-white px-8 py-3 mt-4 mb-4  mr-4"
-                        style={{ backgroundColor: "#00235A", fontSize: "20px" }}
+                        className="hoverBtn rounded colortheme ml-2 lg:text-lg text-white lg:px-8 lg:py-3 lg:mt-4 lg:mb-4 lg:mr-4 px-4 py-2 "
+                        style={{ backgroundColor: "#00235A" }}
                       >
                         Find Builders
                       </button>

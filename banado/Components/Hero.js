@@ -1,20 +1,20 @@
 export const Hero = (props) => {
   return (
     <div
-      className="sm:w-full "
+      className="sm:w-full text-center "
       style={{
         backgroundColor: "#F0F1F1",
-        height: "40vh",
+
         padding: "8%",
         verticalAlign: "middle",
         textAlign: "center",
       }}
     >
       <h2
-        className="heading1 colorheading "
+        className="mytitle colorheading "
         style={{
           textTransform: "Capitalize",
-          fontSize: "50px",
+
           fontFamily: "open sans",
         }}
       >

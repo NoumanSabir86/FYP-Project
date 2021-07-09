@@ -21,14 +21,13 @@ const Review = ({ review }) => {
         />
       </div>
       <div>
-        <p className="text" style={{ fontSize: "16px", width: "60%" }}>
+        <p className="text lg:w-2/3 w-full" style={{ fontSize: "16px" }}>
           {review.review}
         </p>
       </div>
       <div
-        className="mt-2"
+        className="mt-2 lg:w-2/3 w-full "
         style={{
-          width: "60%",
           height: "1px",
           backgroundColor: "#BCBCC5",
         }}

@@ -178,18 +178,17 @@ const Checkout = () => {
       <div style={{ marginBottom: "10%" }}>
         <Navbar />
         <Hero name={"Checkout"} />
-        <div class="flex  justify-center mb-8 -mt-20">
+        <div class="flex  justify-center mb-8 lg:-mt-20 md:-mt-20 ">
           <ToastContainer />
           <div
-            class="flex flex-col w-full p-14 text-gray-800 bg-white rounded-lg  pin-r pin-y md:w-4/5 lg:w-4/5"
+            class="flex flex-col w-full lg:p-14 md:p-14 p-4 text-gray-800 bg-white rounded-lg  pin-r pin-y md:w-4/5 lg:w-4/5"
             style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}
           >
             <div class="flex-1">
               <span
-                className="heading3"
+                className="heading3 cfont"
                 style={{
                   borderBottom: "5px solid #00235A",
-                  fontSize: "34px",
                 }}
               >
                 Order Total
@@ -298,20 +297,19 @@ const Checkout = () => {
 
               {cartItems.length > 0 && (
                 <>
-                  <div class="my-4 mt-20 -mx-2 lg:flex items-start pr-48 ">
+                  <div class="my-4 lg:mt-20 md:mt-20 mt-4 lg:-mx-2 md:-mx-2  lg:flex items-start lg:pr-48 md:pr-48 ">
                     {" "}
                     <span
-                      className="heading3 "
+                      className="heading3 cfont "
                       style={{
                         borderBottom: "5px solid #00235A",
-                        fontSize: "34px",
                       }}
                     >
                       Payment Details:
                     </span>
                   </div>
-                  <div class="my-4 mt-12 -mx-2 lg:flex items-start pr-96 ">
-                    <div class="lg:px-2 lg:w-1/2">
+                  <div class="my-4 lg:mt-12 md:mt-12 mt-4 lg:-mx-2 md:-mx-2 lg:flex items-start lg:pr-96 md:pr-72 ">
+                    <div class="lg:px-2 lg:w-1/2 w-full">
                       <Cards
                         cvc={data.pp_CustomerCardCvv}
                         expiry={data.pp_CustomerCardExpiry}
@@ -321,7 +319,7 @@ const Checkout = () => {
                         issuer="visa"
                       />
                     </div>
-                    <div class="lg:px-2 lg:w-1/2 ">
+                    <div class="lg:px-2 lg:w-1/2 w-full mt-4">
                       <div id="PaymentForm">
                         <input
                           type="text"

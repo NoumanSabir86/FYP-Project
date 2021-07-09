@@ -12,9 +12,9 @@ const SingleCompanyCard = ({ record }) => {
         window.location.href = `/Builder/${record.builderId}`;
       }}
     >
-      <div class="flex shadow-lg w-full h-40  bg-white cursor-pointer hover:shadow-2xl transition-all overflow-hidden">
+      <div class="flex flex-col lg:flex-row md:flex-row shadow-lg w-full lg:h-40 md:h-40  bg-white cursor-pointer hover:shadow-2xl transition-all overflow-hidden">
         <div
-          class="w-1/6  bg-cover   overflow-hidden "
+          class="lg:w-1/6 md:w-1/6 w-full bg-cover h-40 md:h-auto lg:h-auto overflow-hidden "
           style={{
             background: `url(${logo})`,
             backgroundRepeat: "no-repeat",
@@ -23,21 +23,21 @@ const SingleCompanyCard = ({ record }) => {
           }}
         ></div>
         <div
-          class="w-5/6 shadow p-4"
+          class="lg:w-5/6 md:w-5/6 w-full shadow p-4"
           // style={{ border: "1px solid #A6A6A6", borderLeft: "0" }}
         >
-          <h1 class="text-gray-900 heading4 font-bold text-2xl">
+          <h1 class="text-gray-900 sfont font-bold text-2xl">
             {record.companyName}
           </h1>
           <p
-            class="mt-2 text-gray-600 mytext  text-sm"
+            class="mt-2 text-gray-600 mytext stext text-sm"
             style={{ lineHeight: "1.4rem" }}
           >
             {record.aboutCompany.length > 200
               ? record.aboutCompany.substring(0, 200 - 3) + "..."
               : record.aboutCompany}
           </p>
-          <div class="flex item-center mt-2">
+          <div class="flex dont item-center mt-2">
             <ReactStars
               count={5}
               size={24}
@@ -57,7 +57,7 @@ const SingleCompanyCard = ({ record }) => {
               //   console.log(record);
               // }}
               style={{ backgroundColor: "#FF5E14" }}
-              class="px-3 py-2 transform  text-white text-xs font-bold uppercase rounded mb-4 -mt-12"
+              class="px-3 py-2 transform dont  text-white text-xs font-bold uppercase rounded mb-4 -mt-12"
             >
               See more
             </button>

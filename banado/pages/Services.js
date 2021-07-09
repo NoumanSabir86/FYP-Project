@@ -61,8 +61,8 @@ const Services = (props) => {
         className="container px-4 md:px-4 lg:px-16 "
         style={{ marginBottom: "10%" }}
       >
-        <div className="flex flex-wrap -mx-2 my-12 ">
-          <div className=" w-full md:w-1/4 lg:w-1/4">
+        <div className="flex flex-wrap lg:-mx-2 md:-mx-2 lg:my-12 md:my-12 mt-4 ">
+          <div className="dont w-full md:w-1/4 lg:w-1/4">
             <div className="flex flex-col sm:flex-row sm:justify-around">
               <div className="w-full ">
                 <nav className="mt-10 px-6 ">
@@ -118,20 +118,21 @@ const Services = (props) => {
                     </p> */}
                   </div>
 
-                  <div className="heading4 mt-4">
+                  <div className="heading4 mt-4 dont">
                     <span>Top Rated Companies</span>
                   </div>
-
-                  <SmallCard name="Laptop" price="Rs.500" />
-                  <SmallCard name="Screwdriver" price="Rs.500" />
-                  <SmallCard name="Hammer" price="Rs.500" />
-                  <SmallCard name="Nails" price="Rs.500" />
+                  <div className="dont">
+                    <SmallCard name="Laptop" price="Rs.500" />
+                    <SmallCard name="Screwdriver" price="Rs.500" />
+                    <SmallCard name="Hammer" price="Rs.500" />
+                    <SmallCard name="Nails" price="Rs.500" />
+                  </div>
                 </nav>
               </div>
             </div>
           </div>
           <div className=" w-full p-4 md:pl-6 lg:pl-6 md:w-3/4 lg:w-3/4">
-            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mt-6">
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between lg:mt-6 md:mt-6">
               <div class="flex flex-col overflow-hidden border  dark:border-gray-600 lg:flex-row">
                 <input
                   class="px-4 py-3 text-gray-700 w-full placeholder-gray-500 bg-white outline-none dark:bg-gray-800 dark:placeholder-gray-400 focus:placeholder-transparent dark:focus:placeholder-transparent"
@@ -144,15 +145,15 @@ const Services = (props) => {
                   }}
                 />
 
-                <button class="px-5 py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
+                <button class="px-5 py-3 dont text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </div>
-              <span class="text-sm font-semibold  colorheading ">
+              <span class="text-sm font-semibold dont colorheading ">
                 1-9 of 148 Service Providers
               </span>
             </div>
-            <div className="grid grid-cols-1 md:gap-8 lg:gap-20 md:grid-cols-1 lg:grid-cols-1 mt-12">
+            <div className="grid grid-cols-1 md:gap-8 lg:gap-20 gap-8 md:grid-cols-1 lg:grid-cols-1 lg:mt-12 md:mt-12 mt-4">
               {searchList.length == 0
                 ? props.record.map((item, index) => {
                     return <SingleCompanyCard key={index} record={item} />;

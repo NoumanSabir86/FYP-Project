@@ -146,9 +146,9 @@ const Cart = (props) => {
 
       <div style={{ marginBottom: "10%" }}>
         <Hero name={"Cart"} />
-        <div class="flex justify-center mb-8 -mt-20">
+        <div class="flex justify-center mb-8 lg:-mt-20 md:-mt-20 -mt-2">
           <div
-            class="flex flex-col w-full p-14 text-gray-800 bg-white rounded-lg  pin-r pin-y md:w-4/5 lg:w-4/5"
+            class="flex flex-col w-full md:p-14 lg:p-14 p-4  text-gray-800 bg-white rounded-lg  pin-r pin-y md:w-4/5 lg:w-4/5"
             style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}
           >
             <div class="flex-1">
@@ -177,7 +177,7 @@ const Cart = (props) => {
                       <tr className="border-t ">
                         <td>
                           <div className="flex flex-row">
-                            <div>
+                            <div className="dont">
                               <a href="#">
                                 <img
                                   src={item.productImage}
@@ -243,7 +243,7 @@ const Cart = (props) => {
 
               {cartItems.length > 0 && (
                 <>
-                  <div class="my-4 mt-20 -mx-2 lg:flex">
+                  <div class=" lg:my-4 md:my-4 lg:mt-20 md:mt-20 lg:-mx-2 md:-mx-2 mt-4 lg:flex">
                     <div class="lg:px-2 lg:w-1/2">
                       <div class="p-4 bg-gray-100 rounded ">
                         <h1 class="ml-2  font-bold uppercase">

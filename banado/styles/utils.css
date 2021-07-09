@@ -77,15 +77,11 @@
   font-weight: 500;
 }
 
-.pImage {
-  height: auto;
-  width: 100%;
-}
-
 @media only screen and (min-width: 768px) {
   .pImage {
-    height: 650px;
+    height: 500px;
     width: auto;
+    margin: 0 auto;
   }
 }
 
@@ -110,4 +106,116 @@ button:focus {
 
 #react-paginate li {
   display: inline-block;
+}
+
+.mytitle {
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.hero {
+  height: 40vh;
+}
+.pTitle {
+  font-size: 30px;
+}
+
+.generalHeading {
+  font-size: 30px;
+
+  font-weight: 600;
+}
+
+.rev {
+  padding: 10%;
+}
+
+.cfont {
+  font-size: 34px;
+}
+
+.sfont {
+  font-size: 1.625rem;
+  font-weight: 600;
+  color: #00235a;
+}
+
+.shero {
+  height: 50vh;
+}
+.slogo {
+  width: 150px;
+  height: 150px;
+}
+
+.homHero {
+  height: 100vh;
+}
+.homHeading {
+  line-height: "4.7rem";
+  font-size: 5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .homHeading {
+    font-size: 2rem;
+  }
+  .homHero {
+    height: 60vh;
+  }
+  .slogo {
+    width: 80px;
+    height: 80px;
+  }
+  .shero {
+    height: 20vh;
+  }
+  .sfont {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00235a;
+  }
+  .stext {
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .generalHeading {
+    font-size: 24px;
+
+    font-weight: 600;
+  }
+  .cfont {
+    font-size: 24px;
+  }
+
+  .rev {
+    padding: 5%;
+  }
+  .pTitle {
+    font-size: 22px;
+  }
+
+  .mytitle {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .hero {
+    height: 20vh;
+  }
+  .dont {
+    display: none;
+  }
+  .centered {
+    margin: auto !important;
+  }
+  .moveRight {
+    margin-left: 30px;
+    margin-right: -30px;
+  }
+  .pImage {
+    height: 200px;
+    width: auto;
+    margin: auto !important;
+  }
 }

@@ -18,26 +18,26 @@ const SingleCompany = (props) => {
       <Navbar />
       <div>
         <div
-          className="sm:w-full "
+          className="sm:w-full shero"
           style={{
             background: `url(${builder.coverImage}) no-repeat`,
-            height: "50vh",
 
             backgroundPosition: "center center",
             backgroundSize: "cover",
           }}
         ></div>
-        <div className="flex flex-row px-32 gap-8 border-b">
+        <div className="flex lg:flex-row md:flex-row flex-col  lg:px-32 md:px-24 lg:gap-8 md:gap-8  border-b lg:py-4">
           <div>
-            <div className="flex -mt-20">
+            <div className="flex lg:-mt-20 md:-mt-20 ml-4 -mt-10 lg:ml-0  ">
               <div
+                className="slogo"
                 style={{
                   border: "1px solid #B8B8B8",
                   backgroundColor: "white",
-                  height: "150px",
+
                   background: `white url(${builder.logo})`,
                   backgroundSize: "contain",
-                  width: "150px",
+
                   backgroundPosition: "center center",
                   backgroundRepeat: "no-repeat",
                   borderRadius: "999px",
@@ -45,7 +45,7 @@ const SingleCompany = (props) => {
               ></div>
             </div>
           </div>
-          <div className="p-4">
+          <div className="px-4 lg-mt-0 mt-2">
             <div className="flex flex-col">
               <div>
                 <span className="mytext" style={{ fontSize: "21px" }}>
@@ -72,7 +72,7 @@ const SingleCompany = (props) => {
             </div>
           </div>
 
-          <div className="p-4 ml-40">
+          <div className="px-4 lg:ml-40 md:ml-40">
             <div className="flex flex-col">
               <div>
                 <span className="mytext" style={{ fontSize: "21px" }}>
@@ -104,7 +104,7 @@ const SingleCompany = (props) => {
             </div>
           </div>
 
-          <div className="p-4 ml-12 ">
+          <div className="p-4 lg:ml-12 md:ml-12 ">
             <button
               onClick={() => {
                 builder.portfolio
@@ -119,36 +119,34 @@ const SingleCompany = (props) => {
         </div>
         {/* Header Completed */}
 
-        <div className="flex flex-col px-32 mt-20">
+        <div className="flex flex-col lg:px-32 md:px-32 lg:mt-20 md:mt-20 mt-8 px-4">
           <div>
             <h1
-              className="heading2 pb-2"
+              className="heading2 generalHeading w-48 lg:w-60  pb-2"
               style={{
                 textTransform: "Capitalize",
-                fontSize: "30px",
+
                 fontFamily: "open sans",
                 borderBottom: "5px solid orange",
-                width: "250px",
               }}
             >
               About Company
             </h1>
           </div>
           <div className="mt-4">
-            <p className="mytext">{builder.aboutCompany}</p>
+            <p className="stext mytext ">{builder.aboutCompany}</p>
           </div>
         </div>
 
-        <div className="flex flex-col px-32 mt-20">
+        <div className="flex flex-col lg:px-32 md:px-32 lg:mt-12 md:mt-12 mt-4 px-4">
           <div>
             <h1
-              className="heading2 pb-2"
+              className="heading2 generalHeading w-64 lg:w-80 pb-2"
               style={{
                 textTransform: "Capitalize",
-                fontSize: "30px",
+
                 fontFamily: "open sans",
                 borderBottom: "5px solid orange",
-                width: "370px",
               }}
             >
               Question and Answers

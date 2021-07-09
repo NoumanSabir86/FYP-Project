@@ -42,8 +42,7 @@ const SingleProduct = (props) => {
     localStorage.setItem("quantity", quantity);
     dispatch(getProductList());
     dispatch(getProductDetails(localStorage.getItem("productID")));
-
-    present();
+    localStorage.getItem("token") ? present() : "";
   }, [router.query]);
 
   const ratingChanged = (newRating) => {
@@ -107,10 +106,10 @@ const SingleProduct = (props) => {
         ) : (
           <>
             <div
-              className="sm:w-full "
+              className="sm:w-full  hero"
               style={{
                 backgroundColor: "#F0F1F1",
-                height: "40vh",
+
                 padding: "8%",
                 verticalAlign: "middle",
                 textAlign: "center",
@@ -120,20 +119,20 @@ const SingleProduct = (props) => {
               }}
             >
               <h2
-                className="heading1 colorheading "
+                className="mytitle colorheading "
                 style={{
                   textTransform: "Capitalize",
-                  fontSize: "50px",
+
                   fontFamily: "open sans",
                 }}
               >
                 {product.productName}
               </h2>
             </div>
-            <div className="ml-20 mr-20 pt-10 pb-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24 ">
+            <div className="lg:ml-20 lg:mr-20 lg:pt-10 lg:pb-10 mx-4 mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 lg:gap-24 md:gap-24 gap-8 ">
                 <div>
-                  <img src={product.productImage} className="pImage"></img>
+                  <img src={product.productImage} className="pImage "></img>
                 </div>
 
                 <div className="flex flex-col">
@@ -152,10 +151,10 @@ const SingleProduct = (props) => {
                   </div>
                   <div>
                     <h1
-                      className="heading2"
+                      className="heading2 pTitle"
                       style={{
                         textTransform: "Capitalize",
-                        fontSize: "30px",
+
                         fontFamily: "open sans",
                       }}
                     >
@@ -174,7 +173,7 @@ const SingleProduct = (props) => {
                       Rs.{product.salePrice}
                     </p>
                   </div>
-                  <div className="mt-12">
+                  <div className="lg:mt-4 md:mt-4 mt-2">
                     <p
                       className="mytext"
                       style={{
@@ -252,95 +251,96 @@ const SingleProduct = (props) => {
                 </div>
               </div>
             </div>
-            <div style={{ padding: "10%", marginTop: "-5%" }}>
+            <div className="rev" style={{ marginTop: "-5%" }}>
               <div>
                 <h1
-                  className="heading2"
+                  className="heading2 dont"
                   style={{
                     textTransform: "Capitalize",
                     fontSize: "30px",
                     fontFamily: "open sans",
                     borderBottom: "5px solid orange",
-                    width: "270px",
+                    width: "240px",
                   }}
                 >
                   Related Products
                 </h1>
               </div>
-              <Carousel
-                additionalTransfrom={0}
-                arrows
-                autoPlaySpeed={3000}
-                centerMode={false}
-                className=""
-                containerClass="container-with-dots"
-                dotListClass=""
-                draggable
-                autoPlay
-                focusOnSelect={false}
-                infinite
-                itemClass="mt-12"
-                keyBoardControl
-                minimumTouchDrag={80}
-                renderButtonGroupOutside={false}
-                renderDotsOutside={false}
-                responsive={{
-                  desktop: {
-                    breakpoint: {
-                      max: 3000,
-                      min: 1024,
+              <div className="dont">
+                <Carousel
+                  additionalTransfrom={0}
+                  arrows
+                  autoPlaySpeed={3000}
+                  centerMode={false}
+                  className=""
+                  containerClass="container-with-dots"
+                  dotListClass=""
+                  draggable
+                  autoPlay
+                  focusOnSelect={false}
+                  infinite
+                  itemClass="mt-12"
+                  keyBoardControl
+                  minimumTouchDrag={80}
+                  renderButtonGroupOutside={false}
+                  renderDotsOutside={false}
+                  responsive={{
+                    desktop: {
+                      breakpoint: {
+                        max: 3000,
+                        min: 1024,
+                      },
+                      items: 3,
+                      partialVisibilityGutter: 40,
                     },
-                    items: 3,
-                    partialVisibilityGutter: 40,
-                  },
-                  mobile: {
-                    breakpoint: {
-                      max: 768,
-                      min: 0,
+                    mobile: {
+                      breakpoint: {
+                        max: 768,
+                        min: 0,
+                      },
+                      items: 1,
+                      partialVisibilityGutter: 30,
                     },
-                    items: 1,
-                    partialVisibilityGutter: 30,
-                  },
-                  tablet: {
-                    breakpoint: {
-                      max: 1024,
-                      min: 768,
+                    tablet: {
+                      breakpoint: {
+                        max: 1024,
+                        min: 768,
+                      },
+                      items: 2,
+                      partialVisibilityGutter: 30,
                     },
-                    items: 2,
-                    partialVisibilityGutter: 30,
-                  },
-                }}
-                showDots={false}
-                centerMode={true}
-                sliderClass=""
-                slidesToSlide={3}
-                swipeable
-              >
-                {ploading ? (
-                  <Loader />
-                ) : perror ? (
-                  <div>{perror}</div>
-                ) : (
-                  products.map((item, index) => {
-                    if (
-                      product.category == item.category &&
-                      product._id != item._id
-                    )
-                      return <SingleProductCard key={index} product={item} />;
-                  })
-                )}
-              </Carousel>
+                  }}
+                  showDots={false}
+                  centerMode={true}
+                  sliderClass=""
+                  slidesToSlide={3}
+                  swipeable
+                >
+                  {ploading ? (
+                    <Loader />
+                  ) : perror ? (
+                    <div>{perror}</div>
+                  ) : (
+                    products.map((item, index) => {
+                      if (
+                        product.category == item.category &&
+                        product._id != item._id
+                      )
+                        return <SingleProductCard key={index} product={item} />;
+                    })
+                  )}
+                </Carousel>
+              </div>
 
-              <div className="mt-20">
-                <div>
+              <div className="lg:mt-20 md:mt-20 mt-8 ">
+                <div className="lg:w-80  w-64">
                   <h1
-                    className="heading2 pb-2 mb-4"
+                    className="heading2  generalHeading pb-2 mb-4"
                     style={{
                       textTransform: "Capitalize",
-                      fontSize: "30px",
+
                       fontFamily: "open sans",
                       borderBottom: "5px solid orange",
-                      width: "370px",
                     }}
                   >
                     Question and Answers
@@ -356,13 +356,12 @@ const SingleProduct = (props) => {
                       <>
                         {" "}
                         <h1
-                          className="heading2 pb-2 mb-4"
+                          className="heading2 lg:w-80  w-64 generalHeading pb-2 mb-4"
                           style={{
                             textTransform: "Capitalize",
-                            fontSize: "30px",
+
                             fontFamily: "open sans",
                             borderBottom: "5px solid orange",
-                            width: "350px",
                           }}
                         >
                           Rate your experience!
@@ -394,13 +393,12 @@ const SingleProduct = (props) => {
                           </div>
                           <div>
                             <textarea
-                              class="col-span-full appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                              className="col-span-full lg:w-2/4  w-full appearance-none border border-gray-300  py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                               placeholder="Review...."
                               name="review"
                               rows="5"
                               cols="40"
                               onChange={(e) => setReview(e.target.value)}
-                              style={{ width: "60%" }}
                             ></textarea>
                           </div>
                           <div>

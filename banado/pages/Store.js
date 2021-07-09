@@ -62,15 +62,15 @@ const Store = (props) => {
         <Hero name={"Happiness is not in money, but in shopping : )"} />
       </div>
       <div
-        className="container px-4 md:px-4 lg:px-16 "
+        className="container centered px-4 md:px-4 lg:px-16 "
         style={{ marginBottom: "10%" }}
       >
-        <div className="flex flex-wrap -mx-2 my-12 ">
+        <div className="flex flex-wrap -mx-2  ">
           <div className=" w-full md:w-1/4 lg:w-1/4">
             <div className="flex flex-col sm:flex-row sm:justify-around">
               <div className="w-full ">
                 <nav className="mt-10 px-6 ">
-                  <div className=" mt-4">
+                  <div className=" mt-4 ">
                     <span className="heading4">Product Categories</span>
                     <p
                       className="listText"
@@ -134,7 +134,7 @@ const Store = (props) => {
               </div>
             </div>
           </div>
-          <div className=" w-full p-4 md:pl-6 lg:pl-6 md:w-3/4 lg:w-3/4">
+          <div className=" w-full  p-4 md:pl-6 lg:pl-6 md:w-3/4 lg:w-3/4">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mt-6">
               <div class="flex flex-col overflow-hidden border  dark:border-gray-600 lg:flex-row">
                 <input
@@ -148,15 +148,15 @@ const Store = (props) => {
                   }}
                 />
 
-                <button class="px-5 py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
+                <button class="px-5 dont py-3 text-sm font-medium lg:ml-8 tracking-wider text-gray-100 uppercase transition-colors duration-200 transform  focus:outline-none colortheme">
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </div>
-              <span class="text-sm font-semibold  colorheading ">
+              <span class="text-sm font-semibold dont colorheading ">
                 1-9 of 148 Products
               </span>
             </div>
-            <div className="grid grid-cols-1 md:gap-8 lg:gap-20 md:grid-cols-2 lg:grid-cols-3 mt-12">
+            <div className="grid moveRight grid-cols-1 md:gap-8 lg:gap-20 md:grid-cols-2 lg:grid-cols-3 mt-12">
               {loading ? (
                 <Loader />
               ) : error ? (
