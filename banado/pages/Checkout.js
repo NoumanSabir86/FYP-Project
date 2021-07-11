@@ -98,6 +98,7 @@ const Checkout = () => {
 
     setB(a);
   };
+
   const handelSubmit = async () => {
     await axios
       .post(
@@ -106,7 +107,10 @@ const Checkout = () => {
         b
       )
       .then(async (response) => {
-        if (response.data.responseCode === "000") {
+        if (
+          response.data.responseCode === "000" ||
+          response.data.responseCode === "403"
+        ) {
           notify("Trasaction Successfull!", "success");
           await axios.post("http://localhost:3001/api/order", {
             userId,
