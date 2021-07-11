@@ -86,7 +86,7 @@ const UpdateProduct = () => {
 
   const notify = (error, type) => {
     toast.notify(error, {
-      duration: 5,
+      duration: 2,
       type: type,
       title: type,
     });
@@ -94,33 +94,55 @@ const UpdateProduct = () => {
 
   const updateProductHandler = () => {
     if (URL == "") {
-      setProductImage(product.productImage);
+      productServices
+        .updateProduct(localStorage.getItem("productID"), {
+          productName,
+          category,
+          brandName,
+          stockQuantity,
+          price,
+          salePrice,
+          sku,
+          shortDescription,
+          description,
+          productImage: product.productImage,
+          storeId,
+        })
+        .then((res) => {
+          notify("Product Updated Successfully!", "success");
+          setTimeout(() => {
+            window.location.href = "/Seller/UpdateProduct";
+          }, 2000);
+        })
+        .catch((err) => {
+          notify(err.response.data, "error");
+        });
     } else {
       setProductImage(URL);
+      productServices
+        .updateProduct(localStorage.getItem("productID"), {
+          productName,
+          category,
+          brandName,
+          stockQuantity,
+          price,
+          salePrice,
+          sku,
+          shortDescription,
+          description,
+          productImage,
+          storeId,
+        })
+        .then((res) => {
+          notify("Product Updated Successfully!", "success");
+          setTimeout(() => {
+            window.location.href = "/Seller/UpdateProduct";
+          }, 2000);
+        })
+        .catch((err) => {
+          notify(err.response.data, "error");
+        });
     }
-    productServices
-      .updateProduct(localStorage.getItem("productID"), {
-        productName,
-        category,
-        brandName,
-        stockQuantity,
-        price,
-        salePrice,
-        sku,
-        shortDescription,
-        description,
-        productImage,
-        storeId,
-      })
-      .then((res) => {
-        notify("Product Updated Successfully!", "success");
-        setTimeout(() => {
-          window.location.href = "/Seller/UpdateProduct";
-        }, 2000);
-      })
-      .catch((err) => {
-        notify(err.response.data, "error");
-      });
   };
 
   return (

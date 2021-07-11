@@ -37,7 +37,7 @@ const SellerProfile = (props) => {
 
   const notify = (error, type) => {
     toast.notify(error, {
-      duration: 5,
+      duration: 1,
       type: type,
       title: type,
     });

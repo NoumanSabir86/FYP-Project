@@ -152,11 +152,18 @@ button:focus {
   height: 100vh;
 }
 .homHeading {
-  line-height: "4.7rem";
+  line-height: "4rem" !important;
   font-size: 5rem;
 }
 
+.deskDont {
+  display: none;
+}
+
 @media only screen and (max-width: 600px) {
+  .deskDont {
+    display: block;
+  }
   .homHeading {
     font-size: 2rem;
   }

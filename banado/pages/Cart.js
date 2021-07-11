@@ -23,25 +23,27 @@ const Cart = (props) => {
   const dispatch = useDispatch();
 
   React.useEffect(async () => {
-    await axios
-      .get(
-        `http://localhost:3001/api/users/shipping/${
-          UserServices.getLoggedinfo()._id
-        }`
-      )
-      .then((res) => {
-        console.log(res.data);
-        if (res.data != false) {
-          setStreetAddress(res.data.streetAddress);
-          setCity(res.data.city);
-          setPostalCode(res.data.postalCode);
-          setAction("Update");
-          setMessage("");
-        } else {
-          setAction("Add");
-          setMessage("Add Shipping Address To proceed Further");
-        }
-      });
+    localStorage.getItem("token")
+      ? await axios
+          .get(
+            `http://localhost:3001/api/users/shipping/${
+              UserServices.getLoggedinfo()._id
+            }`
+          )
+          .then((res) => {
+            console.log(res.data);
+            if (res.data != false) {
+              setStreetAddress(res.data.streetAddress);
+              setCity(res.data.city);
+              setPostalCode(res.data.postalCode);
+              setAction("Update");
+              setMessage("");
+            } else {
+              setAction("Add");
+              setMessage("Add Shipping Address To proceed Further");
+            }
+          })
+      : "";
   }, [action]);
 
   const removeFromCart = (productID) => {
@@ -241,7 +243,7 @@ const Cart = (props) => {
                 </tbody>
               </table>
 
-              {cartItems.length > 0 && (
+              {cartItems.length > 0 && localStorage.getItem("token") && (
                 <>
                   <div class=" lg:my-4 md:my-4 lg:mt-20 md:mt-20 lg:-mx-2 md:-mx-2 mt-4 lg:flex">
                     <div class="lg:px-2 lg:w-1/2">

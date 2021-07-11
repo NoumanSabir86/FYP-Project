@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-nextjs-toast";
 
 const notify = (error, type) => {
   toast.notify(error, {
-    duration: 5,
+    duration: 2,
     type: type,
     title: type,
   });

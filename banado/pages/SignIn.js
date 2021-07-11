@@ -16,7 +16,7 @@ const SignIn = () => {
 
   const notify = (error, type) => {
     toast.notify(error, {
-      duration: 5,
+      duration: 2,
       type: type,
       title: type,
     });
@@ -147,6 +147,10 @@ const SignIn = () => {
                             Cookies.set("id", UserServices.getLoggedinfo()._id);
 
                             if (role == "Seller") {
+                              Cookies.set(
+                                "SellerID",
+                                UserServices.getLoggedinfo()._id
+                              );
                               window.location.href = "/Seller/SellerDash";
                             } else if (role == "Builder") {
                               window.location.href = "/BuilderDash";

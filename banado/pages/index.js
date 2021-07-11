@@ -11,6 +11,8 @@ import Carousel from "react-multi-carousel";
 import Loader from "../Components/Loader";
 import SingleProductCard from "../Components/SingleProductCard";
 import { Footer } from "../Components/Footer";
+import SmallCard from "../Components/SmallCard";
+import MobileCard from "../Components/MobileCard";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -91,7 +93,7 @@ export default function Home() {
 
       {/* Header Ends */}
 
-      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+      <div className="px-4 dont rounded-lg py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <div
           className="flex flex-col overflow-hidden bg-white    lg:flex-row sm:mx-auto "
           style={{
@@ -113,16 +115,15 @@ export default function Home() {
               <polygon points="17.3036738 5.68434189e-14 20 5.68434189e-14 20 104 0.824555778 104" />
             </svg>
           </div>
-          <div className="flex flex-col justify-center p-8 bg-white lg:p-16 lg:pl-10 lg:w-1/2">
+          <div className="flex flex-col justify-center p-8  bg-white lg:p-16 lg:pl-10 lg:w-1/2">
             <div>
               <p className=" uppercase mytext mb-2">Explore the features</p>
             </div>
             <h2
-              className=" heading1"
+              className="heading1 homHeading"
               style={{
                 fontFamily: "Yantramanav",
-                lineHeight: "3.5rem",
-                fontSize: "60px",
+                lineHeight: "4rem",
               }}
             >
               ONE STOP<br></br> COMMERCIAL
@@ -149,84 +150,142 @@ export default function Home() {
 
       <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
         <h2
-          className="uppercase heading1"
+          className="uppercase heading1 homHeading"
           style={{
             fontFamily: "Yantramanav",
-            lineHeight: "3.5rem",
-            fontSize: "60px",
           }}
         >
           Top Selling<br></br>Products
         </h2>
+        <div className="dont">
+          <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={false}
+            className=""
+            containerClass="container-with-dots"
+            dotListClass=""
+            draggable
+            autoPlay
+            focusOnSelect={false}
+            infinite
+            itemClass="mt-12"
+            keyBoardControl
+            minimumTouchDrag={80}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
+            responsive={{
+              desktop: {
+                breakpoint: {
+                  max: 3000,
+                  min: 1024,
+                },
+                items: 3,
+                partialVisibilityGutter: 40,
+              },
+              mobile: {
+                breakpoint: {
+                  max: 464,
+                  min: 0,
+                },
+                items: 1,
+                partialVisibilityGutter: 1,
+              },
+              tablet: {
+                breakpoint: {
+                  max: 1024,
+                  min: 464,
+                },
+                items: 2,
+                partialVisibilityGutter: 30,
+              },
+            }}
+            showDots={false}
+            centerMode={true}
+            sliderClass=""
+            slidesToSlide={3}
+            swipeable
+          >
+            {ploading ? (
+              <Loader />
+            ) : perror ? (
+              <div>{perror}</div>
+            ) : (
+              products.map((item, index) => {
+                return <SingleProductCard key={index} product={item} />;
+              })
+            )}
+          </Carousel>
+        </div>
 
-        <Carousel
-          additionalTransfrom={0}
-          arrows
-          autoPlaySpeed={3000}
-          centerMode={false}
-          className=""
-          containerClass="container-with-dots"
-          dotListClass=""
-          draggable
-          autoPlay
-          focusOnSelect={false}
-          infinite
-          itemClass="mt-12"
-          keyBoardControl
-          minimumTouchDrag={80}
-          renderButtonGroupOutside={false}
-          renderDotsOutside={false}
-          responsive={{
-            desktop: {
-              breakpoint: {
-                max: 3000,
-                min: 1024,
+        <div className="deskDont">
+          <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode={false}
+            className=""
+            containerClass="container-with-dots"
+            dotListClass=""
+            draggable
+            autoPlay
+            focusOnSelect={false}
+            infinite
+            itemClass="mt-12"
+            keyBoardControl
+            minimumTouchDrag={80}
+            renderButtonGroupOutside={false}
+            renderDotsOutside={false}
+            responsive={{
+              desktop: {
+                breakpoint: {
+                  max: 3000,
+                  min: 1024,
+                },
+                items: 3,
+                partialVisibilityGutter: 40,
               },
-              items: 3,
-              partialVisibilityGutter: 40,
-            },
-            mobile: {
-              breakpoint: {
-                max: 464,
-                min: 0,
+              mobile: {
+                breakpoint: {
+                  max: 640,
+                  min: 0,
+                },
+                items: 1,
+                partialVisibilityGutter: 30,
               },
-              items: 1,
-              partialVisibilityGutter: 30,
-            },
-            tablet: {
-              breakpoint: {
-                max: 1024,
-                min: 464,
+              tablet: {
+                breakpoint: {
+                  max: 1024,
+                  min: 768,
+                },
+                items: 2,
+                partialVisibilityGutter: 30,
               },
-              items: 2,
-              partialVisibilityGutter: 30,
-            },
-          }}
-          showDots={false}
-          centerMode={true}
-          sliderClass=""
-          slidesToSlide={3}
-          swipeable
-        >
-          {ploading ? (
-            <Loader />
-          ) : perror ? (
-            <div>{perror}</div>
-          ) : (
-            products.map((item, index) => {
-              return <SingleProductCard key={index} product={item} />;
-            })
-          )}
-        </Carousel>
-
+            }}
+            showDots={false}
+            centerMode={true}
+            sliderClass=""
+            slidesToSlide={3}
+            swipeable
+          >
+            {ploading ? (
+              <Loader />
+            ) : perror ? (
+              <div>{perror}</div>
+            ) : (
+              products.map((item, index) => {
+                return <MobileCard key={index} product={item} />;
+              })
+            )}
+          </Carousel>
+        </div>
         <section class="text-gray-600 body-font">
           <div class="container px-5 py-12 text-center mt-8 mx-auto">
             <h2
-              className="uppercase heading1"
+              className="uppercase heading1 homHeading"
               style={{
                 fontFamily: "Yantramanav",
-                lineHeight: "3.5rem",
-                fontSize: "60px",
               }}
             >
               Testimonials
@@ -264,7 +323,7 @@ export default function Home() {
                     min: 0,
                   },
                   items: 1,
-                  partialVisibilityGutter: 30,
+                  partialVisibilityGutter: 1,
                 },
                 tablet: {
                   breakpoint: {

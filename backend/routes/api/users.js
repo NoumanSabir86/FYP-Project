@@ -333,6 +333,18 @@ router.get(
   }
 );
 
+router.get(
+  "/builders",
+
+  async (req, res) => {
+    let users = await User.find({ role: "Builder" });
+    if (!users) {
+      res.send("No records found");
+    }
+    res.send(users);
+  }
+);
+
 router.post("/shipping/:id", async (req, res) => {
   let shipping = await ShippingAddress.findOne({ userId: req.params.id });
 
