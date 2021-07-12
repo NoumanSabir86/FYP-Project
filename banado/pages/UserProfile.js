@@ -41,7 +41,7 @@ const UserProfile = (props) => {
 
   const updateData = async () => {
     await axios
-      .put("http://localhost:3001/api/users/update/" + id, {
+      .put("https://server-banado.herokuapp.com/api/users/update/" + id, {
         username: name,
         sellerPhone: sellerPhone,
         shopName: shopName,

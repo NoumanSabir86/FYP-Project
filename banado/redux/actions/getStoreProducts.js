@@ -5,7 +5,7 @@ const getStoreProducts = (sellerID) => async (dispatch) => {
   try {
     dispatch({ type: t.STORE_PRODUCT_LIST_REQUEST });
     const { data } = await Axios.get(
-      "http://localhost:3001/api/products/byStore/" + sellerID
+      "https://server-banado.herokuapp.com/api/products/byStore/" + sellerID
     );
 
     dispatch({ type: t.STORE_PRODUCT_LIST_SUCCESS, payload: data });

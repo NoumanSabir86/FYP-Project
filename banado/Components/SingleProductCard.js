@@ -21,7 +21,7 @@ const SingleProductCard = ({ product }) => {
 
   React.useEffect(async () => {
     await axios
-      .get("http://localhost:3001/api/review/" + product._id)
+      .get("https://server-banado.herokuapp.com/api/review/" + product._id)
       .then((res) => {
         let avg = 0,
           total = 0;

@@ -209,7 +209,7 @@ const Store = (props) => {
 export const getServerSideProps = async () => {
   try {
     const data1 = await axios.get(
-      "http://localhost:3001/api/products/allproducts"
+      "https://server-banado.herokuapp.com/api/products/allproducts"
     );
 
     return { props: { allProducts: data1.data.allProducts } };

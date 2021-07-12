@@ -199,7 +199,7 @@ const Services = (props) => {
 export const getServerSideProps = async () => {
   try {
     const data1 = await axios.get(
-      "http://localhost:3001/api/users/builderAdditionalDetails"
+      "https://server-banado.herokuapp.com/api/users/builderAdditionalDetails"
     );
 
     return { props: { record: data1.data } };

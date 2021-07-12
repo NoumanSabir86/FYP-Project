@@ -38,7 +38,9 @@ const UpdateOrder = (props) => {
 
   const updateData = async () => {
     await axios
-      .put("http://localhost:3001/api/order/" + order._id, { status })
+      .put("https://server-banado.herokuapp.com/api/order/" + order._id, {
+        status,
+      })
       .then((res) => {
         notify(res.data, "success");
       })
@@ -48,7 +50,9 @@ const UpdateOrder = (props) => {
   };
   React.useEffect(async () => {
     const data2 = await axios
-      .get("http://localhost:3001/api/users/shipping/" + order.userId)
+      .get(
+        "https://server-banado.herokuapp.com/api/users/shipping/" + order.userId
+      )
       .then((res) => {
         setCity(res.data.city);
         setPostalCode(res.data.postalCode);
@@ -178,7 +182,9 @@ export const getServerSideProps = async (context) => {
     const parsedCookies = cookie.parse(context.req.headers.cookie);
 
     const data1 = await axios
-      .get("http://localhost:3001/api/order/" + parsedCookies.orderId)
+      .get(
+        "https://server-banado.herokuapp.com/api/order/" + parsedCookies.orderId
+      )
       .catch((err) => {
         console.log(err);
       });

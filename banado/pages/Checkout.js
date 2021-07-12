@@ -112,7 +112,7 @@ const Checkout = () => {
           response.data.responseCode === "403"
         ) {
           notify("Trasaction Successfull!", "success");
-          await axios.post("http://localhost:3001/api/order", {
+          await axios.post("https://server-banado.herokuapp.com/api/order", {
             userId,
             storeId,
             cartProducts,

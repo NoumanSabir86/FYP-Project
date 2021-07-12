@@ -13,10 +13,6 @@ const Vendors = (props) => {
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
-  React.useEffect(async () => {
-    console.log(props.seller);
-  }, []);
-
   const columns = React.useMemo(
     () => [
       {
@@ -75,7 +71,7 @@ const Vendors = (props) => {
               onClick={async () => {
                 await axios
                   .delete(
-                    "http://localhost:3001/api/users/deleteVendor/" +
+                    "https://server-banado.herokuapp.com/api/users/deleteVendor/" +
                       row.original.sellerId
                   )
                   .then((res) => {
@@ -147,7 +143,9 @@ const Vendors = (props) => {
 
 export const getServerSideProps = async () => {
   try {
-    var data1 = await axios.get("http://localhost:3001/api/users/vendors");
+    var data1 = await axios.get(
+      "https://server-banado.herokuapp.com/api/users/vendors"
+    );
 
     return { props: { seller: data1.data } };
   } catch (error) {

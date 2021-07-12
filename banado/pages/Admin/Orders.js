@@ -106,7 +106,9 @@ const Orders = (props) => {
 
 export const getServerSideProps = async () => {
   try {
-    const data1 = await axios.get("http://localhost:3001/api/order/");
+    const data1 = await axios.get(
+      "https://server-banado.herokuapp.com/api/order/"
+    );
     const orders = data1.data;
     let names;
     let subitems;

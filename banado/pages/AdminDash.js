@@ -33,13 +33,23 @@ const AdminDash = (props) => {
 export const getServerSideProps = async (context) => {
   try {
     const parsedCookies = cookie.parse(context.req.headers.cookie);
-    const data1 = await axios.get("http://localhost:3001/api/products/");
+    const data1 = await axios.get(
+      "https://server-banado.herokuapp.com/api/products/"
+    );
 
-    const data2 = await axios.get("http://localhost:3001/api/order/");
+    const data2 = await axios.get(
+      "https://server-banado.herokuapp.com/api/order/"
+    );
 
-    const data3 = await axios.get("http://localhost:3001/api/users/");
-    const data4 = await axios.get("http://localhost:3001/api/users/vendors");
-    const data5 = await axios.get("http://localhost:3001/api/users/builders");
+    const data3 = await axios.get(
+      "https://server-banado.herokuapp.com/api/users/"
+    );
+    const data4 = await axios.get(
+      "https://server-banado.herokuapp.com/api/users/vendors"
+    );
+    const data5 = await axios.get(
+      "https://server-banado.herokuapp.com/api/users/builders"
+    );
 
     const products = data1.data.products;
     const orders = data2.data;

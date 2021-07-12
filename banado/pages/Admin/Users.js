@@ -13,10 +13,6 @@ const Users = (props) => {
 
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
-  React.useEffect(async () => {
-    console.log(props.users);
-  }, []);
-
   const columns = React.useMemo(
     () => [
       {
@@ -54,7 +50,7 @@ const Users = (props) => {
                 console.log(row);
                 await axios
                   .delete(
-                    "http://localhost:3001/api/users/deleteVendor/" +
+                    "https://server-banado.herokuapp.com/api/users/deleteVendor/" +
                       row.original._id
                   )
                   .then((res) => {
@@ -126,7 +122,9 @@ const Users = (props) => {
 
 export const getServerSideProps = async () => {
   try {
-    var data1 = await axios.get("http://localhost:3001/api/users/");
+    var data1 = await axios.get(
+      "https://server-banado.herokuapp.com/api/users/"
+    );
 
     return { props: { users: data1.data } };
   } catch (error) {

@@ -35,7 +35,7 @@ const UpdateProduct = () => {
   React.useEffect(async () => {
     await axios
       .get(
-        "http://localhost:3001/api/products/" +
+        "https://server-banado.herokuapp.com/api/products/" +
           localStorage.getItem("productID")
       )
       .then((res) => {

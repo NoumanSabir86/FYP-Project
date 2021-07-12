@@ -127,7 +127,8 @@ export const getServerSideProps = async (context) => {
   try {
     const parsedCookies = cookie.parse(context.req.headers.cookie);
     const data1 = await axios.get(
-      "http://localhost:3001/api/order/byStore/" + parsedCookies.id
+      "https://server-banado.herokuapp.com/api/order/byStore/" +
+        parsedCookies.id
     );
     const orders = data1.data;
     let names;

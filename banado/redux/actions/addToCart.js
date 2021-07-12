@@ -6,7 +6,7 @@ import Cookie from "js-cookie";
 const addtoCart = (productID, qty) => async (dispatch, getState) => {
   try {
     const { data } = await Axios.get(
-      "http://localhost:3001/api/products/" + productID
+      "https://server-banado.herokuapp.com/api/products/" + productID
     );
 
     dispatch({

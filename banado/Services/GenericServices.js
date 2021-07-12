@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3001/api/";
+axios.defaults.baseURL = "https://server-banado.herokuapp.com/api/";
 
 const setHeader = () => {
   let token = localStorage.getItem("token");
@@ -14,9 +14,8 @@ const setHeader = () => {
 };
 class GenericServices {
   componentDidMount() {
-    axios.defaults.headers.common["x-auth-token"] = localStorage.getItem(
-      "token"
-    );
+    axios.defaults.headers.common["x-auth-token"] =
+      localStorage.getItem("token");
   }
 
   get = (url) =>

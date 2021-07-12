@@ -38,7 +38,7 @@ const BuilderDash = () => {
 
     await axios
       .get(
-        `http://localhost:3001/api/users/builderAdditionalDetails/${
+        `https://server-banado.herokuapp.com/api/users/builderAdditionalDetails/${
           UserServices.getLoggedinfo()._id
         }`
       )
@@ -72,7 +72,8 @@ const BuilderDash = () => {
   const saveDetails = async () => {
     await axios
       .post(
-        "http://localhost:3001/api/users/builderAdditionalDetails/" + builderId,
+        "https://server-banado.herokuapp.com/api/users/builderAdditionalDetails/" +
+          builderId,
         {
           builderId,
           companyName,
@@ -113,7 +114,8 @@ const BuilderDash = () => {
 
     await axios
       .put(
-        "http://localhost:3001/api/users/builderAdditionalDetails/" + builderId,
+        "https://server-banado.herokuapp.com/api/users/builderAdditionalDetails/" +
+          builderId,
         {
           builderId,
           companyName,

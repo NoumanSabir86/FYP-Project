@@ -54,7 +54,7 @@ const SingleProduct = (props) => {
     const id = UserServices.getLoggedinfo()._id;
     await axios
       .get(
-        "http://localhost:3001/api/review/present/" +
+        "https://server-banado.herokuapp.com/api/review/present/" +
           id +
           "/" +
           localStorage.getItem("productID")
@@ -74,7 +74,7 @@ const SingleProduct = (props) => {
 
   const addRating = async () => {
     await axios
-      .post("http://localhost:3001/api/review/", {
+      .post("https://server-banado.herokuapp.com/api/review/", {
         userId: UserServices.getLoggedinfo()._id,
         userName: UserServices.getLoggedinfo().username,
         productId: localStorage.getItem("productID"),
@@ -486,7 +486,7 @@ export const getServerSideProps = async (context) => {
   const parsedCookies = cookie.parse(context.req.headers.cookie);
 
   await axios
-    .get("http://localhost:3001/api/review/" + parsedCookies.p_id)
+    .get("https://server-banado.herokuapp.com/api/review/" + parsedCookies.p_id)
     .then((res) => {
       let count = res.data.count;
       res.data.review.map((item, index) => {
@@ -500,7 +500,7 @@ export const getServerSideProps = async (context) => {
     });
 
   const reviews = await axios.get(
-    "http://localhost:3001/api/review/" + parsedCookies.p_id
+    "https://server-banado.herokuapp.com/api/review/" + parsedCookies.p_id
   );
 
   return { props: { avg, review: reviews.data.review } };

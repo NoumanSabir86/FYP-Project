@@ -26,7 +26,7 @@ const Cart = (props) => {
     localStorage.getItem("token")
       ? await axios
           .get(
-            `http://localhost:3001/api/users/shipping/${
+            `https://server-banado.herokuapp.com/api/users/shipping/${
               UserServices.getLoggedinfo()._id
             }`
           )
@@ -54,7 +54,7 @@ const Cart = (props) => {
     UserServices.getLoggedinfo().role == "Seller"
       ? await axios
           .post(
-            "http://localhost:3001/api/users/shipping/" +
+            "https://server-banado.herokuapp.com/api/users/shipping/" +
               UserServices.getLoggedinfo().userId,
             { streetAddress, city, postalCode }
           )
@@ -66,7 +66,7 @@ const Cart = (props) => {
           })
       : await axios
           .post(
-            "http://localhost:3001/api/users/shipping/" +
+            "https://server-banado.herokuapp.com/api/users/shipping/" +
               UserServices.getLoggedinfo()._id,
             { streetAddress, city, postalCode }
           )
@@ -81,7 +81,7 @@ const Cart = (props) => {
   const updateAddress = async () => {
     await axios
       .put(
-        "http://localhost:3001/api/users/shipping/" +
+        "https://server-banado.herokuapp.com/api/users/shipping/" +
           UserServices.getLoggedinfo()._id,
         { streetAddress, city, postalCode }
       )
