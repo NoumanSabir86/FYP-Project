@@ -48,11 +48,11 @@ export const Navbar = () => {
 
   return (
     <div
-      className="bg-white sticky top-0 z-50 shadow-md "
+      className="bg-white  sticky top-0 z-50 w-full shadow-md "
       style={{ height: "64px" }}
     >
       <div className="  sm:max-w-xl md:max-w-full lg:max-w-screen-xl  items-start">
-        <div className="relative flex items-start justify-start">
+        <div className="relative flex align-middle">
           <div className="flex items-center ">
             <Link href="/">
               <a
@@ -261,11 +261,11 @@ export const Navbar = () => {
             </ul>
           </div>
 
-          <div className="lg:hidden">
+          <div className="lg:hidden ml-36 mt-2">
             <button
               aria-label="Open Menu"
               title="Open Menu"
-              className="p-2 -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
+              className="p-2  -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
               onClick={() => setIsMenuOpen(true)}
             >
               <svg className="w-5 text-gray-600" viewBox="0 0 24 24">
@@ -286,34 +286,7 @@ export const Navbar = () => {
             {isMenuOpen && (
               <div className="absolute top-0 left-0 w-full">
                 <div className="p-5 bg-white border rounded shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <a
-                        href="/"
-                        aria-label="Company"
-                        title="Company"
-                        className="inline-flex items-center"
-                      >
-                        <svg
-                          className="w-8 text-deep-purple-accent-400"
-                          viewBox="0 0 24 24"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeMiterlimit="10"
-                          stroke="currentColor"
-                          fill="none"
-                        >
-                          <rect x="3" y="1" width="7" height="12" />
-                          <rect x="3" y="17" width="7" height="6" />
-                          <rect x="14" y="1" width="7" height="6" />
-                          <rect x="14" y="11" width="7" height="12" />
-                        </svg>
-                        <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-                          Home
-                        </span>
-                      </a>
-                    </div>
+                  <div className="flex justify-end items-center mb-4">
                     <div>
                       <button
                         aria-label="Close Menu"
@@ -330,11 +303,20 @@ export const Navbar = () => {
                       </button>
                     </div>
                   </div>
+
                   <nav>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 justify-center text-center">
                       <li>
                         <a
                           href="/"
+                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                          Home
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/Store"
                           className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                         >
                           Store
@@ -342,7 +324,7 @@ export const Navbar = () => {
                       </li>
                       <li>
                         <a
-                          href="/"
+                          href="/Services"
                           className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                         >
                           Services
@@ -350,38 +332,29 @@ export const Navbar = () => {
                       </li>
                       <li>
                         <a
-                          href="/"
+                          href="/SignIn"
                           aria-label="Product pricing"
                           title="Product pricing"
                           className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                         >
-                          Categories
+                          Login
                         </a>
                       </li>
                       <li>
                         <a
-                          href="/"
+                          href="/Register"
                           aria-label="About us"
                           title="About us"
                           className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                         >
-                          About us
+                          Sign Up
                         </a>
                       </li>
+
                       <li>
                         <a
-                          href="/"
-                          aria-label="Sign in"
-                          title="Sign in"
-                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                        >
-                          Account
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          className="inline-flex items-center justify-start w-full h-12 px-6 font-medium tracking-wide  transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                          href="/"
+                          className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide  transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                          href="/Cart"
                         >
                           <FontAwesomeIcon
                             icon={faShoppingCart}

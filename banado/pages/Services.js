@@ -15,6 +15,7 @@ import ReactPaginate from "react-paginate";
 
 import SingleCompanyCard from "./SingleCompanyCard";
 import axios from "axios";
+import ServiceCard from "../Components/sericeCard";
 
 const Services = (props) => {
   const [data, setData] = React.useState(props.record ? props.record : "");
@@ -122,10 +123,9 @@ const Services = (props) => {
                     <span>Top Rated Companies</span>
                   </div>
                   <div className="dont">
-                    <SmallCard name="Laptop" price="Rs.500" />
-                    <SmallCard name="Screwdriver" price="Rs.500" />
-                    <SmallCard name="Hammer" price="Rs.500" />
-                    <SmallCard name="Nails" price="Rs.500" />
+                    {props.record.map((item, index) => {
+                      return <ServiceCard key={index} builder={item} />;
+                    })}
                   </div>
                 </nav>
               </div>

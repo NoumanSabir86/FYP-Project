@@ -122,16 +122,22 @@ const SingleCompany = (props) => {
         <div className="flex flex-col lg:px-32 md:px-32 lg:mt-20 md:mt-20 mt-8 px-4">
           <div>
             <h1
-              className="heading2 generalHeading w-48 lg:w-60  pb-2"
+              className="heading2 generalHeading"
               style={{
                 textTransform: "Capitalize",
 
                 fontFamily: "open sans",
-                borderBottom: "5px solid orange",
               }}
             >
               About Company
             </h1>
+            <div
+              style={{
+                width: "50px",
+                height: "5px",
+                backgroundColor: "#FF5E16",
+              }}
+            ></div>
           </div>
           <div className="mt-4">
             <p className="stext mytext ">{builder.aboutCompany}</p>
@@ -141,16 +147,23 @@ const SingleCompany = (props) => {
         <div className="flex flex-col lg:px-32 md:px-32 lg:mt-12 md:mt-12 mt-4 px-4">
           <div>
             <h1
-              className="heading2 generalHeading w-64 lg:w-80 pb-2"
+              className="heading2 generalHeading "
               style={{
                 textTransform: "Capitalize",
 
                 fontFamily: "open sans",
-                borderBottom: "5px solid orange",
               }}
             >
               Question and Answers
             </h1>
+            <div
+              className="mt-1 "
+              style={{
+                width: "50px",
+                height: "5px",
+                backgroundColor: "#FF5E16",
+              }}
+            ></div>
           </div>
           <div className="mt-4 pb-10">
             <CompanyDisqus post={builder} />

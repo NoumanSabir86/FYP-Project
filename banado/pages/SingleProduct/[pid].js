@@ -17,6 +17,7 @@ import cookie from "cookie";
 import Review from "../../Components/Review";
 import UserServices from "../../Services/UserServices";
 import { ToastContainer, toast } from "react-nextjs-toast";
+import { Divider } from "@material-ui/core";
 
 const SingleProduct = (props) => {
   const pDetails = useSelector((state) => state.getProductDetails);
@@ -259,12 +260,18 @@ const SingleProduct = (props) => {
                     textTransform: "Capitalize",
                     fontSize: "30px",
                     fontFamily: "open sans",
-                    borderBottom: "5px solid orange",
-                    width: "240px",
                   }}
                 >
                   Related Products
                 </h1>
+                <div
+                  className="dont"
+                  style={{
+                    width: "50px",
+                    height: "5px",
+                    backgroundColor: "#FF5E16",
+                  }}
+                ></div>
               </div>
               <div className="dont">
                 <Carousel
@@ -333,18 +340,25 @@ const SingleProduct = (props) => {
               </div>
 
               <div className="lg:mt-20 md:mt-20 mt-8 ">
-                <div className="lg:w-80  w-64">
+                <div className="  ">
                   <h1
-                    className="heading2  generalHeading pb-2 mb-4"
+                    className="heading2  generalHeading "
                     style={{
                       textTransform: "Capitalize",
 
                       fontFamily: "open sans",
-                      borderBottom: "5px solid orange",
                     }}
                   >
                     Question and Answers
                   </h1>
+                  <div
+                    className="pb-2 mt-2 mb-4"
+                    style={{
+                      width: "50px",
+                      height: "4px",
+                      backgroundColor: "#FF5E16",
+                    }}
+                  ></div>
                 </div>
                 {loading ? "wait..." : <DisqusComments post={product} />}
               </div>
@@ -356,16 +370,23 @@ const SingleProduct = (props) => {
                       <>
                         {" "}
                         <h1
-                          className="heading2 lg:w-80  w-64 generalHeading pb-2 mb-4"
+                          className="heading2   generalHeading "
                           style={{
                             textTransform: "Capitalize",
 
                             fontFamily: "open sans",
-                            borderBottom: "5px solid orange",
                           }}
                         >
                           Rate your experience!
                         </h1>
+                        <div
+                          className="pb-2 mt-1 mb-4"
+                          style={{
+                            width: "50px",
+                            height: "5px",
+                            backgroundColor: "#FF5E16",
+                          }}
+                        ></div>
                         <div className="flex flex-col">
                           <div>
                             <p className="mytext">
@@ -418,17 +439,23 @@ const SingleProduct = (props) => {
                 )}
                 <div className="mt-8">
                   <h1
-                    className="heading2 pb-2 mb-4"
+                    className="heading2 generalHeading "
                     style={{
                       textTransform: "Capitalize",
-                      fontSize: "30px",
+
                       fontFamily: "open sans",
-                      borderBottom: "5px solid orange",
-                      width: "100px",
                     }}
                   >
                     Reviews
                   </h1>
+                  <div
+                    className="mb-4 "
+                    style={{
+                      width: "50px",
+                      height: "5px",
+                      backgroundColor: "#FF5E16",
+                    }}
+                  ></div>
                 </div>
               </div>
 

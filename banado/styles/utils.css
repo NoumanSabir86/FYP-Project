@@ -4,7 +4,7 @@
 
 .heading1 {
   font-size: 5rem;
-  line-height: 1.2;
+  line-height: 1;
   font-weight: 700;
   color: #00235a;
 }
@@ -123,7 +123,7 @@ button:focus {
 .generalHeading {
   font-size: 30px;
 
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .rev {
@@ -152,7 +152,7 @@ button:focus {
   height: 100vh;
 }
 .homHeading {
-  line-height: "4rem" !important;
+  line-height: "1rem";
   font-size: 5rem;
 }
 
@@ -166,9 +166,10 @@ button:focus {
   }
   .homHeading {
     font-size: 2rem;
+    line-height: 2rem;
   }
   .homHero {
-    height: 60vh;
+    height: 40vh;
   }
   .slogo {
     width: 80px;

@@ -123,7 +123,7 @@ export default function Home() {
               className="heading1 homHeading"
               style={{
                 fontFamily: "Yantramanav",
-                lineHeight: "4rem",
+                lineHeight: "5rem",
               }}
             >
               ONE STOP<br></br> COMMERCIAL
