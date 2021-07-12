@@ -6,7 +6,7 @@ const CompanyDisqus = ({ post }) => {
   const { asPath } = useRouter();
 
   const disqusConfig = {
-    url: `http://localhost:3000/Builder/${post.builderId}`,
+    url: `https://banado.vercel.app/Builder/${post.builderId}`,
     identifier: post.builderId, // Single post id
     title: post.companyName, // Single post title
   };

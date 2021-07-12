@@ -6,7 +6,7 @@ const DisqusComments = ({ post }) => {
   const { asPath } = useRouter();
 
   const disqusConfig = {
-    url: `http://localhost:3000/SingleProduct/${post._id}`,
+    url: `https://banado.vercel.app/SingleProduct/${post._id}`,
     identifier: post._id, // Single post id
     title: post.productName, // Single post title
   };
