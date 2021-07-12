@@ -13,7 +13,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Footer } from "../Components/Footer";
 import ReactPaginate from "react-paginate";
 
-import SingleCompanyCard from "./SingleCompanyCard";
+import SingleCompanyCard from "../Components/SingleCompanyCard";
 import axios from "axios";
 import ServiceCard from "../Components/sericeCard";
 
