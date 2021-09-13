@@ -50,6 +50,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  font-family: "open sans"!important;
 }
 
 .listItem {
@@ -61,7 +62,7 @@
 }
 
 .item {
-  font-family: Yantramanav;
+  font-family: "open sans"!important;
 }
 
 .item:hover,
@@ -75,6 +76,7 @@
   color: #00235a;
   font-size: 1.1rem;
   font-weight: 500;
+  font-family: "open sans"!important;
 }
 
 @media only screen and (min-width: 768px) {
@@ -138,6 +140,7 @@ button:focus {
   font-size: 1.625rem;
   font-weight: 600;
   color: #00235a;
+  font-family: "open sans"!important;
 }
 
 .shero {
@@ -150,10 +153,12 @@ button:focus {
 
 .homHero {
   height: 100vh;
+  font-family: "open sans"!important;
 }
 .homHeading {
   line-height: "1rem";
   font-size: 5rem;
+  font-family: "open sans"!important;
 }
 
 .deskDont {
@@ -186,11 +191,12 @@ button:focus {
   .stext {
     font-size: 14px;
     font-weight: 300;
+    font-family: "open sans"!important;
   }
 
   .generalHeading {
     font-size: 24px;
-
+font-family: "open sans"!important;
     font-weight: 600;
   }
   .cfont {
@@ -207,6 +213,7 @@ button:focus {
   .mytitle {
     font-size: 24px;
     font-weight: 600;
+    font-family: "open sans"!important;
   }
   .hero {
     height: 20vh;
